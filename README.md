@@ -22,7 +22,7 @@
 src/
 ├── autostart.sh
 ├── Modules
-│   ├── <a href="https://github.com/Yann21/xmonad-config/src/Modules/Keys.hs>Keys.hs</a>
+│   ├── [Keys.hs](src/Modules/Keys.hs)
 │   ├── Layouts.hs
 │   ├── MyTreeSelect.hs
 │   └── Others.hs
