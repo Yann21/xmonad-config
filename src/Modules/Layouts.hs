@@ -32,7 +32,7 @@ import XMonad.Hooks.ManageDocks
 import XMonad.Layout.Minimize
 
 
-import Modules.Others (clickables)
+import Modules.Keys (clickables)
 
 
 ------------------------------------------------------------------------
@@ -91,19 +91,18 @@ myLayoutHook = B.boringWindows      -- exclusiveSps
 ------------------------------------------------------------------------------
 myManageHook :: XMonad.Query (Data.Monoid.Endo WindowSet)
 myManageHook = (isDialog --> doF W.swapUp) <+> composeAll
-    [
-       title =? "xmessage"                     --> doCenterFloat
-    ,  title =? "Oracle VM VirtualBox Manager" --> doFloat
-    ,  title =? "pulse"                        --> doFloat
-    ,  title =? "Spectacle Editor Setup "      --> doFloat
-    ,  title =? "Zotero Preferences"                        --> doFloat
-    ,  title =? "self_driving_car_nanodegree_program"     --> doFloat
+    [ title =? "xmessage"                     --> doCenterFloat
+    , title =? "Oracle VM VirtualBox Manager" --> doFloat
+    , title =? "pulse"                        --> doFloat
+    , title =? "Spectacle Editor Setup "      --> doFloat
+    , title =? "Zotero Preferences"                        --> doFloat
+    , title =? "self_driving_car_nanodegree_program"     --> doFloat
     , stringProperty "_NET_WM_WINDOW_TYPE" =? "_NET_WM_WINDOW_TYPE_DIALOG" --> doFloat
-    ,  resource   =? "synergy"                 --> doFloat
-    ,  (className =? "firefox"
+    , resource   =? "synergy"                 --> doFloat
+    , (className =? "firefox"
      <&&> resource =? "Dialog")                --> doFloat
-    ,  title =? "jetbrains-idea-ce"            --> doShift (marshall 0 (clickables !! 0))
-    ,  className =? "jetbrains-pycharm-ce"     --> doShift (marshall 0 (clickables !! 0))
+    , title =? "jetbrains-idea-ce"            --> doShift ( marshall 0 (head clickables))
+    , className =? "jetbrains-pycharm-ce"     --> doShift ( marshall 0 (head clickables))
     , isFullscreen --> doFullFloat
     ]
 

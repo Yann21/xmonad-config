@@ -1,3 +1,5 @@
+#!/usr/bin/bash
+# Equivalent of xinit for startup programs
 redshift -c ~/.config/redshift/redshift.conf &
 ~/.screenlayout/arandrrc_nvidia.sh &
 nitrogen --restore &

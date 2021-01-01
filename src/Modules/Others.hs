@@ -47,6 +47,7 @@ pp handle s = marshallPP s xmobarPP {
     , ppTitle           = xmobarColor "#FFF8F0" "" . shorten 60
     , ppSep             =         "<fc=#666666> | </fc>"
     , ppUrgent          = xmobarColor "#C45500" ""
+--    , ppExtras          = getXmonadDir
     , ppOrder           = \(ws:l:t:ex) -> [ws, l]
 }
 
@@ -54,7 +55,6 @@ pp handle s = marshallPP s xmobarPP {
 ------------------------------------------------------------------------
 -- XPROMPT SETTINGS (dmenu)
 ------------------------------------------------------------------------
-
 dtXPConfig, dtXPConfig' :: XPConfig
 dtXPConfig = def {
       font                = "xft:UbuntuMono Nerd Font:size=12"
@@ -113,7 +113,6 @@ promptList =
 ------------------------------------------------------------------------
 -- SCRATCHPADS
 ------------------------------------------------------------------------
-
 exclusiveSps :: ExclusiveScratchpads
 exclusiveSps = mkXScratchpads [
       ("cal", "google-calendar",                    resource =? "google-calendar-nativefier-e22938")
@@ -129,36 +128,4 @@ exclusiveSps = mkXScratchpads [
     , ("todoist", "todoist",                        resource =? "todoist")
     ] $ customFloating $ W.RationalRect 0.15 0.15 0.7 0.7
 
-
-
-------------------------------------------------------------------------
--- WORKSPACES
-------------------------------------------------------------------------
-confKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $ [
-    ((m, xK_p), spawn $ "notify-send " ++ (show $ marshall 0 (clickables !! 0)))
-    ] ++ [
-    ((m .|. mod4Mask, k), windows $ onCurrentScreen f i)
-         | (i, k) <- zip (workspaces' conf) azertyKeys
-         , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]
-
-    ] ++ [ -- For xdotooling clickables
-    ((m .|. mod4Mask, k), windows $ onCurrentScreen f i)
-         | (i, k) <- zip (workspaces' conf) fKeys
-         , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]
-    ]
-
-azertyKeys, fKeys :: [KeySym]
-azertyKeys = [0x26, 0xe9, 0x22, 0x27, 0x28, 0x2d, 0xe8, 0x5f, 0xe7]
-fKeys      = [xK_F1 .. xK_F9]
-
-strWorkspaces, strFKeys, clickables :: [String]
-strFKeys      = ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9"]
-strWorkspaces = ["chess", "dev", "job", "**", "***", "**", "lang", "alf", "dump"]
---strWorkspaces = ["ide", "dev", "job", "edu", "vid", "org", "lang", "pm", "dump"]
---strWorkspaces = ["ide", "dev", "cours", "misc", "*", "misc", "lang", "xmon", "sys"]
-
-clickables = action strWorkspaces
-    where
-        action l = [ "<action=xdotool key super+" ++ n ++ ">" ++ ws ++ "</action>" |
-                        (i, ws) <- zip strFKeys l, let n = i]
 

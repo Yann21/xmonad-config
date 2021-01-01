@@ -17,68 +17,53 @@ import qualified Data.Map as M
 import XMonad.Layout.IndependentScreens
 import XMonad.Util.Loggers
 
-
 import Modules.Others (dtXPConfig', exclusiveSps, dtXPConfig, tsDefaultConfig, promptList)
 import Modules.MyTreeSelect (treeselectAction, sshTreeselectAction)
 
-import XMonad.Actions.WorkspaceNames
 
-
-m, altMask :: KeyMask
-altMask = mod1Mask
-m       = mod4Mask
 
 
 ------------------------------------------------------------------------
 -- KEYBINDINGS
 ------------------------------------------------------------------------
+
 spawnRectScrot = spawn "sleep 0.2 && scrot -s ~/media/screenshots/%y-%m-%d_%H-%M-%S.png && notify-send chink-rec"
 spawnScrot     = spawn "scrot ~/media/screenshots/%y-%m-%d_%H-%M-%S.png && notify-send chink"
 spawnRecompile = spawn "xmonad --recompile && xmonad --restart"
 spawnRestart   = spawn "shutdown -r now"
-spawnShutdown  = spawn "shutdown now" 
+spawnShutdown  = spawn "shutdown now"
+--m, altMask :: KeyMask
+--altMask = mod1Mask
+--m       = mod4Mask
 
 myKeys :: [((KeyMask, KeySym), X ())]
 myKeys = [
-    -- Layout
-      ((m .|. shiftMask, xK_Tab   ), sendMessage FirstLayout       )
-    , ((m              , xK_Tab   ), sendMessage NextLayout        )
-    , ((m              , xK_space ), sendMessage (MT.Toggle NBFULL ) 
-        >> sendMessage ToggleStruts 
-        >> spawn "sleep 0.3 && exec xdotool key f"  ) -- TODO Toggles noborder/full
-
-    -- Command
-    , ((mod1Mask,          xK_F5   ), spawnRestart   )
-    , ((mod1Mask,          xK_F4   ), spawnShutdown  )
-    , ((shiftMask,         xK_Print), spawnRectScrot )
-    , ((0,                 xK_Print), spawnScrot     )
-    , ((m .|. shiftMask,   xK_r    ), spawnRecompile )
-
     -- XF86XK_AudioLowerVolume, XF86XK_AudioRaiseVolume, XF86XK_AudioMute
     -- XF86XK_AudioPlay, XF86XK_AudioStop, XF86XK_AudioPrev, XF86XK_AudioNext
-    , ((0,                 0x1008FF11), spawn "pulsemixer --change-volume -15")
+      ((0,                 0x1008FF11), spawn "pulsemixer --change-volume -15")
     , ((0,                 0x1008FF13), spawn "pulsemixer --change-volume +15")
     , ((0,                 0x1008FF12), spawn "pulsemixer --toggle-mute"      )
     , ((0,                 0x1008FF14), spawn "cplay"                         )
     , ((0,                 0x1008FF15), spawn "xterm"                         )
     , ((0,                 0x1008FF16), spawn "xterm"                         )
     , ((0,                 0x1008FF17), passPrompt dtXPConfig'                )
+    ]
+
 
     -- Debug
-    --, ((m .|. controlMask, xK_t), funk)
     --, ((m .|. controlMask, xK_t), spawn $ "notify-send " ++ (get (withWindowSet (pure . W.currentTag))))
     --, ((m .|. controlMask, xK_t), spawn $ "notify-send " ++ (logCurrent))
     --, ((m .|. controlMask, xK_t), spawn $ "notify-send " ++ (show $ gets (W.screen . W.current)))
     --, ( (m, xK_p), spawn $ "notify-send " ++ (show $ gets (W.screen . W.current))) -- $ withScreens 1 clickables))
-    ]
-
 
 --funk = do
-    --mon <- W.screen . W.current
-    --spawn $ "notify-send a" -- ++ mon
+----    mon <- W.screen . W.current
+--    spawn "notify-send a" -- ++ mon
+
 
 emacsKeys :: [(String, X())]
 emacsKeys = [
+  ------------------------------- Programs ----------------------------------------
       ("M4-S-<Return>", shellPrompt dtXPConfig)
     , ("C-M1-t", spawn "xterm"          )
     , ("C-M1-a", spawn "atom"           )
@@ -96,6 +81,8 @@ emacsKeys = [
     , ("C-M1-v", spawn "virtualbox"     )
     , ("C-M1-z", spawn "zotero"         )
 
+
+  ------------------------------- Scratchpads ----------------------------------------
     , ("C-M-c", scratchpadAction exclusiveSps "cmus"      )
     , ("C-M-d", scratchpadAction exclusiveSps "cal"       )
     , ("C-M-g", scratchpadAction exclusiveSps "ghci"      )
@@ -104,61 +91,79 @@ emacsKeys = [
     , ("C-M-p", scratchpadAction exclusiveSps "python"    )
     , ("C-M-m", scratchpadAction exclusiveSps "rambox"    )
     , ("C-M-s", scratchpadAction exclusiveSps "scala"     )
-    --, ("C-M-t", scratchpadAction exclusiveSps "trello"  )
+    , ("C-M-t", scratchpadAction exclusiveSps "trello"    )
     , ("C-M-w", scratchpadAction exclusiveSps "todoist"   )
     , ("C-M-v", scratchpadAction exclusiveSps "pulse"     )
 
-    --, ("C-M-t", spawn "notify-send hello")
-    , ("M-S-r", renameWorkspace def)
 
+  ------------------------------- Layouts ----------------------------------------
+    --, ("M-i"  , moveTo Next (WSIs $ return (('0' `elem`) . W.tag)) )
+    --, ("M-u"  , moveTo Prev (WSIs $ return (('0' `elem`) . W.tag)) )
+    , ("M-i"  , moveTo Next $ WSTagGroup '0'  )
+    , ("M-u"  , moveTo Prev $ WSTagGroup '0'  )
+    , ("M-S-i"  , moveTo Next $ WSTagGroup '1')
+    , ("M-S-u"  , moveTo Prev $ WSTagGroup '1')
+    , ("M-k", B.focusDown           )
+    , ("M-j", B.focusUp             )
+    , ("M-h", sendMessage Shrink    )
+    , ("M-l", sendMessage Expand    )
+    , ("M-<Tab>", sendMessage NextLayout)
+    , ("M-S-<Tab>", sendMessage FirstLayout)
+    , ("M-<Space>", sendMessage (MT.Toggle NBFULL )
+         >> sendMessage ToggleStruts
+         >> spawn "sleep 0.3 exec xdotool key f" ) --TODO Remove
+
+    , ("M-a"  , prevScreen >> shiftMouse "left" )
+    , ("M-e"  , nextScreen >> shiftMouse "right")
+    , ("M-z"  , shiftNextScreen >> nextScreen   ) -- TODO: Improve
+    , ("M-S-k", windows W.swapDown              )
+    , ("M-S-j", windows W.swapUp                )
+    , ("M-S-c", kill1                           )
+    , ("M-S-a", killAll                         )
+    , ("M-t t", treeselectAction tsDefaultConfig)
+    , ("M-s s", sshTreeselectAction tsDefaultConfig)
+
+
+  ------------------------------- Functions ----------------------------------------
+    , ("M-<KP_F4>",     spawnShutdown )
+    , ("M-<KP_F5>",     spawnRestart  )
+    , ("<Print>"  ,     spawnScrot    )
+    , ("S-<Print>",     spawnRectScrot)
+    , ("M-S-r"    ,     spawnRecompile)
     ]
 
-mickeyMouse :: [((ButtonMask, Button), Window -> X ())]
-mickeyMouse = [
-      ((0, 6), \w -> moveTo Prev (WSIs $ return (('0' `elem`) . W.tag)) )
-    , ((0, 7), \w -> moveTo Next (WSIs $ return (('0' `elem`) . W.tag)) )
+  ------------------------------- Prompts ----------------------------------------
+    ++ [ ("M-p " ++ k, f dtXPConfig') | (k, f) <- promptList ]
+    
+    
+  ------------------------------- DEBUG ----------------------------------------
+    ++ [
+      ("M-r", spawn $ "notify-send " ++ show (marshall 0 $ head clickables))
+--  , ("M-r", spawn $ "notify-send var")
+    , ("C-M-r", spawn $ "notify-send variation")
     ]
+-- X (Maybe String)
+--funk :: Maybe String
+funk = do 
+  date "%a %b %d"
+
 
 shiftMouse :: String -> X()
 shiftMouse direction
     | direction == "left"  = spawn "exec xdotool mousemove_relative -- -1920 0"
     | direction == "right" = spawn "exec xdotool mousemove_relative    +1920 0"
 
-
-windowsKeys :: [(String, X())]
-windowsKeys = [
-      ("M-k"  , B.focusDown           )
-    , ("M-j"  , B.focusUp             )
-    , ("M-h"  , sendMessage Shrink    )
-    , ("M-l"  , sendMessage Expand    )
-
-    --, ("M-i"  , moveTo Next (WSIs $ return (('0' `elem`) . W.tag)) )
-    --, ("M-u"  , moveTo Prev (WSIs $ return (('0' `elem`) . W.tag)) )
-    , ("M-i"  , moveTo Next $ WSTagGroup '0')
-    , ("M-u"  , moveTo Prev $ WSTagGroup '0')
-    , ("M-S-i"  , moveTo Next $ WSTagGroup '1')
-    , ("M-S-u"  , moveTo Prev $ WSTagGroup '1')
-    , ("M-a"  , prevScreen >> shiftMouse "left" )
-    , ("M-e"  , nextScreen >> shiftMouse "right")
-    , ("M-z"  , shiftNextScreen >> nextScreen   ) -- TODO: Trigger the same command depending on which screen is focused
-    , ("M-S-k", windows W.swapDown    )
-    , ("M-S-j", windows W.swapUp      )
-    --, ("M-S-i", shiftToNext >> nextWS )
-    --, ("M-S-u", shiftToPrev >> prevWS )
-    , ("M-S-c", kill1                 )
-    , ("M-S-a", killAll               )
-    , ("M-t t", treeselectAction tsDefaultConfig)
-    , ("M-s s", sshTreeselectAction tsDefaultConfig)
-    --, ("C-m", spawn "notify-send hello")
+mouseKeys :: [((ButtonMask, Button), Window -> X ())]
+mouseKeys = [
+      ((0, 6), \w -> moveTo Prev (WSIs $ return (('0' `elem`) . W.tag)) )
+    , ((0, 7), \w -> moveTo Next (WSIs $ return (('0' `elem`) . W.tag)) )
     ]
-    ++ [ ("M-p " ++ k, f dtXPConfig') | (k, f) <- promptList ]
+
 
 ------------------------------------------------------------------------
 -- WORKSPACES
 ------------------------------------------------------------------------
 confKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $ [
-    ((m, xK_p), spawn $ "notify-send " ++ (show $ marshall 0 (clickables !! 0)))
-    ] ++ [
     ((m .|. mod4Mask, k), windows $ onCurrentScreen f i)
          | (i, k) <- zip (workspaces' conf) azertyKeys
          , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]
@@ -180,9 +185,5 @@ strWorkspaces = ["chess", "dev", "job", "**", "***", "**", "lang", "alf", "dump"
 --strWorkspaces = ["ide", "dev", "cours", "misc", "*", "misc", "lang", "xmon", "sys"]
 
 clickables = action strWorkspaces
-    where
-        action l = [ "<action=xdotool key super+" ++ n ++ ">" ++ ws ++ "</action>" |
-                        (i, ws) <- zip strFKeys l, let n = i]
-
-
-
+    where action l = [ "<action=xdotool key super+" ++ n ++ ">" ++ ws ++ "</action>" |
+                     (i, ws) <- zip strFKeys l, let n = i]

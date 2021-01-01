@@ -3,13 +3,13 @@
 ------------------------------------------------------------------------
 -- IMPORTS
 ------------------------------------------------------------------------
-import XMonad.Util.ExclusiveScratchpads
-import XMonad.Layout.IndependentScreens
-import XMonad.Hooks.ManageHelpers
-
     -- Base
 import XMonad
 import XMonad.Hooks.InsertPosition
+
+import XMonad.Util.ExclusiveScratchpads
+import XMonad.Layout.IndependentScreens
+import XMonad.Hooks.ManageHelpers
 
     -- Utilities
 import XMonad.Util.EZConfig
@@ -24,8 +24,8 @@ import XMonad.Hooks.SetWMName
 import XMonad.Hooks.EwmhDesktops  -- for some fullscreen events, also for xcomposite in obs.
 
     -- my Imports
-import Modules.MyTreeSelect (treeselectAction, sshTreeselectAction, myTreeNavigation)
-import Modules.Keys (myKeys, emacsKeys, mickeyMouse, windowsKeys, clickables, confKeys)
+--import Modules.MyTreeSelect (treeselectAction, sshTreeselectAction, myTreeNavigation)
+import Modules.Keys (myKeys, emacsKeys, mouseKeys, clickables, confKeys)
 import Modules.Others (dtXPConfig, dtXPConfig', promptList, tsDefaultConfig, exclusiveSps, pp, m)
 import Modules.Layouts (myManageHook, myLayoutHook)
 
@@ -46,9 +46,8 @@ main = do
 
     xmonad $ ewmh def {
         manageHook = insertPosition End Newer 
-            <+> ( isFullscreen --> doFullFloat ) 
-            <+> myManageHook 
-            <+> manageDocks
+            <+> myManageHook  -- how windows are opened
+--            <+> manageDocks
             <+> xScratchpadsManageHook exclusiveSps
 
         , handleEventHook = 
@@ -57,9 +56,8 @@ main = do
              <+> serverModeEventHookCmd 
              <+> serverModeEventHookF "XMONAD_PRINT" (io . putStrLn)
              <+> serverModeEventHook 
-             <+> fullscreenEventHook
              <+> docksEventHook
-
+	
         , layoutHook         = myLayoutHook 
         , startupHook        = myStartupHook
 
@@ -77,13 +75,12 @@ main = do
         , logHook = mapM_ dynamicLogWithPP $ zipWith pp handles [0 .. nScreens]
     } `additionalKeys` myKeys
       `additionalKeysP` emacsKeys
-      `additionalKeysP` windowsKeys
-      `additionalMouseBindings` mickeyMouse
+      `additionalMouseBindings` mouseKeys
 
-xmobarCommand (S screen) = unwords ["xmobar", "-x", show screen, my_config screen] 
+xmobarCommand (S screen) = unwords ["xmobar", "-x", show screen, myConfig screen]
     where
-        my_config 0 = "/home/yann/.config/xmobar/xmobarrc_mid"
-        my_config 1 = "/home/yann/.config/xmobar/xmobarrc_left"
+        myConfig 0 = "/home/yann/.config/xmobar/xmobarrc_mid.hs"
+        myConfig 1 = "/home/yann/.config/xmobar/xmobarrc_left.hs"
 
 
 ------------------------------------------------------------------------
