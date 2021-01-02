@@ -24,9 +24,6 @@ import Data.Char
 import Modules.Others (dtXPConfig', exclusiveSps, dtXPConfig, tsDefaultConfig, promptList)
 import Modules.MyTreeSelect (treeselectAction, sshTreeselectAction)
 
-
-
-
 ------------------------------------------------------------------------
 -- KEYBINDINGS
 ------------------------------------------------------------------------
@@ -37,24 +34,20 @@ spawnRecompile = spawn "xmonad --recompile && xmonad --restart"
 spawnRestart   = spawn "shutdown -r now"
 spawnShutdown  = spawn "shutdown now"
 
-myKeys :: [((KeyMask, KeySym), X ())]
-myKeys = [
-    -- XF86XK_AudioLowerVolume, XF86XK_AudioRaiseVolume, XF86XK_AudioMute
-    -- XF86XK_AudioPlay, XF86XK_AudioStop, XF86XK_AudioPrev, XF86XK_AudioNext
-      ((0,                 0x1008FF11), spawn "pulsemixer --change-volume -15")
-    , ((0,                 0x1008FF13), spawn "pulsemixer --change-volume +15")
-    , ((0,                 0x1008FF12), spawn "pulsemixer --toggle-mute"      )
-    , ((0,                 0x1008FF14), spawn "cplay"                         )
-    , ((0,                 0x1008FF15), spawn "xterm"                         )
-    , ((0,                 0x1008FF16), spawn "xterm"                         )
-    , ((0,                 0x1008FF17), passPrompt dtXPConfig'                )
-    ]
-
-
 emacsKeys :: [(String, X())]
 emacsKeys = [
+  ------------------------------- XFKeys ----------------------------------------
+      ("<XF86AudioStop>", spawn "xterm")
+    , ("<XF86AudioPrev>", spawn "xterm")
+    , ("<XF86AudioNext>", spawn "xterm")
+    , ("<XF86AudioPlay>", spawn "cplay")
+    , ("<XF86AudioMute>", spawn "pulsemixer --toggle-mute")
+    , ("<XF86AudioLowerVolume>", spawn "pulsemixer --change-volume -15")
+    , ("<XF86AudioRaiseVolume>", spawn "pulsemixer --change-volume +15")
+
+
   ------------------------------- Programs ----------------------------------------
-      ("M4-S-<Return>", shellPrompt dtXPConfig)
+    , ("M4-S-<Return>", shellPrompt dtXPConfig)
     , ("C-M1-a"  , spawn "atom"           )
     , ("C-M1-c"  , spawn "calibre"        )
     , ("C-M1-d"  , spawn "dropbox"        )

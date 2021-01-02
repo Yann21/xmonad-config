@@ -28,7 +28,7 @@ import XMonad.Hooks.ManageDocks
 
     -- my Imports
 --import Modules.MyTreeSelect (treeselectAction, sshTreeselectAction, myTreeNavigation)
-import Modules.Keys (myKeys, emacsKeys, mouseKeys, clickables, confKeys)
+import Modules.Keys (emacsKeys, mouseKeys, clickables, confKeys)
 import Modules.Others (dtXPConfig, dtXPConfig', promptList, tsDefaultConfig, exclusiveSps, pp, m)
 import Modules.Layouts (myManageHook, myLayoutHook)
 
@@ -74,8 +74,7 @@ main = do
         , terminal           = myTerminal
 
         , logHook = mapM_ dynamicLogWithPP $ zipWith pp handles [0 .. nScreens]
-    } `additionalKeys` myKeys
-      `additionalKeysP` emacsKeys
+    } `additionalKeysP` emacsKeys
       `additionalMouseBindings` mouseKeys
 
 xmobarCommand (S screen) = unwords ["xmobar", "-x", show screen, myConfig screen]
