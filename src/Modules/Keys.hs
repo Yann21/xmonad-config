@@ -16,6 +16,10 @@ import XMonad.Prompt.Shell
 import qualified Data.Map as M
 import XMonad.Layout.IndependentScreens
 import XMonad.Util.Loggers
+import Control.Monad
+import XMonad.Actions.PhysicalScreens
+import Data.List
+import Data.Char
 
 import Modules.Others (dtXPConfig', exclusiveSps, dtXPConfig, tsDefaultConfig, promptList)
 import Modules.MyTreeSelect (treeselectAction, sshTreeselectAction)
@@ -32,9 +36,6 @@ spawnScrot     = spawn "scrot ~/media/screenshots/%y-%m-%d_%H-%M-%S.png && notif
 spawnRecompile = spawn "xmonad --recompile && xmonad --restart"
 spawnRestart   = spawn "shutdown -r now"
 spawnShutdown  = spawn "shutdown now"
---m, altMask :: KeyMask
---altMask = mod1Mask
---m       = mod4Mask
 
 myKeys :: [((KeyMask, KeySym), X ())]
 myKeys = [
@@ -50,72 +51,51 @@ myKeys = [
     ]
 
 
-    -- Debug
-    --, ((m .|. controlMask, xK_t), spawn $ "notify-send " ++ (get (withWindowSet (pure . W.currentTag))))
-    --, ((m .|. controlMask, xK_t), spawn $ "notify-send " ++ (logCurrent))
-    --, ((m .|. controlMask, xK_t), spawn $ "notify-send " ++ (show $ gets (W.screen . W.current)))
-    --, ( (m, xK_p), spawn $ "notify-send " ++ (show $ gets (W.screen . W.current))) -- $ withScreens 1 clickables))
-
---funk = do
-----    mon <- W.screen . W.current
---    spawn "notify-send a" -- ++ mon
-
-
 emacsKeys :: [(String, X())]
 emacsKeys = [
   ------------------------------- Programs ----------------------------------------
       ("M4-S-<Return>", shellPrompt dtXPConfig)
-    , ("C-M1-t", spawn "xterm"          )
-    , ("C-M1-a", spawn "atom"           )
-    , ("C-M1-c", spawn "calibre"        )
-    , ("C-M1-d", spawn "dropbox"        )
-    , ("C-M1-e", spawn "evince"         )
-    , ("C-M1-f", spawn  "firefox"       )
-    , ("C-M1-S-f", spawn  "firefox-developer-edition" )
-    , ("C-M1-i", spawn "idea"           )
-    , ("C-M1-j", spawn "joplin-desktop" )
-    , ("C-M1-l", spawn "libreoffice"    )
-    , ("C-M1-p", spawn "pycharm"        )
-    , ("C-M1-p", spawn "rambox"         )
-    , ("C-M1-s", spawn "slack"          )
-    , ("C-M1-v", spawn "virtualbox"     )
-    , ("C-M1-z", spawn "zotero"         )
-
+    , ("C-M1-a"  , spawn "atom"           )
+    , ("C-M1-c"  , spawn "calibre"        )
+    , ("C-M1-d"  , spawn "dropbox"        )
+    , ("C-M1-e"  , spawn "evince"         )
+    , ("C-M1-f"  , spawn "firefox"        )
+    , ("C-M1-S-f", spawn "firefox-developer-edition" )
+    , ("C-M1-i"  , spawn "idea"           )
+    , ("C-M1-j"  , spawn "joplin-desktop" )
+    , ("C-M1-l"  , spawn "libreoffice"    )
+    , ("C-M1-p"  , spawn "pycharm"        )
+    , ("C-M1-p"  , spawn "rambox"         )
+    , ("C-M1-s"  , spawn "slack"          )
+    , ("C-M1-t"  , spawn "xterm"          )
+    , ("C-M1-v"  , spawn "virtualbox"     )
+    , ("C-M1-z"  , spawn "zotero"         )
 
   ------------------------------- Scratchpads ----------------------------------------
     , ("C-M-c", scratchpadAction exclusiveSps "cmus"      )
     , ("C-M-d", scratchpadAction exclusiveSps "cal"       )
     , ("C-M-g", scratchpadAction exclusiveSps "ghci"      )
     , ("C-M-h", scratchpadAction exclusiveSps "htop"      )
+    , ("C-M-m", scratchpadAction exclusiveSps "rambox"    )
     , ("C-M-n", scratchpadAction exclusiveSps "mailspring")
     , ("C-M-p", scratchpadAction exclusiveSps "python"    )
-    , ("C-M-m", scratchpadAction exclusiveSps "rambox"    )
     , ("C-M-s", scratchpadAction exclusiveSps "scala"     )
     , ("C-M-t", scratchpadAction exclusiveSps "trello"    )
-    , ("C-M-w", scratchpadAction exclusiveSps "todoist"   )
     , ("C-M-v", scratchpadAction exclusiveSps "pulse"     )
-
+    , ("C-M-w", scratchpadAction exclusiveSps "todoist"   )
 
   ------------------------------- Layouts ----------------------------------------
-    --, ("M-i"  , moveTo Next (WSIs $ return (('0' `elem`) . W.tag)) )
-    --, ("M-u"  , moveTo Prev (WSIs $ return (('0' `elem`) . W.tag)) )
-    , ("M-i"  , moveTo Next $ WSTagGroup '0'  )
-    , ("M-u"  , moveTo Prev $ WSTagGroup '0'  )
-    , ("M-S-i"  , moveTo Next $ WSTagGroup '1')
-    , ("M-S-u"  , moveTo Prev $ WSTagGroup '1')
-    , ("M-k", B.focusDown           )
-    , ("M-j", B.focusUp             )
-    , ("M-h", sendMessage Shrink    )
-    , ("M-l", sendMessage Expand    )
-    , ("M-<Tab>", sendMessage NextLayout)
-    , ("M-S-<Tab>", sendMessage FirstLayout)
-    , ("M-<Space>", sendMessage (MT.Toggle NBFULL )
-         >> sendMessage ToggleStruts
-         >> spawn "sleep 0.3 exec xdotool key f" ) --TODO Remove
+    , ("M-u"  , moveToIndependent Prev      )
+    , ("M-i"  , moveToIndependent Next      )
+    , ("M-k"  , B.focusDown                 )
+    , ("M-j"  , B.focusUp                   )
+    , ("M-h"  , sendMessage Shrink          )
+    , ("M-l"  , sendMessage Expand          )
+    , ("M-<Tab>"  , sendMessage NextLayout  )
+    , ("M-S-<Tab>", sendMessage FirstLayout )
 
-    , ("M-a"  , prevScreen >> shiftMouse "left" )
-    , ("M-e"  , nextScreen >> shiftMouse "right")
-    , ("M-z"  , shiftNextScreen >> nextScreen   ) -- TODO: Improve
+    , ("M-z"  , toggleScreen                    )
+    , ("M-S-z"  , shiftNextScreen >> toggleScreen)
     , ("M-S-k", windows W.swapDown              )
     , ("M-S-j", windows W.swapUp                )
     , ("M-S-c", kill1                           )
@@ -123,10 +103,9 @@ emacsKeys = [
     , ("M-t t", treeselectAction tsDefaultConfig)
     , ("M-s s", sshTreeselectAction tsDefaultConfig)
 
-
   ------------------------------- Functions ----------------------------------------
-    , ("M-<KP_F4>",     spawnShutdown )
-    , ("M-<KP_F5>",     spawnRestart  )
+    , ("M1-<F4>"  ,     spawnShutdown )
+    , ("M1-<F5>"  ,     spawnRestart  )
     , ("<Print>"  ,     spawnScrot    )
     , ("S-<Print>",     spawnRectScrot)
     , ("M-S-r"    ,     spawnRecompile)
@@ -135,17 +114,48 @@ emacsKeys = [
   ------------------------------- Prompts ----------------------------------------
     ++ [ ("M-p " ++ k, f dtXPConfig') | (k, f) <- promptList ]
     
-    
   ------------------------------- DEBUG ----------------------------------------
     ++ [
-      ("M-r", spawn $ "notify-send " ++ show (marshall 0 $ head clickables))
+--      ("M-r", spawn $ "notify-send " ++ show (marshall 0 $ head clickables))
+	  ("M-r", spawn "notify-end DEBUG")
 --  , ("M-r", spawn $ "notify-send var")
-    , ("C-M-r", spawn $ "notify-send variation")
     ]
--- X (Maybe String)
---funk :: Maybe String
-funk = do 
-  date "%a %b %d"
+ 
+-- Spaghetti
+physicalScreens :: X [Maybe ScreenId]
+physicalScreens = withWindowSet $ \windowSet -> do
+	let numScreens = length $ W.screens windowSet
+	mapM (\s -> getScreen def (P s)) [0..numScreens]
+
+getPhysicalScreen :: ScreenId -> X (Maybe PhysicalScreen)
+getPhysicalScreen sid = do
+	pscreens <- physicalScreens
+	return $ (Just sid) `elemIndex` pscreens >>= \s -> Just (P s)
+
+screenID :: X Char
+screenID = withWindowSet $ \windowSet -> do
+	let sid = W.screen (W.current windowSet)
+	pscreen <- getPhysicalScreen sid
+	return $ case pscreen of
+				Just (P s) -> (head (show s))
+				otherwise  -> 'r'
+
+-- XORG counts from left to right, X.L.IndependentScreens from right to left
+flipBit :: Char -> Char
+flipBit c = intToDigit $ 1 - digitToInt c
+
+moveToIndependent :: Direction1D -> X ()
+moveToIndependent dir = do
+	id <- screenID
+	moveTo dir $ WSTagGroup $ flipBit id
+
+toggleScreen :: X ()
+toggleScreen = do
+	id <- screenID
+	case id of
+	  '0' -> nextScreen >> shiftMouse "right"
+	  '1' -> prevScreen >> shiftMouse "left"
+	
 
 
 shiftMouse :: String -> X()
@@ -155,8 +165,8 @@ shiftMouse direction
 
 mouseKeys :: [((ButtonMask, Button), Window -> X ())]
 mouseKeys = [
-      ((0, 6), \w -> moveTo Prev (WSIs $ return (('0' `elem`) . W.tag)) )
-    , ((0, 7), \w -> moveTo Next (WSIs $ return (('0' `elem`) . W.tag)) )
+      ((0, 6), \w -> moveToIndependent Prev )
+    , ((0, 7), \w -> moveToIndependent Next )
     ]
 
 

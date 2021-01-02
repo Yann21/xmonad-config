@@ -27,12 +27,20 @@ import XMonad.Layout.ThreeColumns
 import qualified XMonad.StackSet as W
 import Data.Monoid
 import XMonad.Hooks.ManageHelpers
-import XMonad.Layout.IndependentScreens
 import XMonad.Hooks.ManageDocks
+import XMonad.Hooks.InsertPosition
+import XMonad.Layout.IndependentScreens
 import XMonad.Layout.Minimize
+
+import Control.Applicative((<$>))
+import Data.Maybe(fromMaybe)
+import Data.List(find)
+import XMonad.Actions.SpawnOn
 
 
 import Modules.Keys (clickables)
+import Modules.Others (exclusiveSps)
+import XMonad.Util.ExclusiveScratchpads
 
 
 ------------------------------------------------------------------------
@@ -53,8 +61,8 @@ grid     = renamed [Replace "grid"]
            -- $ mySpacing 8
            $ mkToggle (single MIRROR)
            $ Grid (16/10)
-floats   = renamed [Replace "floats"]
-           $ limitWindows 20 simplestFloat
+--floats   = renamed [Replace "floats"]
+--           $ limitWindows 20 simplestFloat
 spirals  = renamed [Replace "spirals"]
            -- $ mySpacing' 8
            $ spiral (6/7)
@@ -70,10 +78,10 @@ horizontal = renamed [Replace "horizontal"]
 -- The layout hook
 myLayoutHook = B.boringWindows      -- exclusiveSps
              $ minimize             -- exclusiveSps
-             $ avoidStruts
-            -- $ mouseResize
-             $ windowArrange
-             $ T.toggleLayouts floats
+             $ avoidStruts          -- don't cover status bar
+             $ smartBorders
+--             $ mouseResize
+--             $ T.toggleLayouts floats
              $ mkToggle (NBFULL ?? NOBORDERS ?? EOT)
                myDefaultLayout
              where myDefaultLayout = tall
@@ -82,28 +90,31 @@ myLayoutHook = B.boringWindows      -- exclusiveSps
                                   ||| horizontal
                                   --- ||| threeCol
                                   --- ||| threeRow
-                                  -- ||| noBorders tabs
+                                   -- ||| noBorders tabs
                                   --- ||| spirals
 
 
 ------------------------------------------------------------------------------
 -- MANAGEHOOK
 ------------------------------------------------------------------------------
-myManageHook :: XMonad.Query (Data.Monoid.Endo WindowSet)
-myManageHook = (isDialog --> doF W.swapUp) <+> composeAll
-    [ title =? "xmessage"                     --> doCenterFloat
-    , title =? "Oracle VM VirtualBox Manager" --> doFloat
-    , title =? "pulse"                        --> doFloat
-    , title =? "Spectacle Editor Setup "      --> doFloat
-    , title =? "Zotero Preferences"                        --> doFloat
-    , title =? "self_driving_car_nanodegree_program"     --> doFloat
-    , stringProperty "_NET_WM_WINDOW_TYPE" =? "_NET_WM_WINDOW_TYPE_DIALOG" --> doFloat
-    , resource   =? "synergy"                 --> doFloat
-    , (className =? "firefox"
-     <&&> resource =? "Dialog")                --> doFloat
-    , title =? "jetbrains-idea-ce"            --> doShift ( marshall 0 (head clickables))
-    , className =? "jetbrains-pycharm-ce"     --> doShift ( marshall 0 (head clickables))
-    , isFullscreen --> doFullFloat
-    ]
 
+myManageHook =
+	composeOne [
+		  isDialog -?> insertPosition Above Newer
+	--  , title =? "Oracle VM VirtualBox Manager" --> doFloat
+	--  , title =? "Spectacle Editor Setup "      --> doFloat
+	--  , title =? "Zotero Preferences"                        --> doFloat
+	--  , stringProperty "_NET_WM_WINDOW_TYPE" =? "_NET_WM_WINDOW_TYPE_DIALOG" --> doFloat
+	--  , (className =? "firefox"
+	--   <&&> resource =? "Dialog")                --> doFloat
+	--  , title =? "jetbrains-idea-ce"            --> doShift ( marshall 0 (head clickables))
+	--  , className =? "jetbrains-pycharm-ce"     --> doShift ( marshall 0 (head clickables))
+		, return True -?> insertPosition End Newer
+    ] <+> composeAll [
+          title =? "xmessage" --> doCenterFloat
+--        , isDialog --> doCenterFloat
+--		, className =? "firefox" --> doFullFloat
+		, title =? "self_driving_car_nanodegree_program" --> doFloat
+		, isFullscreen --> doFullFloat
+    ] <+> xScratchpadsManageHook exclusiveSps
 

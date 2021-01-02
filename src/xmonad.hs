@@ -18,10 +18,13 @@ import XMonad.Util.SpawnOnce
 
     -- Hooks
 import XMonad.Hooks.DynamicLog (dynamicLogWithPP)
-import XMonad.Hooks.ManageDocks (avoidStruts, docksEventHook, manageDocks, ToggleStruts(..))
+import XMonad.Hooks.ManageDocks (avoidStruts, docksEventHook, manageDocks)
 import XMonad.Hooks.ServerMode
 import XMonad.Hooks.SetWMName
 import XMonad.Hooks.EwmhDesktops  -- for some fullscreen events, also for xcomposite in obs.
+import Data.Maybe (maybeToList)
+import Control.Monad
+import XMonad.Hooks.ManageDocks
 
     -- my Imports
 --import Modules.MyTreeSelect (treeselectAction, sshTreeselectAction, myTreeNavigation)
@@ -45,21 +48,19 @@ main = do
     handles  <- mapM (spawnPipe . xmobarCommand) [0..nScreens-1]
 
     xmonad $ ewmh def {
-        manageHook = insertPosition End Newer 
-            <+> myManageHook  -- how windows are opened
---            <+> manageDocks
-            <+> xScratchpadsManageHook exclusiveSps
+         manageHook = myManageHook  -- how windows are opened
+            <+> manageDocks --not that important
+        , handleEventHook =
+                 handleEventHook def
+             <+> fullscreenEventHook -- for evince/chromium fullscreen
+             <+> docksEventHook -- status bar
 
-        , handleEventHook = 
-                 handleEventHook def 
-             <+> fullscreenEventHook
-             <+> serverModeEventHookCmd 
-             <+> serverModeEventHookF "XMONAD_PRINT" (io . putStrLn)
-             <+> serverModeEventHook 
-             <+> docksEventHook
-	
+--             <+> serverModeEventHookCmd
+--             <+> serverModeEventHookF "XMONAD_PRINT" (io . putStrLn)
+--             <+> serverModeEventHook
+
         , layoutHook         = myLayoutHook 
-        , startupHook        = myStartupHook
+        , startupHook        = myStartupHook >> addEWMHFullscreen
 
         , focusFollowsMouse  = False
         , clickJustFocuses   = False
@@ -82,6 +83,20 @@ xmobarCommand (S screen) = unwords ["xmobar", "-x", show screen, myConfig screen
         myConfig 0 = "/home/yann/.config/xmobar/xmobarrc_mid.hs"
         myConfig 1 = "/home/yann/.config/xmobar/xmobarrc_left.hs"
 
+addNETSupported :: Atom -> X ()
+addNETSupported x   = withDisplay $ \dpy -> do
+    r               <- asks theRoot
+    a_NET_SUPPORTED <- getAtom "_NET_SUPPORTED"
+    a               <- getAtom "ATOM"
+    liftIO $ do
+       sup <- (join . maybeToList) <$> getWindowProperty32 dpy a_NET_SUPPORTED r
+       when (fromIntegral x `notElem` sup) $
+         changeProperty32 dpy r a_NET_SUPPORTED a propModeAppend [fromIntegral x]
+
+addEWMHFullscreen = do
+  wms <- getAtom "_NET_WM_STATE"
+  wfs <- getAtom "_NET_WM_STATE_FULLSCREEN"
+  mapM_ addNETSupported [wms, wfs]
 
 ------------------------------------------------------------------------
 -- AUTOSTART
@@ -92,5 +107,6 @@ myStartupHook = do
     --spawnOnce "emacs &"
     --spawnOnce "pycharm &"
     --spawnOnce "sh ~/.screenlayout/arandrrc_portrait.sh &"
-    setWMName "LG3D"
+    setWMName "xmonad"
+--    setWMName "LG3D" --for the JVM
 

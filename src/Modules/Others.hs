@@ -100,8 +100,8 @@ tsDefaultConfig = TS.TSConfig
 
 -- A list of all of the standard Xmonad prompts
 promptList :: [(String, XPConfig -> X ())]
-promptList =
-    [ ("m", manPrompt)          -- manpages prompt
+promptList = [
+	  ("m", manPrompt)          -- manpages prompt
     , ("p", passPrompt)         -- get passwords (requires 'pass')
     , ("g", passGeneratePrompt) -- generate passwords (requires 'pass')
     , ("r", passRemovePrompt)   -- remove passwords (requires 'pass')
@@ -115,17 +115,15 @@ promptList =
 ------------------------------------------------------------------------
 exclusiveSps :: ExclusiveScratchpads
 exclusiveSps = mkXScratchpads [
-      ("cal", "google-calendar",                    resource =? "google-calendar-nativefier-e22938")
+      ("cal" , "google-calendar",                   resource =? "google-calendar-nativefier-e22938")
     , ("cmus", "xterm -name cmus cmus",             resource =? "cmus")
     , ("ghci", "xterm -name ghci -e 'stack ghci'",  resource =? "ghci")
     , ("htop", "xterm -bg black -name htop htop",   resource =? "htop")
-    , ("mailspring", "mailspring",                  resource =? "mailspring")
-    , ("pulse", "xterm -name pulsemixer pulsemixer", resource =? "pulsemixer")
+    , ("mailspring" , "mailspring",                 resource =? "mailspring")
+    , ("pulse" , "xterm -name pulsemixer pulsemixer",  resource =? "pulsemixer")
     , ("python", "xterm -fs 17 -name python bpython", resource =? "python")
     , ("rambox", "rambox",                          resource =? "rambox")
-    , ("scala", "xterm -name scala scala",          resource =? "scala")
+    , ("scala" , "xterm -name scala scala",         resource =? "scala" )
     , ("trello", "trello",                          resource =? "trello")
     , ("todoist", "todoist",                        resource =? "todoist")
     ] $ customFloating $ W.RationalRect 0.15 0.15 0.7 0.7
-
-
