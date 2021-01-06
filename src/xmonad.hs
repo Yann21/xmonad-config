@@ -25,6 +25,7 @@ import XMonad.Hooks.EwmhDesktops  -- for some fullscreen events, also for xcompo
 import Data.Maybe (maybeToList)
 import Control.Monad
 import XMonad.Hooks.ManageDocks
+import XMonad.Actions.KeyRemap
 
     -- my Imports
 --import Modules.MyTreeSelect (treeselectAction, sshTreeselectAction, myTreeNavigation)
@@ -48,8 +49,8 @@ main = do
     handles  <- mapM (spawnPipe . xmobarCommand) [0..nScreens-1]
 
     xmonad $ ewmh def {
-         manageHook = myManageHook  -- how windows are opened
-            <+> manageDocks --not that important
+          manageHook = myManageHook  -- how windows are opened
+             <+> manageDocks --not that important
         , handleEventHook =
                  handleEventHook def
              <+> fullscreenEventHook -- for evince/chromium fullscreen
@@ -60,23 +61,23 @@ main = do
 --             <+> serverModeEventHook
 
         , layoutHook         = myLayoutHook 
-        , startupHook        = myStartupHook >> addEWMHFullscreen
+        , startupHook        = myStartupHook >> addEWMHFullscreen -- Adds EWMH tags to Firefox
+        , logHook = mapM_ dynamicLogWithPP $ zipWith pp handles [0 .. nScreens]
 
         , focusFollowsMouse  = False
         , clickJustFocuses   = False
         , workspaces         = withScreens nScreens clickables
-        , modMask            = m
-        , keys               = confKeys
+        , modMask            = mod4Mask
+        , keys               = confKeys-- ++ buildKeyRemapBindings [dvorakProgrammerKeyRemap,emptyKeyRemap] -- Workspaces
 
         , normalBorderColor  = myNormColor
         , focusedBorderColor = myFocusColor
         , borderWidth        = myBorderWidth
-        , terminal           = myTerminal
-
-        , logHook = mapM_ dynamicLogWithPP $ zipWith pp handles [0 .. nScreens]
+        , terminal           = "xterm"
     } `additionalKeysP` emacsKeys
       `additionalMouseBindings` mouseKeys
 
+-- TODO Refactor
 xmobarCommand (S screen) = unwords ["xmobar", "-x", show screen, myConfig screen]
     where
         myConfig 0 = "/home/yann/.config/xmobar/xmobarrc_mid.hs"

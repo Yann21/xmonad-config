@@ -36,6 +36,8 @@ import Control.Applicative((<$>))
 import Data.Maybe(fromMaybe)
 import Data.List(find)
 import XMonad.Actions.SpawnOn
+import XMonad.Layout.SubLayouts
+import XMonad.Layout.WindowNavigation
 
 
 import Modules.Keys (clickables)
@@ -79,7 +81,9 @@ horizontal = renamed [Replace "horizontal"]
 myLayoutHook = B.boringWindows      -- exclusiveSps
              $ minimize             -- exclusiveSps
              $ avoidStruts          -- don't cover status bar
-             $ smartBorders
+             $ smartBorders         -- TODO doesn't work
+             $ subTabbed
+             $ windowNavigation
 --             $ mouseResize
 --             $ T.toggleLayouts floats
              $ mkToggle (NBFULL ?? NOBORDERS ?? EOT)

@@ -20,6 +20,10 @@ import Control.Monad
 import XMonad.Actions.PhysicalScreens
 import Data.List
 import Data.Char
+import XMonad.Actions.KeyRemap
+import XMonad.Layout.SubLayouts
+import XMonad.Layout.WindowNavigation
+import XMonad.Util.Paste
 
 import Modules.Others (dtXPConfig', exclusiveSps, dtXPConfig, tsDefaultConfig, promptList)
 import Modules.MyTreeSelect (treeselectAction, sshTreeselectAction)
@@ -96,6 +100,19 @@ emacsKeys = [
     , ("M-t t", treeselectAction tsDefaultConfig)
     , ("M-s s", sshTreeselectAction tsDefaultConfig)
 
+  ------------------------------- Others ----------------------------------------
+    , ("M-M1-h", sendMessage $ pullGroup L) -- TODO SubLayouts!
+    , ("M-M1-l", sendMessage $ pullGroup R)
+    , ("M-M1-k", sendMessage $ pullGroup U)
+    , ("M-M1-j", sendMessage $ pullGroup D)
+
+    , ("M-M1-m", withFocused $sendMessage . MergeAll)
+    , ("M-M1-u", withFocused $sendMessage . UnMerge)
+
+    , ("M-M1-,", onGroup W.focusUp')
+    , ("M-M1-;", onGroup W.focusDown')
+--    , ("C-m", sendKey shiftMask xK_Return) -- TODO remap return CR enter
+
   ------------------------------- Functions ----------------------------------------
     , ("M1-<F4>"  ,     spawnShutdown )
     , ("M1-<F5>"  ,     spawnRestart  )
@@ -166,12 +183,13 @@ mouseKeys = [
 ------------------------------------------------------------------------
 -- WORKSPACES
 ------------------------------------------------------------------------
-confKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $ [
+confKeys :: XConfig Layout -> M.Map (KeyMask, KeySym) (X ())
+confKeys conf@XConfig {XMonad.modMask = modMask} = M.fromList $ [
     ((m .|. mod4Mask, k), windows $ onCurrentScreen f i)
          | (i, k) <- zip (workspaces' conf) azertyKeys
          , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]
 
-    ] ++ [ -- For xdotooling clickables
+    ] ++ [ -- Don't remove - For xdotooling clickables
     ((m .|. mod4Mask, k), windows $ onCurrentScreen f i)
          | (i, k) <- zip (workspaces' conf) fKeys
          , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]
@@ -183,7 +201,7 @@ fKeys      = [xK_F1 .. xK_F9]
 
 strWorkspaces, strFKeys, clickables :: [String]
 strFKeys      = ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9"]
-strWorkspaces = ["chess", "dev", "job", "**", "***", "**", "lang", "alf", "dump"]
+strWorkspaces = ["1:chess", "2:dev", "3:job", "4:**", "5:***", "6:**", "7:lang", "8:alf", "9:dump"]
 --strWorkspaces = ["ide", "dev", "job", "edu", "vid", "org", "lang", "pm", "dump"]
 --strWorkspaces = ["ide", "dev", "cours", "misc", "*", "misc", "lang", "xmon", "sys"]
 

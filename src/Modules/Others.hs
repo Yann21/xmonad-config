@@ -13,13 +13,9 @@ import XMonad.Prompt.Ssh
 import XMonad.Prompt.XMonad
 import Data.List
 import XMonad.Hooks.DynamicLog (dynamicLogWithPP, wrap, xmobarPP, xmobarColor, shorten, PP(..))
---import XMonad.Layout.IndependentScreens (marshallPP)
 import System.IO (hPutStrLn)
 import qualified Data.Map as M
 import XMonad.Layout.IndependentScreens
-
-
-
 
 
 import Modules.MyTreeSelect (myTreeNavigation)
