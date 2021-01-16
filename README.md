@@ -1,30 +1,41 @@
 [![github](https://img.shields.io/badge/git-github-lightgray.svg)](https://github.com/Yann21/xmonad-config) [![Issues](https://img.shields.io/badge/issues-github-green.svg)](https://github.com/Yann21/xmonad-config/issues)
 # <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F7%2F72%2FXmonad-logo.png&f=1&nofb=1" height="36.5" width="23.5" /> monad Configuration
 
-## Specification
-* Arch Linux
-* XMonad
-* XMonad-contrib
-* XMobar
+## Content / Specification
+* Arch Linux...
+* XMonad...
+* XMonad-contrib..
+* XMobar...
 
-## Run
-1. Install stack: \
-   `yay -S stack-static`
-2. Use stack to install xmonad and xmobar: \
-   `stack install xmonad xmobar xmonad-contrib`
-3. Build the project: \
-   `stack build :my-xmonad`
-4. Replace the .xmonad/xmonad_x86 executable: \
-   `xmonad --recompile`
+## How to run
+```
+# Install stack
+$ yay -S stack-static
+
+# Use stack to install xmonad and xmobar
+# This will send the executables ~/.local/bin, don't forget to add this to your path.
+$ stack install xmonad xmobar xmonad-contrib
+
+# Build the project
+$ stack build :my-xmonad
+
+# Replace the ~/.xmonad/xmonad_x86 executable:
+$ xmonad --recompile (&& xmonad-restart)
+```
 
 ## Content
 ```
 src/
 ├── autostart.sh
 ├── Modules
-│   ├── [Keys.hs](src/Modules/Keys.hs)
+│   ├── Keys.hs
 │   ├── Layouts.hs
 │   ├── MyTreeSelect.hs
 │   └── Others.hs
 └── xmonad.hs
 ```
+
+## TODO?
+* DynamicWorkspaces -> rename xmobar on the fly
+* Pipe build output to xmessage
+* Take a look inside xmonad-contrib
