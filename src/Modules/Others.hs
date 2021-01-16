@@ -115,11 +115,12 @@ exclusiveSps = mkXScratchpads [
     , ("cmus", "xterm -name cmus cmus",             resource =? "cmus")
     , ("ghci", "xterm -name ghci -e 'stack ghci'",  resource =? "ghci")
     , ("htop", "xterm -bg black -name htop htop",   resource =? "htop")
-    , ("mailspring" , "mailspring",                 resource =? "mailspring")
+    , ("thunderbird" , "thunderbird",                 resource =? "thunderbird")
     , ("pulse" , "xterm -name pulsemixer pulsemixer",  resource =? "pulsemixer")
     , ("python", "xterm -fs 17 -name python bpython", resource =? "python")
     , ("rambox", "rambox",                          resource =? "rambox")
     , ("scala" , "xterm -name scala scala",         resource =? "scala" )
     , ("trello", "trello",                          resource =? "trello")
     , ("todoist", "todoist",                        resource =? "todoist")
+    , ("iotop", "xterm -bg orange -name iotop iotop",                        resource =? "iotop")
     ] $ customFloating $ W.RationalRect 0.15 0.15 0.7 0.7

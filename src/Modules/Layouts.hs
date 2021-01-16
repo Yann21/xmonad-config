@@ -116,6 +116,8 @@ myManageHook =
 		, return True -?> insertPosition End Newer
     ] <+> composeAll [
           title =? "xmessage" --> doCenterFloat
+        , title =? "xscreensaver-demo" --> doFloat
+        , title =? "xscreensaver" --> doFloat
 --        , isDialog --> doCenterFloat
 --		, className =? "firefox" --> doFullFloat
 		, title =? "self_driving_car_nanodegree_program" --> doFloat

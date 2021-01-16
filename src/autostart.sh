@@ -1,5 +1,7 @@
 #!/usr/bin/bash
+# Yann Hoffmann
 # Equivalent of xinit for startup programs
+
 redshift -c ~/.config/redshift/redshift.conf &      # Go easy on the eyes
 $HOME/.screenlayout/arandrrc_nvidia.sh &            # Double monitor layout
 nitrogen --restore &                                # Wallpaper
@@ -13,10 +15,26 @@ firefox &                                           # Firefox
 aw-qt &                                             # Windows and time tracker (*)
 xset r rate 200 25 &                                # Typematic delays
 autokey-gtk &                                       # Rebind bash bindings in browser
+NetworkManager &                                    # WLAN
+
 /usr/bin/simplescreenrecorder \                     # Record screen (*)
     --start-hidden \
     --start-recording \
     --settingsfile=/home/yann/.ssr/settings_loy.conf \
     --no-systray &
+
+trayer \                                            # System tray
+    --edge bottom \
+    --align center \
+    --SetDockType true \
+    --SetPartialStrut true \
+    --expand true \
+    --width 5 \
+    --transparent true \
+    --alpha 0 \
+    --tint 0x0034435E \
+    --heighttype pixel \
+    --height 18 &
+
 
 # * data collection
