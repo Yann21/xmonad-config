@@ -3,12 +3,12 @@
 Caveat emptor as always.
 
 ## Table of contents
-* [General info](#content-specification)
+* [General info](#version)
 * [Get started](#how-to-run)
 * [Structure](#content)
 * [TODO](#todo)
 
-## Content / Specification
+## Version
 * Arch Linux...
 * XMonad...
 * XMonad-contrib..
