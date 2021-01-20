@@ -1,5 +1,12 @@
 [![github](https://img.shields.io/badge/git-github-lightgray.svg)](https://github.com/Yann21/xmonad-config) [![Issues](https://img.shields.io/badge/issues-github-green.svg)](https://github.com/Yann21/xmonad-config/issues)
 # <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F7%2F72%2FXmonad-logo.png&f=1&nofb=1" height="36.5" width="23.5" /> monad Configuration
+Caveat emptor as always.
+
+## Table of contents
+* [General info](#content-specification)
+* [Get started](#how-to-run)
+* [Structure](#content)
+* [TODO](#todo)
 
 ## Content / Specification
 * Arch Linux...
