@@ -11,19 +11,20 @@ picom -b &                                          # Compositor, transparency
 udiskie &                                           # USB daemon
 xscreensaver &                                      # Aerial screensaver
 firefox &                                           # Firefox
-~/sys/trayer.sh &                                   # A system tray
 aw-qt &                                             # Windows and time tracker (*)
 xset r rate 200 25 &                                # Typematic delays
 autokey-gtk &                                       # Rebind bash bindings in browser
 NetworkManager &                                    # WLAN
 
-/usr/bin/simplescreenrecorder \                     # Record screen (*)
+# Record screen (*)
+/usr/bin/simplescreenrecorder \
     --start-hidden \
     --start-recording \
     --settingsfile=/home/yann/.ssr/settings_loy.conf \
     --no-systray &
 
-trayer \                                            # System tray
+# System tray
+trayer \
     --edge bottom \
     --align center \
     --SetDockType true \

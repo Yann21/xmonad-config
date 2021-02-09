@@ -106,8 +106,6 @@ myManageHook =
 	composeOne [
 		  isDialog -?> insertPosition Above Newer
 	--  , title =? "Oracle VM VirtualBox Manager" --> doFloat
-	--  , title =? "Spectacle Editor Setup "      --> doFloat
-	--  , title =? "Zotero Preferences"                        --> doFloat
 	--  , stringProperty "_NET_WM_WINDOW_TYPE" =? "_NET_WM_WINDOW_TYPE_DIALOG" --> doFloat
 	--  , (className =? "firefox"
 	--   <&&> resource =? "Dialog")                --> doFloat
@@ -121,6 +119,7 @@ myManageHook =
 --        , isDialog --> doCenterFloat
 --		, className =? "firefox" --> doFullFloat
 		, title =? "self_driving_car_nanodegree_program" --> doFloat
+        , title =? "Zotero Preferences"                  --> doFloat
 		, isFullscreen --> doFullFloat
     ] <+> xScratchpadsManageHook exclusiveSps
 

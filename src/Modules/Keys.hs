@@ -52,21 +52,21 @@ emacsKeys = [
 
   ------------------------------- Programs ----------------------------------------
     , ("M4-S-<Return>", shellPrompt dtXPConfig)
+    , ("C-M1-S-f", spawn "firefox-developer-edition" )
     , ("C-M1-a"  , spawn "atom"           )
     , ("C-M1-c"  , spawn "calibre"        )
     , ("C-M1-d"  , spawn "dropbox"        )
     , ("C-M1-e"  , spawn "evince"         )
     , ("C-M1-f"  , spawn "firefox"        )
-    , ("C-M1-S-f", spawn "firefox-developer-edition" )
     , ("C-M1-i"  , spawn "idea"           )
     , ("C-M1-j"  , spawn "joplin-desktop" )
     , ("C-M1-l"  , spawn "libreoffice"    )
+    , ("C-M1-n"  , spawn "/usr/NX/bin/nxplayer")
     , ("C-M1-p"  , spawn "pycharm"        )
-    , ("C-M1-p"  , spawn "rambox"         )
-    , ("C-M1-s"  , spawn "slack"          )
     , ("C-M1-t"  , spawn "xterm"          )
     , ("C-M1-v"  , spawn "virtualbox"     )
     , ("C-M1-z"  , spawn "zotero"         )
+    --, ("C-M1-s"  , spawn "slack"          )
 
   ------------------------------- Scratchpads ----------------------------------------
     , ("C-M-c", scratchpadAction exclusiveSps "cmus"      )
@@ -74,8 +74,9 @@ emacsKeys = [
     , ("C-M-g", scratchpadAction exclusiveSps "ghci"      )
     , ("C-M-h", scratchpadAction exclusiveSps "htop"      )
     , ("C-M-i", scratchpadAction exclusiveSps "iotop"      )
+    , ("C-M-j", scratchpadAction exclusiveSps "jshell"      )
     , ("C-M-m", scratchpadAction exclusiveSps "rambox"    )
-    , ("C-M-n", scratchpadAction exclusiveSps "thunderbird")
+    , ("C-M-n", scratchpadAction exclusiveSps "geary")
     , ("C-M-p", scratchpadAction exclusiveSps "python"    )
     , ("C-M-s", scratchpadAction exclusiveSps "scala"     )
     , ("C-M-t", scratchpadAction exclusiveSps "trello"    )
@@ -83,8 +84,6 @@ emacsKeys = [
     , ("C-M-w", scratchpadAction exclusiveSps "todoist"   )
 
   ------------------------------- Layouts ----------------------------------------
-    , ("M-u"  , moveToIndependent Prev      )
-    , ("M-i"  , moveToIndependent Next      )
     , ("M-k"  , B.focusDown                 )
     , ("M-j"  , B.focusUp                   )
     , ("M-h"  , sendMessage Shrink          )
@@ -92,6 +91,8 @@ emacsKeys = [
     , ("M-<Tab>"  , sendMessage NextLayout  )
     , ("M-S-<Tab>", sendMessage FirstLayout )
 
+    , ("M-a"  , moveToIndependent Prev      )
+    , ("M-e"  , moveToIndependent Next      )
     , ("M-z"  , toggleScreen                    )
     , ("M-S-z"  , shiftNextScreen >> toggleScreen)
     , ("M-S-k", windows W.swapDown              )
@@ -202,7 +203,7 @@ fKeys      = [xK_F1 .. xK_F9]
 
 strWorkspaces, strFKeys, clickables :: [String]
 strFKeys      = ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9"]
-strWorkspaces = ["1:chess", "2:dev", "3:job", "4:**", "5:***", "6:**", "7:lang", "8:alf", "9:dump"]
+strWorkspaces = ["1:idea", "2:doc", "3:job", "4:**", "5:***", "6:**", "7:lang", "8:res", "9:dump"]
 --strWorkspaces = ["ide", "dev", "job", "edu", "vid", "org", "lang", "pm", "dump"]
 --strWorkspaces = ["ide", "dev", "cours", "misc", "*", "misc", "lang", "xmon", "sys"]
 
