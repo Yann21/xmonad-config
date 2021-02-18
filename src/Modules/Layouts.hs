@@ -116,6 +116,7 @@ myManageHook =
           title =? "xmessage" --> doCenterFloat
         , title =? "xscreensaver-demo" --> doFloat
         , title =? "xscreensaver" --> doFloat
+        , title =? "jetbrains-idea-ce" --> doShift (marshall 0 (head clickables))
 --        , isDialog --> doCenterFloat
 --		, className =? "firefox" --> doFullFloat
 		, title =? "self_driving_car_nanodegree_program" --> doFloat

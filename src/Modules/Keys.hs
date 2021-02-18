@@ -36,7 +36,8 @@ spawnRectScrot = spawn "sleep 0.2 && scrot -s ~/media/screenshots/%y-%m-%d_%H-%M
 spawnScrot     = spawn "scrot ~/media/screenshots/%y-%m-%d_%H-%M-%S.png && notify-send chink"
 spawnRecompile = spawn "xmonad --recompile && xmonad --restart"
 spawnRestart   = spawn "shutdown -r now"
-spawnShutdown  = spawn "shutdown now"
+spawnShutdown  = spawn "xterm -e sudo -A systemctl hibernate"
+--spawnShutdown  = spawn "shutdown now" OLD VERSION
 
 emacsKeys :: [(String, X())]
 emacsKeys = [
@@ -58,9 +59,10 @@ emacsKeys = [
     , ("C-M1-d"  , spawn "dropbox"        )
     , ("C-M1-e"  , spawn "evince"         )
     , ("C-M1-f"  , spawn "firefox"        )
-    , ("C-M1-i"  , spawn "idea"           )
+    , ("C-M1-g"  , spawn "geogebra"       )
+    , ("C-M1-i"  , spawn "idea-ce"        )
     , ("C-M1-j"  , spawn "joplin-desktop" )
-    , ("C-M1-l"  , spawn "libreoffice"    )
+    --, ("C-M1-l"  , spawn "libreoffice"    )
     , ("C-M1-n"  , spawn "/usr/NX/bin/nxplayer")
     , ("C-M1-p"  , spawn "pycharm"        )
     , ("C-M1-t"  , spawn "xterm"          )
@@ -69,19 +71,20 @@ emacsKeys = [
     --, ("C-M1-s"  , spawn "slack"          )
 
   ------------------------------- Scratchpads ----------------------------------------
-    , ("C-M-c", scratchpadAction exclusiveSps "cmus"      )
-    , ("C-M-d", scratchpadAction exclusiveSps "cal"       )
-    , ("C-M-g", scratchpadAction exclusiveSps "ghci"      )
-    , ("C-M-h", scratchpadAction exclusiveSps "htop"      )
-    , ("C-M-i", scratchpadAction exclusiveSps "iotop"      )
-    , ("C-M-j", scratchpadAction exclusiveSps "jshell"      )
-    , ("C-M-m", scratchpadAction exclusiveSps "rambox"    )
-    , ("C-M-n", scratchpadAction exclusiveSps "geary")
-    , ("C-M-p", scratchpadAction exclusiveSps "python"    )
-    , ("C-M-s", scratchpadAction exclusiveSps "scala"     )
-    , ("C-M-t", scratchpadAction exclusiveSps "trello"    )
-    , ("C-M-v", scratchpadAction exclusiveSps "pulse"     )
-    , ("C-M-w", scratchpadAction exclusiveSps "todoist"   )
+    , ("C-M-a", scratchpadAction exclusiveSps "ao"      )
+    , ("C-M-c", scratchpadAction exclusiveSps "cmus"    )
+    , ("C-M-d", scratchpadAction exclusiveSps "cal"     )
+    , ("C-M-g", scratchpadAction exclusiveSps "ghci"    )
+    , ("C-M-h", scratchpadAction exclusiveSps "htop"    )
+    , ("C-M-i", scratchpadAction exclusiveSps "iotop"   )
+    , ("C-M-j", scratchpadAction exclusiveSps "jshell"  )
+    , ("C-M-m", scratchpadAction exclusiveSps "rambox"  )
+    , ("C-M-n", scratchpadAction exclusiveSps "geary"   )
+    , ("C-M-p", scratchpadAction exclusiveSps "python"  )
+    , ("C-M-s", scratchpadAction exclusiveSps "scala"   )
+    , ("C-M-t", scratchpadAction exclusiveSps "trello"  )
+    , ("C-M-v", scratchpadAction exclusiveSps "pulse"   )
+    , ("C-M-w", scratchpadAction exclusiveSps "todoist" )
 
   ------------------------------- Layouts ----------------------------------------
     , ("M-k"  , B.focusDown                 )
@@ -108,12 +111,11 @@ emacsKeys = [
     , ("M-M1-k", sendMessage $ pullGroup U)
     , ("M-M1-j", sendMessage $ pullGroup D)
 
-    , ("M-M1-m", withFocused $sendMessage . MergeAll)
-    , ("M-M1-u", withFocused $sendMessage . UnMerge)
+    , ("M-M1-m", withFocused $ sendMessage . MergeAll)
+    , ("M-M1-u", withFocused $ sendMessage . UnMerge)
 
     , ("M-M1-,", onGroup W.focusUp')
     , ("M-M1-;", onGroup W.focusDown')
---    , ("C-m", sendKey shiftMask xK_Return) -- TODO remap return CR enter
 
   ------------------------------- Functions ----------------------------------------
     , ("M1-<F4>"  ,     spawnShutdown )
