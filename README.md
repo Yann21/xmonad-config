@@ -4,7 +4,7 @@ Caveat emptor as always.
 
 ## Table of contents
 * [General info](#version)
-* [Get started](#how-to-run)
+* [Getting started](#how-to-run)
 * [Structure](#content)
 * [TODO](#todo)
 
