@@ -78,10 +78,12 @@ main = do
       `additionalMouseBindings` mouseKeys
 
 -- TODO Refactor
-xmobarCommand (S screen) = unwords ["xmobar", "-x", show screen, myConfig screen]
+xmobarCommand (S screen) = unwords ["xmobar", "-x", show screen, myConfig screen 0]
     where
-        myConfig 0 = "/home/yann/.config/xmobar/xmobarrc_mid.hs"
-        myConfig 1 = "/home/yann/.config/xmobar/xmobarrc_left.hs"
+        myConfig 0 0 = "/home/yann/.config/xmobar/xmobarrc_mid.hs"
+        myConfig 1 0 = "/home/yann/.config/xmobar/xmobarrc_left.hs"
+        myConfig 0 1 = "/home/yann/.config/xmobar/xmobarrc_mid_portrait.hs"
+        myConfig 1 1 = "/home/yann/.config/xmobar/xmobarrc_left_portrait.hs"
 
 addNETSupported :: Atom -> X ()
 addNETSupported x   = withDisplay $ \dpy -> do

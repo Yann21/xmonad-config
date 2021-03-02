@@ -36,7 +36,8 @@ spawnRectScrot = spawn "sleep 0.2 && scrot -s ~/media/screenshots/%y-%m-%d_%H-%M
 spawnScrot     = spawn "scrot ~/media/screenshots/%y-%m-%d_%H-%M-%S.png && notify-send chink"
 spawnRecompile = spawn "xmonad --recompile && xmonad --restart"
 spawnRestart   = spawn "shutdown -r now"
-spawnShutdown  = spawn "xterm -e sudo -A systemctl hibernate"
+spawnXkill  = spawn "xkill"
+--spawnShutdown  = spawn "xterm -e sudo -A systemctl hibernate"
 --spawnShutdown  = spawn "shutdown now" OLD VERSION
 
 emacsKeys :: [(String, X())]
@@ -80,7 +81,9 @@ emacsKeys = [
     , ("C-M-j", scratchpadAction exclusiveSps "jshell"  )
     , ("C-M-m", scratchpadAction exclusiveSps "rambox"  )
     , ("C-M-n", scratchpadAction exclusiveSps "geary"   )
+    , ("C-M-o", scratchpadAction exclusiveSps "octave"  )
     , ("C-M-p", scratchpadAction exclusiveSps "python"  )
+    , ("C-M-r", scratchpadAction exclusiveSps "R"  )
     , ("C-M-s", scratchpadAction exclusiveSps "scala"   )
     , ("C-M-t", scratchpadAction exclusiveSps "trello"  )
     , ("C-M-v", scratchpadAction exclusiveSps "pulse"   )
@@ -118,7 +121,7 @@ emacsKeys = [
     , ("M-M1-;", onGroup W.focusDown')
 
   ------------------------------- Functions ----------------------------------------
-    , ("M1-<F4>"  ,     spawnShutdown )
+    , ("M1-<F4>"  ,     spawnXkill )
     , ("M1-<F5>"  ,     spawnRestart  )
     , ("<Print>"  ,     spawnScrot    )
     , ("S-<Print>",     spawnRectScrot)

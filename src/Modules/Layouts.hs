@@ -109,18 +109,18 @@ myManageHook =
 	--  , stringProperty "_NET_WM_WINDOW_TYPE" =? "_NET_WM_WINDOW_TYPE_DIALOG" --> doFloat
 	--  , (className =? "firefox"
 	--   <&&> resource =? "Dialog")                --> doFloat
-	--  , title =? "jetbrains-idea-ce"            --> doShift ( marshall 0 (head clickables))
-	--  , className =? "jetbrains-pycharm-ce"     --> doShift ( marshall 0 (head clickables))
 		, return True -?> insertPosition End Newer
     ] <+> composeAll [
           title =? "xmessage" --> doCenterFloat
         , title =? "xscreensaver-demo" --> doFloat
         , title =? "xscreensaver" --> doFloat
         , title =? "jetbrains-idea-ce" --> doShift (marshall 0 (head clickables))
+	--  , className =? "jetbrains-pycharm-ce"     --> doShift ( marshall 0 (head clickables))
 --        , isDialog --> doCenterFloat
 --		, className =? "firefox" --> doFullFloat
 		, title =? "self_driving_car_nanodegree_program" --> doFloat
         , title =? "Zotero Preferences"                  --> doFloat
+        , title =? "Zenity" --> doFloat
 		, isFullscreen --> doFullFloat
     ] <+> xScratchpadsManageHook exclusiveSps
 

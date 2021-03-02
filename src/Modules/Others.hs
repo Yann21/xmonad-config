@@ -44,7 +44,7 @@ pp handle s = marshallPP s xmobarPP {
     , ppSep             =         "<fc=#666666> | </fc>"
     , ppUrgent          = xmobarColor "#C45500" ""
 --    , ppExtras          = getXmonadDir
-    , ppOrder           = \(ws:l:t:ex) -> [ws, l]
+    , ppOrder           = \(ws:l:t:ex) -> [ws]
 }
 
 
@@ -118,8 +118,10 @@ exclusiveSps = mkXScratchpads [
     , ("jshell" , "xterm -name jshell jshell",      resource =? "jshell")
     , ("ao" , "ao",      resource =? "ao")
     , ("geary" , "geary",                           resource =? "geary")
+    , ("octave" , "xterm -fs 16 -name octave octave", resource =? "octave")
     , ("pulse" , "xterm -name pulsemixer pulsemixer", resource =? "pulsemixer")
-    , ("python", "xterm -fs 17 -name python bpython", resource =? "python")
+    , ("python", "xterm -fs 16 -name python bpython", resource =? "python")
+    , ("R", "xterm -fs 16 -name R R",                  resource =? "R")
     , ("rambox", "rambox",                          resource =? "rambox")
     , ("scala" , "xterm -name scala scala",         resource =? "scala" )
     , ("trello", "trello",                          resource =? "trello")
