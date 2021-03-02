@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 # Yann Hoffmann
 # Equivalent of xinit for startup programs
 
