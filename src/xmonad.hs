@@ -29,8 +29,8 @@ import XMonad.Actions.KeyRemap
 
     -- my Imports
 --import Modules.MyTreeSelect (treeselectAction, sshTreeselectAction, myTreeNavigation)
-import Modules.Keys (emacsKeys, mouseKeys, clickables, confKeys)
-import Modules.Others (dtXPConfig, dtXPConfig', promptList, tsDefaultConfig, exclusiveSps, pp, m)
+import Modules.Keys (emacsKeys, mouseKeys, clickables, confKeys, exclusiveSps)
+import Modules.Others (dtXPConfig, dtXPConfig', tsDefaultConfig, pp, m)
 import Modules.Layouts (myManageHook, myLayoutHook)
 
 
@@ -111,4 +111,3 @@ myStartupHook = do
     --spawnOnce "sh ~/.screenlayout/arandrrc_portrait.sh &"
     setWMName "xmonad"
 --    setWMName "LG3D" --for the JVM
-

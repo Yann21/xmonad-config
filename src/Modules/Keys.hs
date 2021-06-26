@@ -24,82 +24,88 @@ import XMonad.Actions.KeyRemap
 import XMonad.Layout.SubLayouts
 import XMonad.Layout.WindowNavigation
 import XMonad.Util.Paste
+import XMonad.Actions.GridSelect
 
-import Modules.Others (dtXPConfig', exclusiveSps, dtXPConfig, tsDefaultConfig, promptList)
+import Modules.Others (dtXPConfig', dtXPConfig, tsDefaultConfig, promptList)
 import Modules.MyTreeSelect (treeselectAction, sshTreeselectAction)
+------------------------------------------------------------------------
+-- COMMANDS
+------------------------------------------------------------------------
+timeFormat = "%y-%m-%d_%H-%M-%S"
+spawnRectScrotClipboard = spawn $ "sleep 0.2 && scrot -s ~/Documents/Media/screenshots/" ++ timeFormat ++ ".png \
+    \-e 'xclip -select clipboard -target image/png -i $f'"
+spawnRectScrot = spawn $ "sleep 0.2 && scrot -s ~/Documents/Media/screenshots/" ++ timeFormat ++ ".png && notify-send chink-rec"
+spawnScrot     = spawn $ "scrot ~/Documents/Media/screenshots/" ++ timeFormat ++ ".png && notify-send chink"
+spawnRecompile = spawn "xmonad --recompile && xmonad --restart"
+spawnXkill = spawn "xkill"
+spawnXprop = spawn "xterm -name float -e '\\xprop && sh'"
+spawnHibernate  = spawn "xterm -e systemctl hibernate"
+spawnShutdown  = spawn "shutdown now"
+shiftWindowCommand = "exec xdotool getactivewindow windowmove --relative"
+shiftWindow dir
+    | dir == "up"    = spawn $ shiftWindowCommand ++ "+0 -75"
+    | dir == "down"  = spawn $ shiftWindowCommand ++ "+0  +75"
+    | dir == "left"  = spawn $ shiftWindowCommand ++ "-75 +0"
+    | dir == "right" = spawn $ shiftWindowCommand ++ "+75 +0"
 
 ------------------------------------------------------------------------
 -- KEYBINDINGS
 ------------------------------------------------------------------------
-
-spawnRectScrot = spawn "sleep 0.2 && scrot -s ~/media/screenshots/%y-%m-%d_%H-%M-%S.png && notify-send chink-rec"
-spawnScrot     = spawn "scrot ~/media/screenshots/%y-%m-%d_%H-%M-%S.png && notify-send chink"
-spawnRecompile = spawn "xmonad --recompile && xmonad --restart"
-spawnRestart   = spawn "shutdown -r now"
-spawnXkill  = spawn "xkill"
---spawnShutdown  = spawn "xterm -e sudo -A systemctl hibernate"
---spawnShutdown  = spawn "shutdown now" OLD VERSION
-
 emacsKeys :: [(String, X())]
 emacsKeys = [
-  ------------------------------- XFKeys ----------------------------------------
-      ("<XF86AudioStop>", spawn "xterm")
-    , ("<XF86AudioPrev>", spawn "xterm")
-    , ("<XF86AudioNext>", spawn "xterm")
-    , ("<XF86AudioPlay>", spawn "cplay")
-    , ("<XF86AudioMute>", spawn "pulsemixer --toggle-mute")
-    , ("<XF86AudioLowerVolume>", spawn "pulsemixer --change-volume -15")
-    , ("<XF86AudioRaiseVolume>", spawn "pulsemixer --change-volume +15")
-
-
   ------------------------------- Programs ----------------------------------------
-    , ("M4-S-<Return>", shellPrompt dtXPConfig)
-    , ("C-M1-S-f", spawn "firefox-developer-edition" )
+      --("M-S-m"   , spawn "ulauncher")
+      ("C-M1-S-f", spawn "firefox-developer-edition" )
     , ("C-M1-a"  , spawn "atom"           )
     , ("C-M1-c"  , spawn "calibre"        )
-    , ("C-M1-d"  , spawn "dropbox"        )
-    , ("C-M1-e"  , spawn "evince"         )
+    , ("C-M1-e"  , spawn "emacs"          )
     , ("C-M1-f"  , spawn "firefox"        )
     , ("C-M1-g"  , spawn "geogebra"       )
     , ("C-M1-i"  , spawn "idea-ce"        )
-    , ("C-M1-j"  , spawn "joplin-desktop" )
-    --, ("C-M1-l"  , spawn "libreoffice"    )
-    , ("C-M1-n"  , spawn "/usr/NX/bin/nxplayer")
+    , ("C-M1-k"  , spawn "anki"           )
+    , ("C-M1-n"   , spawn "nautilus"       )
+    --, ("C-M1-j"  , spawn "joplin-desktop" )
+    , ("C-M1-l"  , spawn "libreoffice"    )
     , ("C-M1-p"  , spawn "pycharm"        )
+    , ("C-M1-r"  , spawn "rstudio-bin"        )
     , ("C-M1-t"  , spawn "xterm"          )
     , ("C-M1-v"  , spawn "virtualbox"     )
-    , ("C-M1-z"  , spawn "zotero"         )
-    --, ("C-M1-s"  , spawn "slack"          )
 
+    -- TODO Reorganize bindings
   ------------------------------- Scratchpads ----------------------------------------
-    , ("C-M-a", scratchpadAction exclusiveSps "ao"      )
-    , ("C-M-c", scratchpadAction exclusiveSps "cmus"    )
-    , ("C-M-d", scratchpadAction exclusiveSps "cal"     )
-    , ("C-M-g", scratchpadAction exclusiveSps "ghci"    )
-    , ("C-M-h", scratchpadAction exclusiveSps "htop"    )
-    , ("C-M-i", scratchpadAction exclusiveSps "iotop"   )
-    , ("C-M-j", scratchpadAction exclusiveSps "jshell"  )
-    , ("C-M-m", scratchpadAction exclusiveSps "rambox"  )
-    , ("C-M-n", scratchpadAction exclusiveSps "geary"   )
-    , ("C-M-o", scratchpadAction exclusiveSps "octave"  )
-    , ("C-M-p", scratchpadAction exclusiveSps "python"  )
-    , ("C-M-r", scratchpadAction exclusiveSps "R"  )
-    , ("C-M-s", scratchpadAction exclusiveSps "scala"   )
-    , ("C-M-t", scratchpadAction exclusiveSps "trello"  )
-    , ("C-M-v", scratchpadAction exclusiveSps "pulse"   )
-    , ("C-M-w", scratchpadAction exclusiveSps "todoist" )
+    , ("C-M-<Space>", scratchpadAction exclusiveSps "xterm" ) -- b
+    , ("C-M-b", scratchpadAction exclusiveSps "todoist" ) -- b
+    , ("C-M-c", scratchpadAction exclusiveSps "cal"     ) -- [c]alendar
+    , ("C-M-d", scratchpadAction exclusiveSps "stardict") -- [d]ictionary
+    , ("C-M-e", scratchpadAction exclusiveSps "virt-manager"      ) -- emulator
+    , ("C-M-g", scratchpadAction exclusiveSps "ghci"    ) -- ghci
+    , ("C-M-h", scratchpadAction exclusiveSps "htop"    ) -- htop
+    , ("C-M-i", scratchpadAction exclusiveSps "iotop"   ) -- iotop
+    , ("C-M-j", scratchpadAction exclusiveSps "jshell"  ) -- java
+    , ("C-M-m", scratchpadAction exclusiveSps "thunderbird"   ) -- mail
+    , ("C-M-n", scratchpadAction exclusiveSps "ao"      ) -- notes
+    , ("C-M-o", scratchpadAction exclusiveSps "octave"  ) -- octave
+    , ("C-M-p", scratchpadAction exclusiveSps "python"  ) -- python
+    , ("C-M-r", scratchpadAction exclusiveSps "R"       ) -- R
+    , ("C-M-s", scratchpadAction exclusiveSps "rambox"  ) -- social media
+    , ("C-M-t", scratchpadAction exclusiveSps "trello"  ) -- trello
+    , ("C-M-v", scratchpadAction exclusiveSps "pulse"   ) -- volume
+    , ("C-M-x", scratchpadAction exclusiveSps "spotify" ) -- x
+    , ("C-M-w", scratchpadAction exclusiveSps "cmus"    ) -- w
+    , ("C-M-z", scratchpadAction exclusiveSps "zotero"  ) -- zotero
+    -- , ("C-M-s", scratchpadAction exclusiveSps "scala"   )
 
   ------------------------------- Layouts ----------------------------------------
-    , ("M-k"  , B.focusDown                 )
-    , ("M-j"  , B.focusUp                   )
-    , ("M-h"  , sendMessage Shrink          )
-    , ("M-l"  , sendMessage Expand          )
-    , ("M-<Tab>"  , sendMessage NextLayout  )
-    , ("M-S-<Tab>", sendMessage FirstLayout )
+    , ("M-k"  , B.focusDown                      )
+    , ("M-j"  , B.focusUp                        )
+    , ("M-h"  , sendMessage Shrink               )
+    , ("M-l"  , sendMessage Expand               )
+    , ("M-<Tab>"  , sendMessage NextLayout       )
+    , ("M-S-<Tab>", sendMessage FirstLayout      )
 
-    , ("M-a"  , moveToIndependent Prev      )
-    , ("M-e"  , moveToIndependent Next      )
-    , ("M-z"  , toggleScreen                    )
+    , ("M-a"  , moveToIndependent Prev           )
+    , ("M-e"  , moveToIndependent Next           )
+    , ("M-z"  , toggleScreen                     )
     , ("M-S-z"  , shiftNextScreen >> toggleScreen)
     , ("M-S-k", windows W.swapDown              )
     , ("M-S-j", windows W.swapUp                )
@@ -115,17 +121,44 @@ emacsKeys = [
     , ("M-M1-j", sendMessage $ pullGroup D)
 
     , ("M-M1-m", withFocused $ sendMessage . MergeAll)
-    , ("M-M1-u", withFocused $ sendMessage . UnMerge)
+    , ("M-M1-u", withFocused $ sendMessage . UnMerge )
 
-    , ("M-M1-,", onGroup W.focusUp')
+    , ("M-M1-,", onGroup W.focusUp'  )
     , ("M-M1-;", onGroup W.focusDown')
 
   ------------------------------- Functions ----------------------------------------
-    , ("M1-<F4>"  ,     spawnXkill )
-    , ("M1-<F5>"  ,     spawnRestart  )
+    , ("<F4>"     ,     spawnXkill    )
+    , ("M1-<F3>"  ,     spawnHibernate)
+    , ("M1-<F4>"  ,     spawnShutdown )
+    --, ("M1-<F5>"  ,     spawnRestart)
     , ("<Print>"  ,     spawnScrot    )
     , ("S-<Print>",     spawnRectScrot)
+    , ("C-<Print>",     spawnRectScrotClipboard)
     , ("M-S-r"    ,     spawnRecompile)
+    , ("<F5>"     ,     spawnXprop)
+
+  ------------------------------- XFKeys ----------------------------------------
+    , ("<XF86AudioStop>", spawn "xterm")
+    , ("<XF86AudioPrev>", spawn "xterm")
+    , ("<XF86AudioNext>", spawn "xterm")
+    , ("<XF86AudioPlay>", spawn "cplay")
+    , ("<XF86AudioMute>", spawn "pulsemixer --toggle-mute")
+    , ("<XF86AudioLowerVolume>", spawn "pulsemixer --change-volume -15")
+    , ("<XF86AudioRaiseVolume>", spawn "pulsemixer --change-volume +15")
+
+  ------------------------------- Yeelight ----------------------------------------
+    , ("S-<XF86AudioMute>",        spawn "~/scripts/bin/yeelight/controller.py toggle")
+    , ("S-<XF86AudioLowerVolume>", spawn "~/scripts/bin/yeelight/controller.py down")
+    , ("S-<XF86AudioRaiseVolume>", spawn "~/scripts/bin/yeelight/controller.py up")
+    , ("M1-<U>", shiftWindow "up")
+    , ("M1-<D>", shiftWindow "down")
+    , ("M1-<L>", shiftWindow "left")
+    , ("M1-<R>", shiftWindow "right")
+    --, ("S-<XF86AudioStop>", spawn "")
+    --, ("S-<XF86AudioPrev>", spawn "")
+    --, ("S-<XF86AudioNext>", spawn "")
+    --, ("S-<XF86AudioPlay>", spawn "")
+    , ("M-g", goToSelected defaultGSConfig)
     ]
 
   ------------------------------- Prompts ----------------------------------------
@@ -137,8 +170,83 @@ emacsKeys = [
 	  ("M-r", spawn "notify-end DEBUG")
 --  , ("M-r", spawn $ "notify-send var")
     ]
- 
--- Spaghetti
+
+------------------------------------------------------------------------
+-- SCRATCHPADS
+------------------------------------------------------------------------
+exclusiveSps :: ExclusiveScratchpads
+exclusiveSps = mkXScratchpads [
+      ("ao",            "ao",                                   resource =? "ao")
+    , ("cal" ,          "google-calendar-nativefier",           resource =? "googlecalendar-nativefier-e22938")
+    , ("cmus",          "xterm -name cmus cmus",                resource =? "cmus")
+    , ("thunderbird" ,  "thunderbird",                          resource =? "Mail")
+    , ("ghci",          "xterm -name ghci -e 'stack ghci'",     resource =? "ghci")
+    , ("htop",          "xterm -bg black -name htop htop",      resource =? "htop")
+    , ("iotop",         "xterm -bg orange -name iotop iotop",   resource =? "iotop")
+    , ("jshell",        "xterm -name jshell jshell",            resource =? "jshell")
+    , ("octave" ,       "xterm -fs 16 -name octave octave",     resource =? "octave")
+    , ("pulse" ,        "xterm -name pulsemixer pulsemixer",    resource =? "pulsemixer")
+    , ("python",        "xterm -fs 16 -name python bpython",    resource =? "python")
+    , ("R",             "xterm -fs 16 -name R R",               resource =? "R")
+    , ("rambox",        "rambox",                               resource =? "rambox")
+    , ("scala" ,        "xterm -name scala scala",              resource =? "scala" )
+    , ("spotify",       "spotify",                              resource =? "spotify")
+    , ("stardict",      "startdict",                            resource =? "stardict")
+    , ("todoist",       "todoist",                              resource =? "todoist")
+    , ("trello",        "trello",                               resource =? "trello")
+    , ("xterm" ,        "xterm -name scratch",                  resource =? "scratch") -- differentiate between the launcher and the VMs
+    , ("virt-manager" , "virt-manager",                         title    =? "Virtual Machine Manager") -- differentiate between the launcher and the VMs
+    , ("zotero",        "zotero",                               title    =? "Zotero")
+    ] $ customFloating $ W.RationalRect 0.15 0.15 0.7 0.7
+
+
+
+
+shiftMouse :: String -> X()
+shiftMouse direction
+    | direction == "left"  = spawn "exec xdotool mousemove_relative -- -1920 0"
+    | direction == "right" = spawn "exec xdotool mousemove_relative    +1920 0"
+
+mouseKeys :: [((ButtonMask, Button), Window -> X ())]
+mouseKeys = [
+      ((0, 6), \w -> moveToIndependent Prev )
+    , ((0, 7), \w -> moveToIndependent Next )
+    , ((mod4Mask, button2), (\w -> focus w >> mouseResizeWindow w >> windows W.shiftMaster))
+    ]
+
+
+------------------------------------------------------------------------
+-- WORKSPACES
+------------------------------------------------------------------------
+confKeys :: XConfig Layout -> M.Map (KeyMask, KeySym) (X ())
+confKeys conf@XConfig {XMonad.modMask = modMask} = M.fromList $ [
+    ((m .|. mod4Mask, k), windows $ onCurrentScreen f i)
+         | (i, k) <- zip (workspaces' conf) azertyKeys
+         , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]
+
+    ] ++ [ -- Don't remove - For xdotooling clickables
+    ((m .|. mod4Mask, k), windows $ onCurrentScreen f i)
+         | (i, k) <- zip (workspaces' conf) fKeys
+         , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]
+    ]
+
+azertyKeys, fKeys :: [KeySym]
+azertyKeys = [0x26, 0xe9, 0x22, 0x27, 0x28, 0x2d, 0xe8, 0x5f, 0xe7]
+fKeys      = [xK_F1 .. xK_F9]
+
+strWorkspaces, strFKeys, clickables :: [String]
+strFKeys      = ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9"]
+strWorkspaces = ["1:idea", "2:*", "3:*", "4:**", "5:*",
+                 "6:project", "7:stox", "8:candy", "9:dump"]
+--strWorkspaces = ["ide", "dev", "job", "edu", "vid", "org", "lang", "pm", "dump"]
+--strWorkspaces = ["ide", "dev", "cours", "misc", "*", "misc", "lang", "xmon", "sys"]
+
+clickables = action strWorkspaces
+    where action l = [ "<action=xdotool key super+" ++ n ++ ">" ++ ws ++ "</action>" |
+                     (i, ws) <- zip strFKeys l, let n = i]
+
+
+-- Spaghetti to separate monitors
 physicalScreens :: X [Maybe ScreenId]
 physicalScreens = withWindowSet $ \windowSet -> do
 	let numScreens = length $ W.screens windowSet
@@ -172,46 +280,4 @@ toggleScreen = do
 	case id of
 	  '0' -> nextScreen >> shiftMouse "right"
 	  '1' -> prevScreen >> shiftMouse "left"
-	
-
-
-shiftMouse :: String -> X()
-shiftMouse direction
-    | direction == "left"  = spawn "exec xdotool mousemove_relative -- -1920 0"
-    | direction == "right" = spawn "exec xdotool mousemove_relative    +1920 0"
-
-mouseKeys :: [((ButtonMask, Button), Window -> X ())]
-mouseKeys = [
-      ((0, 6), \w -> moveToIndependent Prev )
-    , ((0, 7), \w -> moveToIndependent Next )
-    ]
-
-
-------------------------------------------------------------------------
--- WORKSPACES
-------------------------------------------------------------------------
-confKeys :: XConfig Layout -> M.Map (KeyMask, KeySym) (X ())
-confKeys conf@XConfig {XMonad.modMask = modMask} = M.fromList $ [
-    ((m .|. mod4Mask, k), windows $ onCurrentScreen f i)
-         | (i, k) <- zip (workspaces' conf) azertyKeys
-         , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]
-
-    ] ++ [ -- Don't remove - For xdotooling clickables
-    ((m .|. mod4Mask, k), windows $ onCurrentScreen f i)
-         | (i, k) <- zip (workspaces' conf) fKeys
-         , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]
-    ]
-
-azertyKeys, fKeys :: [KeySym]
-azertyKeys = [0x26, 0xe9, 0x22, 0x27, 0x28, 0x2d, 0xe8, 0x5f, 0xe7]
-fKeys      = [xK_F1 .. xK_F9]
-
-strWorkspaces, strFKeys, clickables :: [String]
-strFKeys      = ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9"]
-strWorkspaces = ["1:idea", "2:doc", "3:job", "4:**", "5:***", "6:**", "7:lang", "8:res", "9:dump"]
---strWorkspaces = ["ide", "dev", "job", "edu", "vid", "org", "lang", "pm", "dump"]
---strWorkspaces = ["ide", "dev", "cours", "misc", "*", "misc", "lang", "xmon", "sys"]
-
-clickables = action strWorkspaces
-    where action l = [ "<action=xdotool key super+" ++ n ++ ">" ++ ws ++ "</action>" |
-                     (i, ws) <- zip strFKeys l, let n = i]
+-- End spaghetti

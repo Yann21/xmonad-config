@@ -106,25 +106,3 @@ promptList = [
     ]
 
 
-------------------------------------------------------------------------
--- SCRATCHPADS
-------------------------------------------------------------------------
-exclusiveSps :: ExclusiveScratchpads
-exclusiveSps = mkXScratchpads [
-      ("cal" , "google-calendar",                   resource =? "google-calendar-nativefier-e22938")
-    , ("cmus", "xterm -name cmus cmus",             resource =? "cmus")
-    , ("ghci", "xterm -name ghci -e 'stack ghci'",  resource =? "ghci")
-    , ("htop", "xterm -bg black -name htop htop",   resource =? "htop")
-    , ("jshell" , "xterm -name jshell jshell",      resource =? "jshell")
-    , ("ao" , "ao",      resource =? "ao")
-    , ("geary" , "geary",                           resource =? "geary")
-    , ("octave" , "xterm -fs 16 -name octave octave", resource =? "octave")
-    , ("pulse" , "xterm -name pulsemixer pulsemixer", resource =? "pulsemixer")
-    , ("python", "xterm -fs 16 -name python bpython", resource =? "python")
-    , ("R", "xterm -fs 16 -name R R",                  resource =? "R")
-    , ("rambox", "rambox",                          resource =? "rambox")
-    , ("scala" , "xterm -name scala scala",         resource =? "scala" )
-    , ("trello", "trello",                          resource =? "trello")
-    , ("todoist", "todoist",                        resource =? "todoist")
-    , ("iotop", "xterm -bg orange -name iotop iotop", resource =? "iotop")
-    ] $ customFloating $ W.RationalRect 0.15 0.15 0.7 0.7

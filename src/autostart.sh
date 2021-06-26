@@ -2,19 +2,28 @@
 # Yann Hoffmann
 # Equivalent of xinit for startup programs
 
-redshift -c ~/.config/redshift/redshift.conf &      # Go easy on the eyes
-$HOME/.screenlayout/arandrrc_nvidia.sh &            # Double monitor layout
+redshift -c $HOME/.config/redshift/redshift.conf &  # Go easy on the eyes
+$HOME/.screenlayout/arandrrc_1070.sh &              # Double monitor layout
 nitrogen --restore &                                # Wallpaper
 numlockx on &                                       # Numlock (previously in lightdm.conf)
 ckb-next -b &                                       # Corsair bindings
 picom -b &                                          # Compositor, transparency
 udiskie &                                           # USB daemon
-xscreensaver &                                      # Aerial screensaver
+xscreensaver --no-splash &                          # Aerial screensaver
 firefox &                                           # Firefox
 aw-qt &                                             # Windows and time tracker (*)
-xset r rate 200 25 &                                # Typematic delays
+xset r rate 190 25 &                                # Typematic delays
 autokey-gtk &                                       # Rebind bash bindings in browser
-NetworkManager &                                    # WLAN
+#NetworkManager &                                   # Must be sudo WLAN
+mousetrap -t 5 &                                    # Auto hide mouse after 5s
+xmodmap -e "keycode 49 = Caps_Lock NoSymbol Caps_Lock" &
+emacs &                                             # The one
+copyq &                                             # Clipboard manager
+anki &
+ulauncher &                                         # Dynamic menu
+#intellij-idea-ultimate-edition &
+
+#clipster -d &
 
 # Record screen (*)
 /usr/bin/simplescreenrecorder \

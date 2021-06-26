@@ -23,6 +23,7 @@ import XMonad.Layout.ResizableTile
 import XMonad.Layout.GridVariants (Grid(Grid))
 import XMonad.Layout.Spiral
 import XMonad.Layout.ThreeColumns
+import XMonad.Layout.PerWorkspace
 
 import qualified XMonad.StackSet as W
 import Data.Monoid
@@ -40,9 +41,9 @@ import XMonad.Layout.SubLayouts
 import XMonad.Layout.WindowNavigation
 
 
-import Modules.Keys (clickables)
-import Modules.Others (exclusiveSps)
+import Modules.Keys (clickables, exclusiveSps)
 import XMonad.Util.ExclusiveScratchpads
+
 
 
 ------------------------------------------------------------------------
@@ -79,12 +80,16 @@ horizontal = renamed [Replace "horizontal"]
 
 -- The layout hook
 myLayoutHook = B.boringWindows      -- exclusiveSps
+             $ onWorkspace "1_dump" grid
+             $ onWorkspace "2_dump" grid
+             $ onWorkspace "2_dump" grid
+             $ onWorkspace "1_9:dump" grid
+             $ onWorkspace "0_9:dump" grid
              $ minimize             -- exclusiveSps
              $ avoidStruts          -- don't cover status bar
-             $ smartBorders         -- TODO doesn't work
+             $ smartBorders         -- TODO: doesn't work
              $ subTabbed
              $ windowNavigation
---             $ mouseResize
 --             $ T.toggleLayouts floats
              $ mkToggle (NBFULL ?? NOBORDERS ?? EOT)
                myDefaultLayout
@@ -102,25 +107,33 @@ myLayoutHook = B.boringWindows      -- exclusiveSps
 -- MANAGEHOOK
 ------------------------------------------------------------------------------
 
+-- className / resource / title / appName
+-- resource seems to work best
 myManageHook =
 	composeOne [
 		  isDialog -?> insertPosition Above Newer
-	--  , title =? "Oracle VM VirtualBox Manager" --> doFloat
-	--  , stringProperty "_NET_WM_WINDOW_TYPE" =? "_NET_WM_WINDOW_TYPE_DIALOG" --> doFloat
-	--  , (className =? "firefox"
-	--   <&&> resource =? "Dialog")                --> doFloat
 		, return True -?> insertPosition End Newer
+	--  , stringProperty "_NET_WM_WINDOW_TYPE" =? "_NET_WM_WINDOW_TYPE_DIALOG" --> doFloat
+
     ] <+> composeAll [
-          title =? "xmessage" --> doCenterFloat
-        , title =? "xscreensaver-demo" --> doFloat
-        , title =? "xscreensaver" --> doFloat
-        , title =? "jetbrains-idea-ce" --> doShift (marshall 0 (head clickables))
-	--  , className =? "jetbrains-pycharm-ce"     --> doShift ( marshall 0 (head clickables))
---        , isDialog --> doCenterFloat
---		, className =? "firefox" --> doFullFloat
-		, title =? "self_driving_car_nanodegree_program" --> doFloat
-        , title =? "Zotero Preferences"                  --> doFloat
-        , title =? "Zenity" --> doFloat
-		, isFullscreen --> doFullFloat
+          title =? "xmessage"           --> doCenterFloat
+        , title =? "xscreensaver-demo"  --> doFloat
+        , title =? "xscreensaver"       --> doFloat
+        , resource =? "net-sourceforge-plantuml-Run" --> doFloat -- TODO
+        , title =? "jetbrains-idea-ce"  --> doShift (marshall 0 (head clickables))
+        , title =? "ulauncher"          --> doIgnore -- TODO
+        , resource =? "pqiv"            --> doFloat
+        , resource =? "matplotlib"      --> doFloat
+        , title =? "Zotero Preferences" --> doFloat
+        , title =? "Zenity"             --> doFloat
+		, isFullscreen                  --> doFullFloat
+        , isDialog                      --> doCenterFloat
+        --, resource =? "sun-awt-X11-XFramePeer"  --> doFloat
+        , resource =? "com.talkwalker.main.Main" --> doFloat
+        --, resource =? "com.talkwalker.misc.Dashboard" --> doFloat
+        , resource =? "xdot" --> doFloat
+        , resource =? "float" --> doFloat
+        , resource =? "r_x11" --> doFloat
+
     ] <+> xScratchpadsManageHook exclusiveSps
 

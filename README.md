@@ -16,18 +16,24 @@ Caveat emptor as always.
 
 ## How to run
 ```
-# Install stack
+Install stack
 $ yay -S stack-static
 
-# Use stack to install xmonad and xmobar
-# This will send the executables ~/.local/bin, don't forget to add this to your path.
+Use stack to install xmonad and xmobar
+This will send the executables ~/.local/bin, don't forget to add this to your path.
 $ stack install xmonad xmobar xmonad-contrib
 
-# Build the project
+Build the project
 $ stack build :my-xmonad
 
-# Replace the ~/.xmonad/xmonad_x86 executable:
+Replace the ~/.xmonad/xmonad_x86 executable:
 $ xmonad --recompile (&& xmonad-restart)
+```
+
+## Lightdm
+```
+Install the xmonad session file for lightdm
+$ make install
 ```
 
 ## Content
