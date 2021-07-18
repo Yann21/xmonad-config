@@ -40,10 +40,8 @@ import XMonad.Actions.SpawnOn
 import XMonad.Layout.SubLayouts
 import XMonad.Layout.WindowNavigation
 
-
 import Modules.Keys (clickables, exclusiveSps)
 import XMonad.Util.ExclusiveScratchpads
-
 
 
 ------------------------------------------------------------------------
@@ -55,23 +53,17 @@ mySpacing' i = spacingRaw True (Border i i i i) True (Border i i i i) True
 
 tall     = renamed [Replace "tall"]
            $ limitWindows 12
-           -- $ mySpacing 8
            $ ResizableTall 1 (3/100) (1/2) []
 monocle  = renamed [Replace "monocle"]
            $ limitWindows 20 Full
 grid     = renamed [Replace "grid"]
            $ limitWindows 12
-           -- $ mySpacing 8
            $ mkToggle (single MIRROR)
            $ Grid (16/10)
---floats   = renamed [Replace "floats"]
---           $ limitWindows 20 simplestFloat
 spirals  = renamed [Replace "spirals"]
-           -- $ mySpacing' 8
            $ spiral (6/7)
 threeCol = renamed [Replace "threeCol"]
            $ limitWindows 7
-           -- $ mySpacing' 4
            $ ThreeCol 1 (3/100) (1/2)
 horizontal = renamed [Replace "horizontal"]
            $ limitWindows 4
@@ -80,11 +72,11 @@ horizontal = renamed [Replace "horizontal"]
 
 -- The layout hook
 myLayoutHook = B.boringWindows      -- exclusiveSps
-             $ onWorkspace "1_dump" grid
-             $ onWorkspace "2_dump" grid
-             $ onWorkspace "2_dump" grid
-             $ onWorkspace "1_9:dump" grid
-             $ onWorkspace "0_9:dump" grid
+--             $ onWorkspace "1_dump" grid
+--             $ onWorkspace "2_dump" grid
+--             $ onWorkspace "2_dump" grid
+--             $ onWorkspace "1_9:dump" grid
+--             $ onWorkspace "0_9:dump" grid
              $ minimize             -- exclusiveSps
              $ avoidStruts          -- don't cover status bar
              $ smartBorders         -- TODO: doesn't work
@@ -108,32 +100,36 @@ myLayoutHook = B.boringWindows      -- exclusiveSps
 ------------------------------------------------------------------------------
 
 -- className / resource / title / appName
--- resource seems to work best
+--(~=) :: (Monad m, Monoid a) => m Bool -> m a -> m a
+--q ~= 
+
 myManageHook =
 	composeOne [
 		  isDialog -?> insertPosition Above Newer
 		, return True -?> insertPosition End Newer
 	--  , stringProperty "_NET_WM_WINDOW_TYPE" =? "_NET_WM_WINDOW_TYPE_DIALOG" --> doFloat
 
-    ] <+> composeAll [
+    ] <+> composeAll [ -- title | appName (or resource) | className | stringProperty :: String -> Query String | 
           title =? "xmessage"           --> doCenterFloat
-        , title =? "xscreensaver-demo"  --> doFloat
+        , appName =? "xscreensaver-demo"  --> doFloat
         , title =? "xscreensaver"       --> doFloat
         , resource =? "net-sourceforge-plantuml-Run" --> doFloat -- TODO
         , title =? "jetbrains-idea-ce"  --> doShift (marshall 0 (head clickables))
-        , title =? "ulauncher"          --> doIgnore -- TODO
-        , resource =? "pqiv"            --> doFloat
+        -- , appName =? "ulauncher"          --> doIgnore
+        , appName  =? "pqiv"             --> doFloat
         , resource =? "matplotlib"      --> doFloat
-        , title =? "Zotero Preferences" --> doFloat
-        , title =? "Zenity"             --> doFloat
-		, isFullscreen                  --> doFullFloat
-        , isDialog                      --> doCenterFloat
-        --, resource =? "sun-awt-X11-XFramePeer"  --> doFloat
+        , title    =? "Zotero Preferences" --> doFloat
+        , title    =? "Zenity"             --> doFloat
         , resource =? "com.talkwalker.main.Main" --> doFloat
-        --, resource =? "com.talkwalker.misc.Dashboard" --> doFloat
         , resource =? "xdot" --> doFloat
-        , resource =? "float" --> doFloat
-        , resource =? "r_x11" --> doFloat
+        , resource =? "float" --> doFloat       -- custom float for xprop windows
+        --, resource =? "r_x11" --> doFloat
+        , appName  =? "cssh" --> doFloat
+--        , (stringProperty "WM_NAME" =? "Add" <&&> appName =? "anki") --> doFloat
+        --, className =? "anki" --> doFloat                 -- working
+
+	, isFullscreen                  --> doFullFloat
+        , isDialog                      --> doCenterFloat
 
     ] <+> xScratchpadsManageHook exclusiveSps
 

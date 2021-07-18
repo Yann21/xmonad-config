@@ -7,7 +7,7 @@
 import XMonad
 import XMonad.Hooks.InsertPosition
 
-import XMonad.Util.ExclusiveScratchpads
+--import XMonad.Util.ExclusiveScratchpads
 import XMonad.Layout.IndependentScreens
 import XMonad.Hooks.ManageHelpers
 
@@ -106,8 +106,5 @@ addEWMHFullscreen = do
 myStartupHook :: X ()
 myStartupHook = do
     spawnOnce "~/.xmonad/src/autostart.sh"
-    --spawnOnce "emacs &"
-    --spawnOnce "pycharm &"
-    --spawnOnce "sh ~/.screenlayout/arandrrc_portrait.sh &"
     setWMName "xmonad"
 --    setWMName "LG3D" --for the JVM

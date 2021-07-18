@@ -9,7 +9,7 @@ numlockx on &                                       # Numlock (previously in lig
 ckb-next -b &                                       # Corsair bindings
 picom -b &                                          # Compositor, transparency
 udiskie &                                           # USB daemon
-xscreensaver --no-splash &                          # Aerial screensaver
+xscreensaver --no-splash -verbose &                 # Aerial screensaver
 firefox &                                           # Firefox
 aw-qt &                                             # Windows and time tracker (*)
 xset r rate 190 25 &                                # Typematic delays
@@ -19,18 +19,18 @@ mousetrap -t 5 &                                    # Auto hide mouse after 5s
 xmodmap -e "keycode 49 = Caps_Lock NoSymbol Caps_Lock" &
 emacs &                                             # The one
 copyq &                                             # Clipboard manager
-anki &
+#anki &
 ulauncher &                                         # Dynamic menu
 #intellij-idea-ultimate-edition &
 
 #clipster -d &
 
-# Record screen (*)
-/usr/bin/simplescreenrecorder \
-    --start-hidden \
-    --start-recording \
-    --settingsfile=/home/yann/.ssr/settings_loy.conf \
-    --no-systray &
+# Record screen (*) we're oom
+#/usr/bin/simplescreenrecorder \
+    #--start-hidden \
+    #--start-recording \
+    #--settingsfile=/home/yann/.ssr/settings_loy.conf \
+    #--no-systray &
 
 # System tray
 trayer \

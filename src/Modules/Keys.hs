@@ -38,7 +38,7 @@ spawnRectScrot = spawn $ "sleep 0.2 && scrot -s ~/Documents/Media/screenshots/" 
 spawnScrot     = spawn $ "scrot ~/Documents/Media/screenshots/" ++ timeFormat ++ ".png && notify-send chink"
 spawnRecompile = spawn "xmonad --recompile && xmonad --restart"
 spawnXkill = spawn "xkill"
-spawnXprop = spawn "xterm -name float -e '\\xprop && sh'"
+spawnXprop = spawn "xterm -name float -e '/home/yann/system/bin/xprop_4_xmonad.sh && sh'"
 spawnHibernate  = spawn "xterm -e systemctl hibernate"
 spawnShutdown  = spawn "shutdown now"
 shiftWindowCommand = "exec xdotool getactivewindow windowmove --relative"
@@ -64,25 +64,25 @@ emacsKeys = [
     , ("C-M1-i"  , spawn "idea-ce"        )
     , ("C-M1-k"  , spawn "anki"           )
     , ("C-M1-n"   , spawn "nautilus"       )
-    --, ("C-M1-j"  , spawn "joplin-desktop" )
-    , ("C-M1-l"  , spawn "libreoffice"    )
-    , ("C-M1-p"  , spawn "pycharm"        )
+    --, ("C-M1-l"  , spawn "libreoffice"    ) -- conflict with intellij align code
+    , ("C-M1-p"  , spawn "$HOME/Code/tools/Pycharm2019/pycharm-2019.3.4/bin/pycharm.sh"        )
     , ("C-M1-r"  , spawn "rstudio-bin"        )
     , ("C-M1-t"  , spawn "xterm"          )
     , ("C-M1-v"  , spawn "virtualbox"     )
 
     -- TODO Reorganize bindings
   ------------------------------- Scratchpads ----------------------------------------
-    , ("C-M-<Space>", scratchpadAction exclusiveSps "xterm" ) -- b
+    , ("C-M-<Space>", scratchpadAction exclusiveSps "alacritty" ) -- b
     , ("C-M-b", scratchpadAction exclusiveSps "todoist" ) -- b
     , ("C-M-c", scratchpadAction exclusiveSps "cal"     ) -- [c]alendar
     , ("C-M-d", scratchpadAction exclusiveSps "stardict") -- [d]ictionary
-    , ("C-M-e", scratchpadAction exclusiveSps "virt-manager"      ) -- emulator
-    , ("C-M-g", scratchpadAction exclusiveSps "ghci"    ) -- ghci
-    , ("C-M-h", scratchpadAction exclusiveSps "htop"    ) -- htop
-    , ("C-M-i", scratchpadAction exclusiveSps "iotop"   ) -- iotop
+    , ("C-M-e", scratchpadAction exclusiveSps "virt-manager"      ) -- [e]mulator
+    , ("C-M-g", scratchpadAction exclusiveSps "nvtop"    ) -- [g]pu
+    , ("C-M-h", scratchpadAction exclusiveSps "htop"    ) -- [h]top
+    , ("C-M-i", scratchpadAction exclusiveSps "hardinfo"   ) -- hardinfo
     , ("C-M-j", scratchpadAction exclusiveSps "jshell"  ) -- java
-    , ("C-M-m", scratchpadAction exclusiveSps "thunderbird"   ) -- mail
+    , ("C-M-k", scratchpadAction exclusiveSps "anki"    ) -- anki
+    , ("C-M-m", scratchpadAction exclusiveSps "thunderbird") -- mail
     , ("C-M-n", scratchpadAction exclusiveSps "ao"      ) -- notes
     , ("C-M-o", scratchpadAction exclusiveSps "octave"  ) -- octave
     , ("C-M-p", scratchpadAction exclusiveSps "python"  ) -- python
@@ -147,9 +147,10 @@ emacsKeys = [
     , ("<XF86AudioRaiseVolume>", spawn "pulsemixer --change-volume +15")
 
   ------------------------------- Yeelight ----------------------------------------
-    , ("S-<XF86AudioMute>",        spawn "~/scripts/bin/yeelight/controller.py toggle")
-    , ("S-<XF86AudioLowerVolume>", spawn "~/scripts/bin/yeelight/controller.py down")
-    , ("S-<XF86AudioRaiseVolume>", spawn "~/scripts/bin/yeelight/controller.py up")
+  -- TODO: scripts use directory structure
+    , ("S-<XF86AudioMute>",        spawn "~/system/bin/yeelight/controller.py toggle")
+    , ("S-<XF86AudioLowerVolume>", spawn "~/system/bin/yeelight/controller.py down")
+    , ("S-<XF86AudioRaiseVolume>", spawn "~/system/bin/yeelight/controller.py up")
     , ("M1-<U>", shiftWindow "up")
     , ("M1-<D>", shiftWindow "down")
     , ("M1-<L>", shiftWindow "left")
@@ -177,12 +178,13 @@ emacsKeys = [
 exclusiveSps :: ExclusiveScratchpads
 exclusiveSps = mkXScratchpads [
       ("ao",            "ao",                                   resource =? "ao")
+    , ("anki" ,         "anki",                                 resource =? "anki")
     , ("cal" ,          "google-calendar-nativefier",           resource =? "googlecalendar-nativefier-e22938")
     , ("cmus",          "xterm -name cmus cmus",                resource =? "cmus")
     , ("thunderbird" ,  "thunderbird",                          resource =? "Mail")
-    , ("ghci",          "xterm -name ghci -e 'stack ghci'",     resource =? "ghci")
+    , ("nvtop",         "xterm -name nvtop nvtop",		resource =? "nvtop")
     , ("htop",          "xterm -bg black -name htop htop",      resource =? "htop")
-    , ("iotop",         "xterm -bg orange -name iotop iotop",   resource =? "iotop")
+    , ("hardinfo",      "hardinfo",				resource =? "hardinfo")
     , ("jshell",        "xterm -name jshell jshell",            resource =? "jshell")
     , ("octave" ,       "xterm -fs 16 -name octave octave",     resource =? "octave")
     , ("pulse" ,        "xterm -name pulsemixer pulsemixer",    resource =? "pulsemixer")
@@ -194,7 +196,7 @@ exclusiveSps = mkXScratchpads [
     , ("stardict",      "startdict",                            resource =? "stardict")
     , ("todoist",       "todoist",                              resource =? "todoist")
     , ("trello",        "trello",                               resource =? "trello")
-    , ("xterm" ,        "xterm -name scratch",                  resource =? "scratch") -- differentiate between the launcher and the VMs
+    -- , ("alacritty" ,        "alacritty",			appName	 =? "Alacritty")
     , ("virt-manager" , "virt-manager",                         title    =? "Virtual Machine Manager") -- differentiate between the launcher and the VMs
     , ("zotero",        "zotero",                               title    =? "Zotero")
     ] $ customFloating $ W.RationalRect 0.15 0.15 0.7 0.7
@@ -237,7 +239,7 @@ fKeys      = [xK_F1 .. xK_F9]
 strWorkspaces, strFKeys, clickables :: [String]
 strFKeys      = ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9"]
 strWorkspaces = ["1:idea", "2:*", "3:*", "4:**", "5:*",
-                 "6:project", "7:stox", "8:candy", "9:dump"]
+                 "6:project", "7:stox", "8:candy", "9:anki"]
 --strWorkspaces = ["ide", "dev", "job", "edu", "vid", "org", "lang", "pm", "dump"]
 --strWorkspaces = ["ide", "dev", "cours", "misc", "*", "misc", "lang", "xmon", "sys"]
 
