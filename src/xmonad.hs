@@ -32,6 +32,8 @@ import XMonad.Actions.KeyRemap
 import Modules.Keys (emacsKeys, mouseKeys, clickables, confKeys, exclusiveSps)
 import Modules.Others (dtXPConfig, dtXPConfig', tsDefaultConfig, pp, m)
 import Modules.Layouts (myManageHook, myLayoutHook)
+import XMonad.Hooks.RefocusLast
+import qualified Data.Map.Strict as M
 
 
 myTerminal    = "xterm"
@@ -43,6 +45,25 @@ myBorderWidth = 3
 ------------------------------------------------------------------------
 -- MAIN
 ------------------------------------------------------------------------
+--main :: IO ()
+--main = xmonad def
+--    { handleEventHook = refocusLastWhen myPred <+> handleEventHook def
+--    , logHook         = refocusLastLogHook     <+> logHook         def
+----  , layoutHook      = refocusLastLayoutHook   $  layoutHook      def
+--    , keys            = refocusLastKeys        <+> keys            def
+--    } where
+--        myPred = refocusingIsActive <||> isFloat
+--        refocusLastKeys cnf
+--          = M.fromList
+--          $ ((modMask cnf              , xK_a), toggleFocus)
+--          : ((modMask cnf .|. shiftMask, xK_a), swapWithLast)
+--          : ((modMask cnf              , xK_b), toggleRefocusing)
+--          : [ ( (modMask cnf .|. shiftMask, n)
+--              , windows =<< shiftRLWhen myPred wksp
+--              )
+--            | (n, wksp) <- zip [xK_1..xK_9] (workspaces cnf)
+--            ]
+
 main :: IO ()
 main = do
     nScreens <- countScreens
@@ -51,8 +72,7 @@ main = do
     xmonad $ ewmh def {
           manageHook = myManageHook  -- how windows are opened
              <+> manageDocks --not that important
-        , handleEventHook =
-                 handleEventHook def
+        , handleEventHook = refocusLastWhen myPred <+> handleEventHook def
              <+> fullscreenEventHook -- for evince/chromium fullscreen
              <+> docksEventHook -- status bar
 
@@ -60,15 +80,15 @@ main = do
 --             <+> serverModeEventHookF "XMONAD_PRINT" (io . putStrLn)
 --             <+> serverModeEventHook
 
-        , layoutHook         = myLayoutHook 
+        , layoutHook         = myLayoutHook -- refocusLastLayoutHook $ myLayoutHook
         , startupHook        = myStartupHook >> addEWMHFullscreen -- Adds EWMH tags to Firefox
-        , logHook = mapM_ dynamicLogWithPP $ zipWith pp handles [0 .. nScreens]
+        , logHook = refocusLastLogHook <+> (mapM_ dynamicLogWithPP $ zipWith pp handles [0 .. nScreens])
 
         , focusFollowsMouse  = False
         , clickJustFocuses   = False
         , workspaces         = withScreens nScreens clickables
         , modMask            = mod4Mask
-        , keys               = confKeys-- ++ buildKeyRemapBindings [dvorakProgrammerKeyRemap,emptyKeyRemap] -- Workspaces
+        , keys               = confKeys -- Workspaces
 
         , normalBorderColor  = myNormColor
         , focusedBorderColor = myFocusColor
@@ -76,6 +96,9 @@ main = do
         , terminal           = "xterm"
     } `additionalKeysP` emacsKeys
       `additionalMouseBindings` mouseKeys
+      -- TODO: https://hackage.haskell.org/package/xmonad-contrib-0.16/docs/XMonad-Hooks-RefocusLast.html
+      -- Apply refocus behavior to floating windows that get shifted to different workspace
+      where myPred = refocusingIsActive <||> isFloat
 
 -- TODO Refactor
 xmobarCommand (S screen) = unwords ["xmobar", "-x", show screen, myConfig screen 0]

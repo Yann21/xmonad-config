@@ -72,11 +72,6 @@ horizontal = renamed [Replace "horizontal"]
 
 -- The layout hook
 myLayoutHook = B.boringWindows      -- exclusiveSps
---             $ onWorkspace "1_dump" grid
---             $ onWorkspace "2_dump" grid
---             $ onWorkspace "2_dump" grid
---             $ onWorkspace "1_9:dump" grid
---             $ onWorkspace "0_9:dump" grid
              $ minimize             -- exclusiveSps
              $ avoidStruts          -- don't cover status bar
              $ smartBorders         -- TODO: doesn't work

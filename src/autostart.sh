@@ -10,20 +10,16 @@ ckb-next -b &                                       # Corsair bindings
 picom -b &                                          # Compositor, transparency
 udiskie &                                           # USB daemon
 xscreensaver --no-splash -verbose &                 # Aerial screensaver
-firefox &                                           # Firefox
-aw-qt &                                             # Windows and time tracker (*)
+aw-server &                                             # Windows and time tracker (*)
 xset r rate 190 25 &                                # Typematic delays
-autokey-gtk &                                       # Rebind bash bindings in browser
-#NetworkManager &                                   # Must be sudo WLAN
+autokey-gtk &                                       # Rebinds bash bindings in browser
 mousetrap -t 5 &                                    # Auto hide mouse after 5s
-xmodmap -e "keycode 49 = Caps_Lock NoSymbol Caps_Lock" &
-emacs &                                             # The one
+#xmodmap -e "keycode 49 = Caps_Lock NoSymbol Caps_Lock" & " either here or autokey
 copyq &                                             # Clipboard manager
-#anki &
-ulauncher &                                         # Dynamic menu
-#intellij-idea-ultimate-edition &
 
-#clipster -d &
+emacs &                                             # The one
+ulauncher &                                         # Dynamic menu
+firefox &                                           # Firefox
 
 # Record screen (*) we're oom
 #/usr/bin/simplescreenrecorder \
@@ -33,18 +29,17 @@ ulauncher &                                         # Dynamic menu
     #--no-systray &
 
 # System tray
-trayer \
-    --edge bottom \
-    --align center \
-    --SetDockType true \
-    --SetPartialStrut true \
-    --expand true \
-    --width 5 \
-    --transparent true \
-    --alpha 0 \
-    --tint 0x0034435E \
-    --heighttype pixel \
-    --height 18 &
-
+#trayer \
+    #--edge bottom \
+    #--align center \
+    #--SetDockType true \
+    #--SetPartialStrut true \
+    #--expand true \
+    #--width 5 \
+    #--transparent true \
+    #--alpha 0 \
+    #--tint 0x0034435E \
+    #--heighttype pixel \
+    #--height 18 &
 
 # * data collection

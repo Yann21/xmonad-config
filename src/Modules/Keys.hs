@@ -1,30 +1,30 @@
 {-# OPTIONS_GHC -Wno-all -Wno-name-shadowing -fno-warn-unused-binds #-}
 
 module Modules.Keys where
-import XMonad
-import qualified XMonad.StackSet as W
-import qualified XMonad.Layout.BoringWindows as B
-import qualified XMonad.Layout.MultiToggle as MT (Toggle(..))
-import XMonad.Actions.CycleWS
-import XMonad.Actions.WithAll (killAll)
-import XMonad.Actions.CopyWindow (kill1)
-import XMonad.Hooks.ManageDocks (avoidStruts, docksEventHook, manageDocks, ToggleStruts(..))
-import XMonad.Layout.MultiToggle.Instances (StdTransformers(NBFULL))
-import XMonad.Util.ExclusiveScratchpads
-import XMonad.Prompt.Pass
-import XMonad.Prompt.Shell
-import qualified Data.Map as M
-import XMonad.Layout.IndependentScreens
-import XMonad.Util.Loggers
 import Control.Monad
-import XMonad.Actions.PhysicalScreens
-import Data.List
 import Data.Char
+import Data.List
+import XMonad
+import XMonad.Actions.CopyWindow (kill1)
+import XMonad.Actions.CycleWS
+import XMonad.Actions.GridSelect
 import XMonad.Actions.KeyRemap
+import XMonad.Actions.PhysicalScreens
+import XMonad.Actions.WithAll (killAll)
+import XMonad.Hooks.ManageDocks (avoidStruts, docksEventHook, manageDocks, ToggleStruts(..))
+import XMonad.Layout.IndependentScreens
+import XMonad.Layout.MultiToggle.Instances (StdTransformers(NBFULL))
 import XMonad.Layout.SubLayouts
 import XMonad.Layout.WindowNavigation
+import XMonad.Prompt.Pass
+import XMonad.Prompt.Shell
+import XMonad.Util.ExclusiveScratchpads
+import XMonad.Util.Loggers
 import XMonad.Util.Paste
-import XMonad.Actions.GridSelect
+import qualified Data.Map as M
+import qualified XMonad.Layout.BoringWindows as B
+import qualified XMonad.Layout.MultiToggle as MT (Toggle(..))
+import qualified XMonad.StackSet as W
 
 import Modules.Others (dtXPConfig', dtXPConfig, tsDefaultConfig, promptList)
 import Modules.MyTreeSelect (treeselectAction, sshTreeselectAction)
@@ -72,7 +72,7 @@ emacsKeys = [
 
     -- TODO Reorganize bindings
   ------------------------------- Scratchpads ----------------------------------------
-    , ("C-M-<Space>", scratchpadAction exclusiveSps "alacritty" ) -- b
+    , ("C-M-<Space>", scratchpadAction exclusiveSps "xterm" )
     , ("C-M-b", scratchpadAction exclusiveSps "todoist" ) -- b
     , ("C-M-c", scratchpadAction exclusiveSps "cal"     ) -- [c]alendar
     , ("C-M-d", scratchpadAction exclusiveSps "stardict") -- [d]ictionary
@@ -87,7 +87,7 @@ emacsKeys = [
     , ("C-M-o", scratchpadAction exclusiveSps "octave"  ) -- octave
     , ("C-M-p", scratchpadAction exclusiveSps "python"  ) -- python
     , ("C-M-r", scratchpadAction exclusiveSps "R"       ) -- R
-    , ("C-M-s", scratchpadAction exclusiveSps "rambox"  ) -- social media
+    --, ("C-M-s", scratchpadAction exclusiveSps "rambox"  ) -- social media
     , ("C-M-t", scratchpadAction exclusiveSps "trello"  ) -- trello
     , ("C-M-v", scratchpadAction exclusiveSps "pulse"   ) -- volume
     , ("C-M-x", scratchpadAction exclusiveSps "spotify" ) -- x
@@ -130,7 +130,6 @@ emacsKeys = [
     , ("<F4>"     ,     spawnXkill    )
     , ("M1-<F3>"  ,     spawnHibernate)
     , ("M1-<F4>"  ,     spawnShutdown )
-    --, ("M1-<F5>"  ,     spawnRestart)
     , ("<Print>"  ,     spawnScrot    )
     , ("S-<Print>",     spawnRectScrot)
     , ("C-<Print>",     spawnRectScrotClipboard)
@@ -151,15 +150,15 @@ emacsKeys = [
     , ("S-<XF86AudioMute>",        spawn "~/system/bin/yeelight/controller.py toggle")
     , ("S-<XF86AudioLowerVolume>", spawn "~/system/bin/yeelight/controller.py down")
     , ("S-<XF86AudioRaiseVolume>", spawn "~/system/bin/yeelight/controller.py up")
-    , ("M1-<U>", shiftWindow "up")
-    , ("M1-<D>", shiftWindow "down")
-    , ("M1-<L>", shiftWindow "left")
-    , ("M1-<R>", shiftWindow "right")
+    , ("M1-<U>", spawn "xdotool getactivewindow windowmove --relative 0 -100")
+    , ("M1-<D>", spawn "xdotool getactivewindow windowmove --relative 0 +100")
+    , ("M1-<L>", spawn "xdotool getactivewindow windowmove --relative -- -100 0")
+    , ("M1-<R>", spawn "xdotool getactivewindow windowmove --relative +100 0")
     --, ("S-<XF86AudioStop>", spawn "")
     --, ("S-<XF86AudioPrev>", spawn "")
     --, ("S-<XF86AudioNext>", spawn "")
     --, ("S-<XF86AudioPlay>", spawn "")
-    , ("M-g", goToSelected defaultGSConfig)
+    , ("M-<Space>", goToSelected defaultGSConfig)
     ]
 
   ------------------------------- Prompts ----------------------------------------
@@ -188,7 +187,7 @@ exclusiveSps = mkXScratchpads [
     , ("jshell",        "xterm -name jshell jshell",            resource =? "jshell")
     , ("octave" ,       "xterm -fs 16 -name octave octave",     resource =? "octave")
     , ("pulse" ,        "xterm -name pulsemixer pulsemixer",    resource =? "pulsemixer")
-    , ("python",        "xterm -fs 16 -name python bpython",    resource =? "python")
+    , ("python",        "xterm -fs 16 -name python ptpython",   resource =? "python")
     , ("R",             "xterm -fs 16 -name R R",               resource =? "R")
     , ("rambox",        "rambox",                               resource =? "rambox")
     , ("scala" ,        "xterm -name scala scala",              resource =? "scala" )
@@ -196,7 +195,7 @@ exclusiveSps = mkXScratchpads [
     , ("stardict",      "startdict",                            resource =? "stardict")
     , ("todoist",       "todoist",                              resource =? "todoist")
     , ("trello",        "trello",                               resource =? "trello")
-    -- , ("alacritty" ,        "alacritty",			appName	 =? "Alacritty")
+    , ("xterm" ,        "xterm -name scratch",			appName	 =? "scratch")
     , ("virt-manager" , "virt-manager",                         title    =? "Virtual Machine Manager") -- differentiate between the launcher and the VMs
     , ("zotero",        "zotero",                               title    =? "Zotero")
     ] $ customFloating $ W.RationalRect 0.15 0.15 0.7 0.7
