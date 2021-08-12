@@ -14,7 +14,7 @@ aw-server &                                             # Windows and time track
 xset r rate 190 25 &                                # Typematic delays
 autokey-gtk &                                       # Rebinds bash bindings in browser
 mousetrap -t 5 &                                    # Auto hide mouse after 5s
-#xmodmap -e "keycode 49 = Caps_Lock NoSymbol Caps_Lock" & " either here or autokey
+xmodmap -e "keycode 49 = Caps_Lock NoSymbol Caps_Lock" & # Makes ^2 key act as caps lock (autokey most likely not working)
 copyq &                                             # Clipboard manager
 
 emacs &                                             # The one
