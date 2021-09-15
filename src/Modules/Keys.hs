@@ -73,26 +73,26 @@ emacsKeys = [
     -- TODO Reorganize bindings
   ------------------------------- Scratchpads ----------------------------------------
     , ("C-M-<Space>", scratchpadAction exclusiveSps "xterm" )
-    , ("C-M-b", scratchpadAction exclusiveSps "todoist" ) -- b
-    , ("C-M-c", scratchpadAction exclusiveSps "cal"     ) -- [c]alendar
-    , ("C-M-d", scratchpadAction exclusiveSps "stardict") -- [d]ictionary
-    , ("C-M-e", scratchpadAction exclusiveSps "virt-manager"      ) -- [e]mulator
-    , ("C-M-g", scratchpadAction exclusiveSps "nvtop"    ) -- [g]pu
-    , ("C-M-h", scratchpadAction exclusiveSps "htop"    ) -- [h]top
-    , ("C-M-i", scratchpadAction exclusiveSps "hardinfo"   ) -- hardinfo
-    , ("C-M-j", scratchpadAction exclusiveSps "jshell"  ) -- java
-    , ("C-M-k", scratchpadAction exclusiveSps "anki"    ) -- anki
-    , ("C-M-m", scratchpadAction exclusiveSps "thunderbird") -- mail
-    , ("C-M-n", scratchpadAction exclusiveSps "ao"      ) -- notes
-    , ("C-M-o", scratchpadAction exclusiveSps "octave"  ) -- octave
-    , ("C-M-p", scratchpadAction exclusiveSps "python"  ) -- python
-    , ("C-M-r", scratchpadAction exclusiveSps "R"       ) -- R
-    --, ("C-M-s", scratchpadAction exclusiveSps "rambox"  ) -- social media
-    , ("C-M-t", scratchpadAction exclusiveSps "trello"  ) -- trello
-    , ("C-M-v", scratchpadAction exclusiveSps "pulse"   ) -- volume
-    , ("C-M-x", scratchpadAction exclusiveSps "spotify" ) -- x
-    , ("C-M-w", scratchpadAction exclusiveSps "cmus"    ) -- w
-    , ("C-M-z", scratchpadAction exclusiveSps "zotero"  ) -- zotero
+    , ("C-M-b", scratchpadAction exclusiveSps "todoist"	    ) -- b
+    , ("C-M-c", scratchpadAction exclusiveSps "cal"         ) -- [c]alendar
+    , ("C-M-d", scratchpadAction exclusiveSps "stardict"    ) -- [d]ictionary
+    , ("C-M-e", scratchpadAction exclusiveSps "virt-manager") -- [e]mulator
+    , ("C-M-g", scratchpadAction exclusiveSps "nvtop"	    ) -- [g]pu
+    , ("C-M-h", scratchpadAction exclusiveSps "htop"	    ) -- [h]top
+    , ("C-M-i", scratchpadAction exclusiveSps "hardinfo"    ) -- hard[i]nfo
+    , ("C-M-j", scratchpadAction exclusiveSps "jshell"	    ) -- java
+    , ("C-M-k", scratchpadAction exclusiveSps "anki"	    ) -- an[k]i
+    , ("C-M-m", scratchpadAction exclusiveSps "thunderbird" ) -- [m]ail
+    , ("C-M-n", scratchpadAction exclusiveSps "ao"	    ) -- [n]otes
+    , ("C-M-o", scratchpadAction exclusiveSps "octave"	    ) -- octave
+    , ("C-M-p", scratchpadAction exclusiveSps "python"	    ) -- python
+    , ("C-M-r", scratchpadAction exclusiveSps "R"	    ) -- R
+    , ("C-M-s", scratchpadAction exclusiveSps "rambox"      ) -- [s]ocial media
+    , ("C-M-t", scratchpadAction exclusiveSps "trello"      ) -- trello
+    , ("C-M-v", scratchpadAction exclusiveSps "pulse"       ) -- volume
+    , ("C-M-x", scratchpadAction exclusiveSps "spotify"     ) -- x
+    , ("C-M-w", scratchpadAction exclusiveSps "cmus"        ) -- w
+    , ("C-M-z", scratchpadAction exclusiveSps "zotero"      ) -- zotero
     -- , ("C-M-s", scratchpadAction exclusiveSps "scala"   )
 
   ------------------------------- Layouts ----------------------------------------
