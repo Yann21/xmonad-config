@@ -67,7 +67,7 @@ emacsKeys = [
     --, ("C-M1-l"  , spawn "libreoffice"    ) -- conflict with intellij align code
     , ("C-M1-p"  , spawn "$HOME/Code/tools/Pycharm2019/pycharm-2019.3.4/bin/pycharm.sh"        )
     , ("C-M1-r"  , spawn "rstudio-bin"        )
-    , ("C-M1-t"  , spawn "xterm"          )
+    , ("C-M1-t"  , spawn "alacritty"          )
     , ("C-M1-v"  , spawn "virtualbox"     )
 
     -- TODO Reorganize bindings
