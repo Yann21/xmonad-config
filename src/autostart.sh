@@ -17,6 +17,7 @@ mousetrap -t 5 &                                    # Auto hide mouse after 5s
 xmodmap -e "keycode 49 = Caps_Lock NoSymbol Caps_Lock" & # Makes ^2 key act as caps lock (autokey most likely not working)
 copyq &                                             # Clipboard manager
 
+# Synchronize important directories between machines
 gitwatch -r origin -b main $HOME/Org &
 gitwatch -r origin -b master $HOME/.xmonad &
 gitwatch -r origin -b master $HOME/.dotfiles &
