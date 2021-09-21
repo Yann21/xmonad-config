@@ -18,7 +18,7 @@ xmodmap -e "keycode 49 = Caps_Lock NoSymbol Caps_Lock" & # Makes ^2 key act as c
 copyq &                                             # Clipboard manager
 
 gitwatch -r origin -b main $HOME/Org &
-gitwatch -r origin -b main $HOME/.xmonad &
+gitwatch -r origin -b master $HOME/.xmonad &
 
 emacs &                                             # The one
 ulauncher &                                         # Dynamic menu
