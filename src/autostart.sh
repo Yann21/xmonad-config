@@ -21,6 +21,7 @@ copyq &                                             # Clipboard manager
 gitwatch -r origin -b main $HOME/Org &
 gitwatch -r origin -b master $HOME/.xmonad &
 gitwatch -r origin -b master $HOME/.dotfiles &
+gitwatch -r origin -b master $HOME/system &
 
 emacs &                                             # The one
 ulauncher &                                         # Dynamic menu
