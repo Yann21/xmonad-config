@@ -24,6 +24,7 @@ gitwatch -r origin -b master $HOME/.dotfiles &
 gitwatch -r origin -b master $HOME/system &
 
 # emacs &                                             # The one
+$HOME/Code/tools/Pycharm2019/pycharm-2019.3.4
 ulauncher &                                         # Dynamic menu
 firefox &                                           # Firefox
 
