@@ -23,7 +23,7 @@ gitwatch -r origin -b master $HOME/.xmonad &
 gitwatch -r origin -b master $HOME/.dotfiles &
 gitwatch -r origin -b master $HOME/system &
 
-emacs &                                             # The one
+# emacs &                                             # The one
 ulauncher &                                         # Dynamic menu
 firefox &                                           # Firefox
 
