@@ -134,7 +134,7 @@ emacsKeys = [
     , ("S-<Print>",     spawnRectScrot)
     , ("C-<Print>",     spawnRectScrotClipboard)
     , ("M-S-r"    ,     spawnRecompile)
-    #, ("<F5>"     ,     spawnXprop)
+    -- , ("<F5>"     ,     spawnXprop)
 
   ------------------------------- XFKeys ----------------------------------------
     , ("<XF86AudioStop>", spawn "xterm")
