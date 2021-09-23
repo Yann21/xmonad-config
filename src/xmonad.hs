@@ -35,6 +35,8 @@ import Modules.Layouts (myManageHook, myLayoutHook)
 import XMonad.Hooks.RefocusLast
 import qualified Data.Map.Strict as M
 
+import XMonad.Hooks.DynamicLog
+
 
 myTerminal    = "xterm"
 myNormColor   = "#221710" -- original: 292d3e
@@ -65,16 +67,19 @@ myBorderWidth = 3
 --            ]
 
 main :: IO ()
+--main = xmonad =<< xmobar def { modMask = mod4Mask }
+
 main = do
     nScreens <- countScreens
+    let nScreens = 1
     handles  <- mapM (spawnPipe . xmobarCommand) [0..nScreens-1]
 
     xmonad $ ewmh def {
           manageHook = myManageHook  -- how windows are opened
-             <+> manageDocks --not that important
+              <+> manageDocks --not that important
         , handleEventHook = refocusLastWhen myPred <+> handleEventHook def
-             <+> fullscreenEventHook -- for evince/chromium fullscreen
-             <+> docksEventHook -- status bar
+              <+> fullscreenEventHook -- for evince/chromium fullscreen
+              <+> docksEventHook -- status bar
 
 --             <+> serverModeEventHookCmd
 --             <+> serverModeEventHookF "XMONAD_PRINT" (io . putStrLn)
@@ -83,6 +88,7 @@ main = do
         , layoutHook         = myLayoutHook -- refocusLastLayoutHook $ myLayoutHook
         , startupHook        = myStartupHook >> addEWMHFullscreen -- Adds EWMH tags to Firefox
         , logHook = refocusLastLogHook <+> (mapM_ dynamicLogWithPP $ zipWith pp handles [0 .. nScreens])
+        --, logHook = refocusLastLogHook <+> (mapM_ dynamicLog>it)
 
         , focusFollowsMouse  = False
         , clickJustFocuses   = False
@@ -103,11 +109,23 @@ main = do
 -- TODO Refactor
 xmobarCommand (S screen) = unwords ["xmobar", "-x", show screen, myConfig screen 0]
     where
+<<<<<<< HEAD
         myConfig 0 0 = "/home/yann/.config/xmobar/xmobarrc_mid.hs"
         myConfig 1 0 = "/home/yann/.config/xmobar/xmobarrc_left.hs"
         myConfig 2 0 = "/home/yann/.config/xmobar/xmobarrc_right.hs"
 --        myConfig 0 1 = "/home/yann/.config/xmobar/xmobarrc_mid_portrait.hs"
 --        myConfig 1 1 = "/home/yann/.config/xmobar/xmobarrc_left_portrait.hs"
+||||||| 5fe52c7
+        myConfig 0 0 = "/home/yann/.config/xmobar/xmobarrc_mid.hs"
+        myConfig 1 0 = "/home/yann/.config/xmobar/xmobarrc_left.hs"
+        myConfig 0 1 = "/home/yann/.config/xmobar/xmobarrc_mid_portrait.hs"
+        myConfig 1 1 = "/home/yann/.config/xmobar/xmobarrc_left_portrait.hs"
+=======
+        myConfig 0 0 = "~/.config/xmobar/xmobarrc_mid.hs"
+        myConfig 1 0 = "~/.config/xmobar/xmobarrc_left.hs"
+        myConfig 0 1 = "~/.config/xmobar/xmobarrc_mid_portrait.hs"
+        myConfig 1 1 = "~/.config/xmobar/xmobarrc_left_portrait.hs"
+>>>>>>> f6998e8a5a22b72da80b4a84f14548c1c6fa4f29
 
 addNETSupported :: Atom -> X ()
 addNETSupported x   = withDisplay $ \dpy -> do
