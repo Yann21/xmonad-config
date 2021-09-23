@@ -109,7 +109,6 @@ main = do
 -- TODO Refactor
 xmobarCommand (S screen) = unwords ["xmobar", "-x", show screen, myConfig screen 0]
     where
-<<<<<<< HEAD
         myConfig 0 0 = "/home/yann/.config/xmobar/xmobarrc_mid.hs"
         myConfig 1 0 = "/home/yann/.config/xmobar/xmobarrc_left.hs"
         myConfig 2 0 = "/home/yann/.config/xmobar/xmobarrc_right.hs"
