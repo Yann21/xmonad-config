@@ -115,17 +115,6 @@ xmobarCommand (S screen) = unwords ["xmobar", "-x", show screen, myConfig screen
         myConfig 2 0 = "/home/yann/.config/xmobar/xmobarrc_right.hs"
 --        myConfig 0 1 = "/home/yann/.config/xmobar/xmobarrc_mid_portrait.hs"
 --        myConfig 1 1 = "/home/yann/.config/xmobar/xmobarrc_left_portrait.hs"
-||||||| 5fe52c7
-        myConfig 0 0 = "/home/yann/.config/xmobar/xmobarrc_mid.hs"
-        myConfig 1 0 = "/home/yann/.config/xmobar/xmobarrc_left.hs"
-        myConfig 0 1 = "/home/yann/.config/xmobar/xmobarrc_mid_portrait.hs"
-        myConfig 1 1 = "/home/yann/.config/xmobar/xmobarrc_left_portrait.hs"
-=======
-        myConfig 0 0 = "~/.config/xmobar/xmobarrc_mid.hs"
-        myConfig 1 0 = "~/.config/xmobar/xmobarrc_left.hs"
-        myConfig 0 1 = "~/.config/xmobar/xmobarrc_mid_portrait.hs"
-        myConfig 1 1 = "~/.config/xmobar/xmobarrc_left_portrait.hs"
->>>>>>> f6998e8a5a22b72da80b4a84f14548c1c6fa4f29
 
 addNETSupported :: Atom -> X ()
 addNETSupported x   = withDisplay $ \dpy -> do
