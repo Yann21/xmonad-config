@@ -3,7 +3,7 @@
 # Equivalent of xinit for startup programs
 
 redshift -c $HOME/.config/redshift/redshift.conf &  # Go easy on the eyes
-$HOME/.screenlayout/arandrrc_1070.sh &              # Double monitor layout
+$HOME/.screenlayout/arandrrc.sh &              # Double monitor layout
 nitrogen --restore &                                # Wallpaper
 numlockx on &                                       # Numlock (previously in lightdm.conf)
 ckb-next -b &                                       # Corsair bindings

@@ -38,7 +38,7 @@ spawnRectScrot = spawn $ "sleep 0.2 && scrot -s ~/Documents/Media/screenshots/" 
 spawnScrot     = spawn $ "scrot ~/Documents/Media/screenshots/" ++ timeFormat ++ ".png && notify-send chink"
 spawnRecompile = spawn "xmonad --recompile && xmonad --restart"
 spawnXkill = spawn "xkill"
-spawnXprop = spawn "xterm -name float -e '/home/yann/system/bin/xprop_4_xmonad.sh && sh'"
+spawnXprop = spawn "xterm -name float -e '~/system/bin/xprop_4_xmonad.sh && sh'"
 spawnHibernate  = spawn "xterm -e systemctl hibernate"
 spawnShutdown  = spawn "shutdown now"
 shiftWindowCommand = "exec xdotool getactivewindow windowmove --relative"
@@ -54,7 +54,7 @@ shiftWindow dir
 emacsKeys :: [(String, X())]
 emacsKeys = [
   ------------------------------- Programs ----------------------------------------
-      --("M-S-m"   , spawn "ulauncher")
+      --("M-S-m"   , spawn "ulauncher") -- already built into ulauncher
       ("C-M1-S-f", spawn "firefox-developer-edition" )
     , ("C-M1-a"  , spawn "atom"           )
     , ("C-M1-c"  , spawn "calibre"        )
@@ -87,7 +87,7 @@ emacsKeys = [
     , ("C-M-o", scratchpadAction exclusiveSps "octave"  ) -- octave
     , ("C-M-p", scratchpadAction exclusiveSps "python"  ) -- python
     , ("C-M-r", scratchpadAction exclusiveSps "R"       ) -- R
-    --, ("C-M-s", scratchpadAction exclusiveSps "rambox"  ) -- social media
+    , ("C-M-s", scratchpadAction exclusiveSps "rambox"  ) -- social media
     , ("C-M-t", scratchpadAction exclusiveSps "trello"  ) -- trello
     , ("C-M-v", scratchpadAction exclusiveSps "pulse"   ) -- volume
     , ("C-M-x", scratchpadAction exclusiveSps "spotify" ) -- x
