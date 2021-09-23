@@ -17,7 +17,14 @@ mousetrap -t 5 &                                    # Auto hide mouse after 5s
 xmodmap -e "keycode 49 = Caps_Lock NoSymbol Caps_Lock" & # Makes ^2 key act as caps lock (autokey most likely not working)
 copyq &                                             # Clipboard manager
 
-emacs &                                             # The one
+# Synchronize important directories between machines
+gitwatch -r origin -b main $HOME/Org &
+gitwatch -r origin -b master $HOME/.xmonad &
+gitwatch -r origin -b master $HOME/.dotfiles &
+gitwatch -r origin -b master $HOME/system &
+
+# emacs &                                             # The one
+$HOME/Code/tools/Pycharm2019/pycharm-2019.3.4/bin/pycharm.sh &
 ulauncher &                                         # Dynamic menu
 firefox &                                           # Firefox
 

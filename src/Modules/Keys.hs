@@ -67,12 +67,13 @@ emacsKeys = [
     --, ("C-M1-l"  , spawn "libreoffice"    ) -- conflict with intellij align code
     , ("C-M1-p"  , spawn "$HOME/Code/tools/Pycharm2019/pycharm-2019.3.4/bin/pycharm.sh"        )
     , ("C-M1-r"  , spawn "rstudio-bin"        )
-    , ("C-M1-t"  , spawn "xterm"          )
+    , ("C-M1-t"  , spawn "alacritty"          )
     , ("C-M1-v"  , spawn "virtualbox"     )
 
     -- TODO Reorganize bindings
   ------------------------------- Scratchpads ----------------------------------------
     , ("C-M-<Space>", scratchpadAction exclusiveSps "xterm" )
+<<<<<<< HEAD
     , ("C-M-b", scratchpadAction exclusiveSps "todoist" ) -- b
     , ("C-M-c", scratchpadAction exclusiveSps "cal"     ) -- [c]alendar
     , ("C-M-d", scratchpadAction exclusiveSps "stardict") -- [d]ictionary
@@ -237,8 +238,8 @@ fKeys      = [xK_F1 .. xK_F9]
 
 strWorkspaces, strFKeys, clickables :: [String]
 strFKeys      = ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9"]
-strWorkspaces = ["1:idea", "2:*", "3:*", "4:**", "5:*",
-                 "6:project", "7:stox", "8:candy", "9:anki"]
+strWorkspaces = ["1:idea", "2:*", "3:*", "4:**", "5:work",
+                 "6:project", "7:hw", "8:candy", "9:dump"]
 --strWorkspaces = ["ide", "dev", "job", "edu", "vid", "org", "lang", "pm", "dump"]
 --strWorkspaces = ["ide", "dev", "cours", "misc", "*", "misc", "lang", "xmon", "sys"]
 
