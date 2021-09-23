@@ -105,7 +105,7 @@ xmobarCommand (S screen) = unwords ["xmobar", "-x", show screen, myConfig screen
     where
         myConfig 0 0 = "/home/yann/.config/xmobar/xmobarrc_mid.hs"
         myConfig 1 0 = "/home/yann/.config/xmobar/xmobarrc_left.hs"
-        myConfig 2 0 = "/home/yann/.config/xmobar"
+        myConfig 2 0 = "/home/yann/.config/xmobar/xmobarrc.hs"
         myConfig 0 1 = "/home/yann/.config/xmobar/xmobarrc_mid_portrait.hs"
         myConfig 1 1 = "/home/yann/.config/xmobar/xmobarrc_left_portrait.hs"
 
