@@ -71,7 +71,7 @@ main :: IO ()
 
 main = do
     nScreens <- countScreens
-    let nScreens = 1
+    -- let nScreens = 2
     handles  <- mapM (spawnPipe . xmobarCommand) [0..nScreens-1]
 
     xmonad $ ewmh def {
