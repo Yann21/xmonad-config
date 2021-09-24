@@ -73,7 +73,6 @@ emacsKeys = [
     -- TODO Reorganize bindings
   ------------------------------- Scratchpads ----------------------------------------
     , ("C-M-<Space>", scratchpadAction exclusiveSps "xterm" )
-<<<<<<< HEAD
     , ("C-M-b", scratchpadAction exclusiveSps "todoist" ) -- b
     , ("C-M-c", scratchpadAction exclusiveSps "cal"     ) -- [c]alendar
     , ("C-M-d", scratchpadAction exclusiveSps "stardict") -- [d]ictionary
