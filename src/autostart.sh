@@ -18,10 +18,10 @@ xmodmap -e "keycode 49 = Caps_Lock NoSymbol Caps_Lock" & # Makes ^2 key act as c
 copyq &                                             # Clipboard manager
 
 # Synchronize important directories between machines
-gitwatch -r origin -b main $HOME/Org &
-gitwatch -r origin -b master $HOME/.xmonad &
-gitwatch -r origin -b master $HOME/.dotfiles &
-gitwatch -r origin -b master $HOME/system &
+#gitwatch -r origin -b main $HOME/Org &
+#gitwatch -r origin -b master $HOME/.xmonad &
+#gitwatch -r origin -b master $HOME/.dotfiles &
+#gitwatch -r origin -b master $HOME/system &
 
 # emacs &                                             # The one
 $HOME/Code/tools/Pycharm2019/pycharm-2019.3.4/bin/pycharm.sh &
