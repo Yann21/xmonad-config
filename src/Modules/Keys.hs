@@ -198,7 +198,9 @@ exclusiveSps = mkXScratchpads [
     , ("xterm" ,        "xterm -name scratch",			appName	 =? "scratch")
     , ("virt-manager" , "virt-manager",                         title    =? "Virtual Machine Manager") -- differentiate between the launcher and the VMs
     , ("zotero",        "zotero",                               title    =? "Zotero")
-    ] $ customFloating $ W.RationalRect 0.15 0.15 0.7 0.7
+    -- ] $ customFloating $ W.RationalRect 0.15 0.15 0.7 0.7
+    -- RationalRect: (x_start, y_start), (width, height)
+    ] $ customFloating $ W.RationalRect 0.1 0.1 0.8 0.8
 
 
 

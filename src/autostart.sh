@@ -1,21 +1,22 @@
 #!/usr/bin/env bash
 # Yann Hoffmann
 # Equivalent of xinit for startup programs
+# or $XDG_CONFIG_HOME/autostart/*.desktop
 
 redshift -c $HOME/.config/redshift/redshift.conf &  # Go easy on the eyes
-$HOME/.screenlayout/arandrrc.sh &              # Double monitor layout
+$HOME/.screenlayout/arandrrc.sh &                   # Double monitor layout
 nitrogen --restore &                                # Wallpaper
 numlockx on &                                       # Numlock (previously in lightdm.conf)
-ckb-next -b &                                       # Corsair bindings
 picom -b &                                          # Compositor, transparency
-udiskie &                                           # USB daemon
-xscreensaver --no-splash -verbose &                 # Aerial screensaver
-aw-server &                                             # Windows and time tracker (*)
 xset r rate 190 25 &                                # Typematic delays
 autokey-gtk &                                       # Rebinds bash bindings in browser
 mousetrap -t 5 &                                    # Auto hide mouse after 5s
 xmodmap -e "keycode 49 = Caps_Lock NoSymbol Caps_Lock" & # Makes ^2 key act as caps lock (autokey most likely not working)
 copyq &                                             # Clipboard manager
+ulauncher &                                         # Dynamic menu
+firefox &                                           # Firefox
+# vim &                                               # Self Q&A
+# emacs &                                             # The one
 
 # Synchronize important directories between machines
 #gitwatch -r origin -b main $HOME/Org &
@@ -23,10 +24,16 @@ copyq &                                             # Clipboard manager
 #gitwatch -r origin -b master $HOME/.dotfiles &
 #gitwatch -r origin -b master $HOME/system &
 
-# emacs &                                             # The one
-$HOME/Code/tools/Pycharm2019/pycharm-2019.3.4/bin/pycharm.sh &
-ulauncher &                                         # Dynamic menu
-firefox &                                           # Firefox
+
+# @Home
+if ! [[ $(uname --all) =~ "Ubuntu" ]] then
+    ckb-next -b &                                       # Corsair bindings
+    $HOME/Code/tools/Pycharm2019/pycharm-2019.3.4/bin/pycharm.sh &
+    udiskie &                                           # USB daemon
+    aw-server &                                         # Windows and time tracker (*)
+    xscreensaver --no-splash -verbose &                 # Aerial screensaver
+    noip2 &
+fi
 
 # Record screen (*) we're oom
 #/usr/bin/simplescreenrecorder \
