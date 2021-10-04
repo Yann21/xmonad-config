@@ -3,8 +3,8 @@
 # Equivalent of xinit for startup programs
 # or $XDG_CONFIG_HOME/autostart/*.desktop
 
-redshift -c $HOME/.config/redshift/redshift.conf &  # Go easy on the eyes
-$HOME/.screenlayout/arandrrc.sh &                   # Double monitor layout
+redshift -c "$HOME/.config/redshift/redshift.conf" &  # Go easy on the eyes
+"$HOME/.screenlayout/arandrrc.sh" &                   # Double monitor layout
 nitrogen --restore &                                # Wallpaper
 numlockx on &                                       # Numlock (previously in lightdm.conf)
 picom -b &                                          # Compositor, transparency
@@ -26,9 +26,9 @@ firefox &                                           # Firefox
 
 
 # @Home
-if ! [[ $(uname --all) =~ "Ubuntu" ]] then
+if ! [[ $(uname --all) =~ "Ubuntu" ]]; then
     ckb-next -b &                                       # Corsair bindings
-    $HOME/Code/tools/Pycharm2019/pycharm-2019.3.4/bin/pycharm.sh &
+    "$HOME/Code/tools/Pycharm2019/pycharm-2019.3.4/bin/pycharm.sh" &
     udiskie &                                           # USB daemon
     aw-server &                                         # Windows and time tracker (*)
     xscreensaver --no-splash -verbose &                 # Aerial screensaver
