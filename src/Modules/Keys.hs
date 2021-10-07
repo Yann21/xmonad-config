@@ -103,14 +103,27 @@ emacsKeys = [
     , ("M-<Tab>"  , sendMessage NextLayout       )
     , ("M-S-<Tab>", sendMessage FirstLayout      )
 
-    , ("M-a"  , moveToIndependent Prev           )
-    , ("M-e"  , moveToIndependent Next           )
-    , ("M-z"  , toggleScreen                     )
-    , ("M-S-z"  , shiftNextScreen >> toggleScreen)
+    , ("M-q"  , moveToIndependent Prev           )
+    , ("M-d"  , moveToIndependent Next           )
+--    , ("M-z"  , toggleScreen                     )
+--    , ("M-S-z", shiftNextScreen >> toggleScreen )
+--	, ("M-e"  , prevScreen >> shiftMouse "right" )
+--	, ("M-a"  , nextScreen >> shiftMouse "left")
+
+    , ("M-a", switchScreen '0')
+    , ("M-z", switchScreen '1')
+    , ("M-e", switchScreen '2')
+
+    , ("M-S-a", shiftToScreen '0')
+    , ("M-S-z", shiftToScreen '1')
+    , ("M-S-e", shiftToScreen '2')
+
+--    , ("M-S-e", shiftPrevScreen >> prevScreen >> shiftMouse "right" )
+--    , ("M-S-a", shiftNextScreen >> nextScreen >> shiftMouse "left" )
     , ("M-S-k", windows W.swapDown              )
     , ("M-S-j", windows W.swapUp                )
     , ("M-S-c", kill1                           )
-    , ("M-S-a", killAll                         )
+--    , ("M-S-a", killAll                         )
     , ("M-t t", treeselectAction tsDefaultConfig)
     , ("M-s s", sshTreeselectAction tsDefaultConfig)
 
@@ -147,7 +160,7 @@ emacsKeys = [
 
   ------------------------------- Yeelight ----------------------------------------
   -- TODO: scripts use directory structure
-    , ("S-<XF86AudioMute>",        spawn "~/system/bin/yeelight/controller.py toggle")
+    , ("S-<XF86AudioMute>",        spawn "$($HOME/system/bin/dynamic_resolve YEELIGHT_CONTROLLER) toggle")
     , ("S-<XF86AudioLowerVolume>", spawn "~/system/bin/yeelight/controller.py down")
     , ("S-<XF86AudioRaiseVolume>", spawn "~/system/bin/yeelight/controller.py up")
     , ("M1-<U>", spawn "xdotool getactivewindow windowmove --relative 0 -100")
@@ -284,3 +297,25 @@ toggleScreen = do
 	  '0' -> nextScreen >> shiftMouse "right"
 	  '1' -> prevScreen >> shiftMouse "left"
 -- End spaghetti
+
+switchScreen :: Char -> X ()
+switchScreen target = do
+  current <- screenID
+  case (current, target) of
+    ('0', '1') -> prevScreen >> shiftMouse "right"
+    ('0', '2') -> nextScreen >> shiftMouse "right" >> shiftMouse "right"
+    ('1', '0') -> nextScreen >> shiftMouse "left"
+    ('1', '2') -> prevScreen >> shiftMouse "right"
+    ('2', '1') -> nextScreen >> shiftMouse "left"
+    ('2', '0') -> prevScreen >> shiftMouse "left" >> shiftMouse "left"
+
+shiftToScreen :: Char -> X ()
+shiftToScreen target = do
+  current <- screenID
+  case (current, target) of
+    ('0', '1') -> shiftPrevScreen >> switchScreen '1'
+    ('0', '2') -> shiftNextScreen >> switchScreen '2'
+    ('1', '0') -> shiftNextScreen >> switchScreen '0'
+    ('1', '2') -> shiftPrevScreen >> switchScreen '2'
+    ('2', '1') -> shiftNextScreen >> switchScreen '1'
+    ('2', '0') -> shiftPrevScreen >> switchScreen '0'

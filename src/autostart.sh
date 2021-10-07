@@ -4,11 +4,12 @@
 # or $XDG_CONFIG_HOME/autostart/*.desktop
 
 redshift -c "$HOME/.config/redshift/redshift.conf" &  # Go easy on the eyes
-"$HOME/.screenlayout/arandrrc.sh" &                   # Double monitor layout
+"$HOME/.screenlayout/arandrrc_triple.sh" &                   # Double monitor layout
 nitrogen --restore &                                # Wallpaper
 numlockx on &                                       # Numlock (previously in lightdm.conf)
 picom -b &                                          # Compositor, transparency
-xset r rate 190 25 &                                # Typematic delays
+# xset r rate 190 28 &                                # Typematic delays
+xset r rate 190 8 &                                # Typematic delays
 autokey-gtk &                                       # Rebinds bash bindings in browser
 mousetrap -t 5 &                                    # Auto hide mouse after 5s
 xmodmap -e "keycode 49 = Caps_Lock NoSymbol Caps_Lock" & # Makes ^2 key act as caps lock (autokey most likely not working)
