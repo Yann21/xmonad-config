@@ -61,16 +61,16 @@ emacsKeys = [
     , ("C-M1-e"  , spawn "emacs"          )
     , ("C-M1-f"  , spawn "firefox"        )
     , ("C-M1-g"  , spawn "geogebra"       )
-    , ("C-M1-i"  , spawn "idea-ce"        )
+    , ("C-M1-i"  , spawn "idea"        )
     , ("C-M1-k"  , spawn "anki"           )
     , ("C-M1-n"   , spawn "nautilus"       )
+    -- Isn't Alt+= the align code
     --, ("C-M1-l"  , spawn "libreoffice"    ) -- conflict with intellij align code
     , ("C-M1-p"  , spawn "$HOME/Code/tools/Pycharm2019/pycharm-2019.3.4/bin/pycharm.sh"        )
     , ("C-M1-r"  , spawn "rstudio-bin"        )
     , ("C-M1-t"  , spawn "alacritty"          )
     , ("C-M1-v"  , spawn "virtualbox"     )
 
-    -- TODO Reorganize bindings
   ------------------------------- Scratchpads ----------------------------------------
     , ("C-M-<Space>", scratchpadAction exclusiveSps "xterm" )
     , ("C-M-b", scratchpadAction exclusiveSps "todoist" ) -- b
@@ -102,40 +102,28 @@ emacsKeys = [
     , ("M-l"  , sendMessage Expand               )
     , ("M-<Tab>"  , sendMessage NextLayout       )
     , ("M-S-<Tab>", sendMessage FirstLayout      )
-
     , ("M-q"  , moveToIndependent Prev           )
     , ("M-d"  , moveToIndependent Next           )
---    , ("M-z"  , toggleScreen                     )
---    , ("M-S-z", shiftNextScreen >> toggleScreen )
---	, ("M-e"  , prevScreen >> shiftMouse "right" )
---	, ("M-a"  , nextScreen >> shiftMouse "left")
-
-    , ("M-a", switchScreen '0')
-    , ("M-z", switchScreen '1')
-    , ("M-e", switchScreen '2')
-
-    , ("M-S-a", shiftToScreen '0')
-    , ("M-S-z", shiftToScreen '1')
-    , ("M-S-e", shiftToScreen '2')
-
---    , ("M-S-e", shiftPrevScreen >> prevScreen >> shiftMouse "right" )
---    , ("M-S-a", shiftNextScreen >> nextScreen >> shiftMouse "left" )
-    , ("M-S-k", windows W.swapDown              )
-    , ("M-S-j", windows W.swapUp                )
-    , ("M-S-c", kill1                           )
---    , ("M-S-a", killAll                         )
-    , ("M-t t", treeselectAction tsDefaultConfig)
+    , ("M-a", switchScreen '0'                   )
+    , ("M-z", switchScreen '1'                   )
+    , ("M-e", switchScreen '2'                   )
+    , ("M-S-a", shiftToScreen '0'                )
+    , ("M-S-z", shiftToScreen '1'                )
+    , ("M-S-e", shiftToScreen '2'                )
+    , ("M-S-k", windows W.swapDown               )
+    , ("M-S-j", windows W.swapUp                 )
+    , ("M-S-c", kill1                            ) -- / killAll
+    , ("M-t t", treeselectAction tsDefaultConfig )
     , ("M-s s", sshTreeselectAction tsDefaultConfig)
+    , ("M-<Space>", goToSelected defaultGSConfig )
 
-  ------------------------------- Others ----------------------------------------
-    , ("M-M1-h", sendMessage $ pullGroup L) -- TODO SubLayouts!
+  ------------------------------- Tabify ----------------------------------------
+    , ("M-M1-h", sendMessage $ pullGroup L)
     , ("M-M1-l", sendMessage $ pullGroup R)
     , ("M-M1-k", sendMessage $ pullGroup U)
     , ("M-M1-j", sendMessage $ pullGroup D)
-
     , ("M-M1-m", withFocused $ sendMessage . MergeAll)
     , ("M-M1-u", withFocused $ sendMessage . UnMerge )
-
     , ("M-M1-,", onGroup W.focusUp'  )
     , ("M-M1-;", onGroup W.focusDown')
 
@@ -160,7 +148,7 @@ emacsKeys = [
 
   ------------------------------- Yeelight ----------------------------------------
   -- TODO: scripts use directory structure
-    , ("S-<XF86AudioMute>",        spawn "$($HOME/system/bin/dynamic_resolve YEELIGHT_CONTROLLER) toggle")
+    , ("S-<XF86AudioMute>",        spawn "~/system/bin/yeelight/controller.py toggle")
     , ("S-<XF86AudioLowerVolume>", spawn "~/system/bin/yeelight/controller.py down")
     , ("S-<XF86AudioRaiseVolume>", spawn "~/system/bin/yeelight/controller.py up")
     , ("M1-<U>", spawn "xdotool getactivewindow windowmove --relative 0 -100")
@@ -171,18 +159,16 @@ emacsKeys = [
     --, ("S-<XF86AudioPrev>", spawn "")
     --, ("S-<XF86AudioNext>", spawn "")
     --, ("S-<XF86AudioPlay>", spawn "")
-    , ("M-<Space>", goToSelected defaultGSConfig)
+
+  ------------------------------- DEBUG ----------------------------------------
+--      ("M-r", spawn $ "notify-send " ++ show (marshall 0 $ head clickables))
+	, ("M-r", spawn "notify-end DEBUG")
+--  , ("M-r", spawn $ "notify-send var")
     ]
 
   ------------------------------- Prompts ----------------------------------------
     ++ [ ("M-p " ++ k, f dtXPConfig') | (k, f) <- promptList ]
-    
-  ------------------------------- DEBUG ----------------------------------------
-    ++ [
---      ("M-r", spawn $ "notify-send " ++ show (marshall 0 $ head clickables))
-	  ("M-r", spawn "notify-end DEBUG")
---  , ("M-r", spawn $ "notify-send var")
-    ]
+    where a = 2
 
 ------------------------------------------------------------------------
 -- SCRATCHPADS
@@ -254,8 +240,6 @@ strWorkspaces, strFKeys, clickables :: [String]
 strFKeys      = ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9"]
 strWorkspaces = ["1:idea", "2:*", "3:*", "4:**", "5:work",
                  "6:project", "7:hw", "8:candy", "9:dump"]
---strWorkspaces = ["ide", "dev", "job", "edu", "vid", "org", "lang", "pm", "dump"]
---strWorkspaces = ["ide", "dev", "cours", "misc", "*", "misc", "lang", "xmon", "sys"]
 
 clickables = action strWorkspaces
     where action l = [ "<action=xdotool key super+" ++ n ++ ">" ++ ws ++ "</action>" |
@@ -265,8 +249,8 @@ clickables = action strWorkspaces
 -- Spaghetti to separate monitors
 physicalScreens :: X [Maybe ScreenId]
 physicalScreens = withWindowSet $ \windowSet -> do
-	let numScreens = length $ W.screens windowSet
-	mapM (\s -> getScreen def (P s)) [0..numScreens]
+	let nScreens = length $ W.screens windowSet
+	mapM (\s -> getScreen def (P s)) [0..nScreens]
 
 getPhysicalScreen :: ScreenId -> X (Maybe PhysicalScreen)
 getPhysicalScreen sid = do
@@ -281,21 +265,27 @@ screenID = withWindowSet $ \windowSet -> do
 				Just (P s) -> (head (show s))
 				otherwise  -> 'r'
 
--- XORG counts from left to right, X.L.IndependentScreens from right to left
-flipBit :: Char -> Char
-flipBit c = intToDigit $ 1 - digitToInt c
+-- XORG numbers screens like this: 0 1 2 (logical)
+-- but X.L.IndependentScreens does that: 1 0 2 (somewhat less logical)
+xorgToIndependentScreenOrdering :: Char -> Char
+xorgToIndependentScreenOrdering c = case c of
+  '0' -> '1'
+  '1' -> '0'
+  '2' -> '2'
+  -- ...
 
 moveToIndependent :: Direction1D -> X ()
 moveToIndependent dir = do
 	id <- screenID
-	moveTo dir $ WSTagGroup $ flipBit id
+	moveTo dir $ WSTagGroup $ xorgToIndependentScreenOrdering id
 
-toggleScreen :: X ()
-toggleScreen = do
-	id <- screenID
-	case id of
-	  '0' -> nextScreen >> shiftMouse "right"
-	  '1' -> prevScreen >> shiftMouse "left"
+-- toggleScreen is for dual monitor setups
+--toggleScreen :: X ()
+--toggleScreen = do
+--	id <- screenID
+--	case id of
+--	  '0' -> nextScreen >> shiftMouse "right"
+--	  '1' -> prevScreen >> shiftMouse "left"
 -- End spaghetti
 
 switchScreen :: Char -> X ()
