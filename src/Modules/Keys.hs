@@ -28,6 +28,7 @@ import qualified XMonad.StackSet as W
 
 import Modules.Others (dtXPConfig', dtXPConfig, tsDefaultConfig, promptList)
 import Modules.MyTreeSelect (treeselectAction, sshTreeselectAction)
+
 ------------------------------------------------------------------------
 -- COMMANDS
 ------------------------------------------------------------------------
@@ -194,13 +195,11 @@ exclusiveSps = mkXScratchpads [
     , ("stardict",      "startdict",                            resource =? "stardict")
     , ("todoist",       "todoist",                              resource =? "todoist")
     , ("trello",        "trello",                               resource =? "trello")
-    , ("xterm" ,        "xterm -name scratch",			appName	 =? "scratch")
+    , ("xterm" ,        "xterm -name scratch",			        appName	 =? "scratch")
     , ("virt-manager" , "virt-manager",                         title    =? "Virtual Machine Manager") -- differentiate between the launcher and the VMs
     , ("zotero",        "zotero",                               title    =? "Zotero")
-    -- ] $ customFloating $ W.RationalRect 0.15 0.15 0.7 0.7
     -- RationalRect: (x_start, y_start), (width, height)
     ] $ customFloating $ W.RationalRect 0.1 0.1 0.8 0.8
-
 
 
 

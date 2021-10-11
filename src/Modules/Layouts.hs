@@ -47,8 +47,6 @@ import XMonad.Util.ExclusiveScratchpads
 ------------------------------------------------------------------------
 -- LAYOUTS
 ------------------------------------------------------------------------
---mySpacing :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spacing l a
---mySpacing i = smartSpacing 0 --False (Border 0 0 5 5) True (Border 0 0 5 5) True
 mySpacing' i = spacingRaw True (Border i i i i) True (Border i i i i) True
 
 tall     = renamed [Replace "tall"]
@@ -93,10 +91,6 @@ myLayoutHook = B.boringWindows      -- exclusiveSps
 ------------------------------------------------------------------------------
 -- MANAGEHOOK
 ------------------------------------------------------------------------------
-
--- className / resource / title / appName
---(~=) :: (Monad m, Monoid a) => m Bool -> m a -> m a
---q ~= 
 
 myManageHook =
 	composeOne [
