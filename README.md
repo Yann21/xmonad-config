@@ -17,16 +17,22 @@ Caveat emptor as always.
 ## How to run
 ```
 Install stack
-$ yay -S stack-static
+$ yay -S stack[-static]
 
 Use stack to install xmonad and xmobar
 This will send the executables ~/.local/bin, don't forget to add this to your path.
 $ stack install xmonad xmobar xmonad-contrib
+# or
+$ apt instal xmonad xmonad-contrib xmobar
 
 Build the project
+$ git clone xmonad-config ~/.xmonad
+$ cd ~/.xmonad
+$ stack upgrade
 $ stack build :my-xmonad
 
 Replace the ~/.xmonad/xmonad_x86 executable:
+$ make all
 $ xmonad --recompile (&& xmonad-restart)
 ```
 
