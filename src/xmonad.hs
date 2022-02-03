@@ -133,6 +133,6 @@ addEWMHFullscreen = do
 ------------------------------------------------------------------------
 myStartupHook :: X ()
 myStartupHook = do
-    spawnOnce "~/.xmonad/src/autostart.sh"
+    spawnOnce "~/.xmonad/etc/autostart.sh"
     setWMName "xmonad"
 --    setWMName "LG3D" --for the JVM

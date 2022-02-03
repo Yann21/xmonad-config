@@ -55,26 +55,28 @@ shiftWindow dir
 emacsKeys :: [(String, X())]
 emacsKeys = [
   ------------------------------- Programs ----------------------------------------
-      --("M-S-m"   , spawn "ulauncher") -- already built into ulauncher
       ("C-M1-S-f", spawn "firefox-developer-edition" )
     , ("C-M1-a"  , spawn "atom"           )
+    , ("C-M1-b"  , spawn "blueberry"      )
     , ("C-M1-c"  , spawn "calibre"        )
     , ("C-M1-e"  , spawn "emacs"          )
     , ("C-M1-f"  , spawn "firefox"        )
-    , ("C-M1-g"  , spawn "geogebra"       )
-    , ("C-M1-i"  , spawn "idea"        )
+    , ("C-M1-g"  , spawn "gimp"		  )
     , ("C-M1-k"  , spawn "anki"           )
-    , ("C-M1-n"   , spawn "nautilus"       )
+    , ("C-M1-i"  , spawn "idea-ce"	  )
+    , ("C-M1-n"  , spawn "nautilus"       )
+    , ("C-M1-m"  , spawn "thunderbird"    )
     -- Isn't Alt+= the align code
     --, ("C-M1-l"  , spawn "libreoffice"    ) -- conflict with intellij align code
-    , ("C-M1-p"  , spawn "$HOME/Code/tools/Pycharm2019/pycharm-2019.3.4/bin/pycharm.sh"        )
-    , ("C-M1-r"  , spawn "rstudio-bin"        )
-    , ("C-M1-t"  , spawn "alacritty"          )
-    , ("C-M1-v"  , spawn "virtualbox"     )
+    --, ("C-M1-p"  , spawn "$HOME/Code/tools/Pycharm2019/pycharm-2019.3.4/bin/pycharm.sh"        )
+    , ("C-M1-v"  , spawn "code"		  ) -- vscode
+    , ("C-M1-r"  , spawn "rstudio-bin"    )
+    , ("C-M1-t"  , spawn "xterm"          )
+    , ("C-M1-w"  , spawn "nxplayer"       )
 
   ------------------------------- Scratchpads ----------------------------------------
     , ("C-M-<Space>", scratchpadAction exclusiveSps "xterm" )
-    , ("C-M-b", scratchpadAction exclusiveSps "todoist" ) -- b
+    , ("C-M-b", scratchpadAction exclusiveSps "blueberry" ) -- b
     , ("C-M-c", scratchpadAction exclusiveSps "cal"     ) -- [c]alendar
     , ("C-M-d", scratchpadAction exclusiveSps "stardict") -- [d]ictionary
     , ("C-M-e", scratchpadAction exclusiveSps "virt-manager"      ) -- [e]mulator
@@ -144,8 +146,8 @@ emacsKeys = [
     , ("<XF86AudioNext>", spawn "xterm")
     , ("<XF86AudioPlay>", spawn "cplay")
     , ("<XF86AudioMute>", spawn "pulsemixer --toggle-mute")
-    , ("<XF86AudioLowerVolume>", spawn "pulsemixer --change-volume -15")
-    , ("<XF86AudioRaiseVolume>", spawn "pulsemixer --change-volume +15")
+    , ("<XF86AudioLowerVolume>", spawn "pulsemixer --change-volume -10")
+    , ("<XF86AudioRaiseVolume>", spawn "pulsemixer --change-volume +10")
 
   ------------------------------- Yeelight ----------------------------------------
   -- TODO: scripts use directory structure
@@ -180,7 +182,7 @@ exclusiveSps = mkXScratchpads [
     , ("anki" ,         "anki",                                 resource =? "anki")
     , ("cal" ,          "google-calendar-nativefier",           resource =? "googlecalendar-nativefier-e22938")
     , ("cmus",          "xterm -name cmus cmus",                resource =? "cmus")
-    , ("thunderbird" ,  "thunderbird",                          resource =? "Mail")
+    --, ("thunderbird" ,  "thunderbird",                          resource =? "Mail")
     , ("nvtop",         "xterm -name nvtop nvtop",		resource =? "nvtop")
     , ("htop",          "xterm -bg black -name htop htop",      resource =? "htop")
     , ("hardinfo",      "hardinfo",				resource =? "hardinfo")
@@ -210,8 +212,11 @@ shiftMouse direction
 
 mouseKeys :: [((ButtonMask, Button), Window -> X ())]
 mouseKeys = [
-      ((0, 6), \w -> moveToIndependent Prev )
+-- button4 = scroll up, button3 = right click, button 5 = scroll down
+     ((0, 6), \w -> moveToIndependent Prev )
+    -- , ((0, button3), \w -> spawn "exec xdotool key ctrl+return")
     , ((0, 7), \w -> moveToIndependent Next )
+    -- Middle mouse button: annotate label (0, 3) or button2
     , ((mod4Mask, button2), (\w -> focus w >> mouseResizeWindow w >> windows W.shiftMaster))
     ]
 
