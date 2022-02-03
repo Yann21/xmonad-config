@@ -109,9 +109,9 @@ main = do
 -- TODO Refactor
 xmobarCommand (S screen) = unwords ["xmobar", "-x", show screen, myConfig screen]
     where
-        myConfig 0 = "/home/yann/.config/xmobar/xmobarrc_mid.hs"
-        myConfig 1 = "/home/yann/.config/xmobar/xmobarrc_left.hs"
-        myConfig 2 = "/home/yann/.config/xmobar/xmobarrc_right.hs"
+        myConfig 0 = "$HOME/.config/xmobar/xmobarrc_mid.hs"
+        myConfig 1 = "$HOME/.config/xmobar/xmobarrc_left.hs"
+        myConfig 2 = "$HOME/.config/xmobar/xmobarrc_right.hs"
 
 addNETSupported :: Atom -> X ()
 addNETSupported x   = withDisplay $ \dpy -> do

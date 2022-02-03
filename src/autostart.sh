@@ -17,6 +17,7 @@ ulauncher --hide-window --no-window-shadow &      # Dynamic menu
 firefox &                                           # Firefox
 # vim &                                             # Self Q&A
 emacs &                                           # The one + Self Q&A
+xrdb ~/.Xresources &
 
 # Synchronize important directories between machines
 #gitwatch -r origin -b main $HOME/Org &
