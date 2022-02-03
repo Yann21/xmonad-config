@@ -8,16 +8,18 @@ redshift -c "$HOME/.config/redshift/redshift.conf" &  # Go easy on the eyes
 nitrogen --restore &                                # Wallpaper
 numlockx on &                                       # Numlock (previously in lightdm.conf)
 picom -b &                                          # Compositor, transparency
-xset r rate 190 8 &                                # Typematic delays - previously 190 28
+xset r rate 190 8 &                                 # Typematic delays - previously 190 28
 autokey-gtk &                                       # Rebinds bash bindings in browser
 mousetrap -t 5 &                                    # Auto hide mouse after 5s
-xmodmap -e "keycode 49 = Caps_Lock NoSymbol Caps_Lock" & # Makes ^2 key act as caps lock (autokey most likely not working)
+#xmodmap -e "keycode 49 = Caps_Lock NoSymbol Caps_Lock" & # Makes ^2 key act as caps lock (autokey most likely not working)
 copyq &                                             # Clipboard manager
-ulauncher --hide-window --no-window-shadow &      # Dynamic menu
+ulauncher --hide-window --no-window-shadow &        # Dynamic menu
 firefox &                                           # Firefox
-# vim &                                             # Self Q&A
 emacs &                                           # The one + Self Q&A
 xrdb ~/.Xresources &
+emacs &                                             # The one and only + Self Q&A
+ao &
+>>>>>>> 8e3f86eee259c4fc0cdc8d1aeacc95408c40a69b:etc/autostart.sh
 
 # Synchronize important directories between machines
 #gitwatch -r origin -b main $HOME/Org &
@@ -27,13 +29,14 @@ xrdb ~/.Xresources &
 
 
 # @Home
-if ! [[ $(uname --all) =~ "Ubuntu" ]]; then
+if [[ $(uname --all) =~ "arch" ]]; then
     ckb-next -b &                                       # Corsair bindings
-    "$HOME/Code/tools/Pycharm2019/pycharm-2019.3.4/bin/pycharm.sh" &
+    code &
     udiskie &                                           # USB daemon
     aw-server &                                         # Windows and time tracker (*)
     xscreensaver --no-splash -verbose &                 # Aerial screensaver
-    noip2 &
+    noip2 -c /etc/no-ip2.conf &
+    bluetooth-autoconnect & 
 fi
 
 # Record screen (*) we're oom
