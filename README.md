@@ -1,20 +1,26 @@
+# Custom XMonad configuration
+
 [![github](https://img.shields.io/badge/git-github-lightgray.svg)](https://github.com/Yann21/xmonad-config) [![Issues](https://img.shields.io/badge/issues-github-green.svg)](https://github.com/Yann21/xmonad-config/issues)
 # <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F7%2F72%2FXmonad-logo.png&f=1&nofb=1" height="36.5" width="23.5" /> monad Configuration
 Caveat emptor as always.
 
+
 ## Table of contents
+
 * [General info](#version)
 * [Getting started](#how-to-run)
 * [Structure](#content)
 * [TODO](#todo)
 
-## Version
-* Arch Linux...
-* XMonad...
-* XMonad-contrib..
-* XMobar...
 
-## How to run
+## Version
+
+XMonad uses the build script at "$HOME/.xmonad/build" when recompiling
+(`xmonad --recompile`)
+
+
+## How to install
+
 ```
 Install stack
 $ yay -S stack[-static]
@@ -36,13 +42,17 @@ $ make all
 $ xmonad --recompile (&& xmonad-restart)
 ```
 
+
 ## Lightdm
+
 ```
 Install the xmonad session file for lightdm
 $ make install
 ```
 
-## Content
+
+## Module structure
+
 ```
 src/
 ├── autostart.sh
@@ -53,8 +63,3 @@ src/
 │   └── Others.hs
 └── xmonad.hs
 ```
-
-## TODO?
-* DynamicWorkspaces -> rename xmobar on the fly
-* Pipe build output to xmessage
-* Take a look inside xmonad-contrib

@@ -39,7 +39,7 @@ tunnel          = "xterm -e ssh -L 3333:git.talkwalker:22 dev@10.103.2.179"
 sshTreeselectAction a = TS.treeselectAction a
     [ Node (TS.TSNode "+ Talkwalker"   "Work related access" (return ()))
         [ Node (TS.TSNode "vpn"      "Work VPN"        (spawn (vpnConnect "y.hoffmann.ovpn" ))) []
-        , Node (TS.TSNode "tunnel"   "Work git access" (spawn (tunnel  ))) []
+        , Node (TS.TSNode "tunnel"   "Work git access" (spawn tunnel)) []
         , Node (TS.TSNode "ssh"      "Work ssh"        (spawn (sshConnect "work"  ))) []
         ]
     , Node (TS.TSNode "+ WAN Machines"      "Quick access to servers" (return ()))

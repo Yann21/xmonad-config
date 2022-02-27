@@ -6,19 +6,21 @@
 redshift -c "$HOME/.config/redshift/redshift.conf" &  # Go easy on the eyes
 "$HOME/.screenlayout/arandrrc_triple.sh" &                   # Double monitor layout
 nitrogen --restore &                                # Wallpaper
-numlockx on &                                       # Numlock (previously in lightdm.conf)
 picom -b &                                          # Compositor, transparency
+
+autokey-gtk &                                       # Rebinds bash bindings all over the place
+copyq &                                             # Clipboard manager
+numlockx on &                                       # Numlock (previously in lightdm.conf)
 xset r rate 190 8 &                                 # Typematic delays - previously 190 28
-autokey-gtk &                                       # Rebinds bash bindings in browser
 mousetrap -t 5 &                                    # Auto hide mouse after 5s
 #xmodmap -e "keycode 49 = Caps_Lock NoSymbol Caps_Lock" & # Makes ^2 key act as caps lock (autokey most likely not working)
-copyq &                                             # Clipboard manager
 ulauncher --hide-window --no-window-shadow &        # Dynamic menu
 firefox &                                           # Firefox
 emacs &                                             # The one and only + Self Q&A
-ao &
+ao &                                                # GTD
 
 # Synchronize important directories between machines
+gitwatch -r origin -b main $HOME/Documents/KnowledgeManager &
 #gitwatch -r origin -b main $HOME/Org &
 #gitwatch -r origin -b master $HOME/.xmonad &
 #gitwatch -r origin -b master $HOME/.dotfiles &
@@ -27,6 +29,8 @@ ao &
 
 # @Home
 if [[ $(uname --all) =~ "arch" ]]; then
+#if [[ $(hostname) =~ "yann-desktop" ]]; then
+#if [[ true ]]; then
     ckb-next -b &                                       # Corsair bindings
     code &
     udiskie &                                           # USB daemon

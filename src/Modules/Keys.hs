@@ -42,6 +42,8 @@ spawnXkill = spawn "xkill"
 spawnXprop = spawn "xterm -name float -e '~/system/bin/xprop_4_xmonad.sh && sh'"
 spawnHibernate  = spawn "xterm -e systemctl hibernate"
 spawnShutdown  = spawn "shutdown now"
+spawnReboot  = spawn "shutdown -r now"
+spawnToggleBluetooth = spawn "bluetoothctl info | grep 'Connected: yes' -q && bluetoothctl power off || bluetoothctl power on"
 shiftWindowCommand = "exec xdotool getactivewindow windowmove --relative"
 shiftWindow dir
     | dir == "up"    = spawn $ shiftWindowCommand ++ "+0 -75"
@@ -59,19 +61,25 @@ emacsKeys = [
     , ("C-M1-a"  , spawn "atom"           )
     , ("C-M1-b"  , spawn "blueberry"      )
     , ("C-M1-c"  , spawn "calibre"        )
+
     , ("C-M1-e"  , spawn "emacs"          )
     , ("C-M1-f"  , spawn "firefox"        )
     , ("C-M1-g"  , spawn "gimp"		  )
-    , ("C-M1-k"  , spawn "anki"           )
+
     , ("C-M1-i"  , spawn "idea-ce"	  )
-    , ("C-M1-n"  , spawn "nautilus"       )
+
+    , ("C-M1-k"  , spawn "anki"           )
+
+    -- Isn't Alt+= the align code?
+    , ("C-M1-l"  , spawn "libreoffice"    ) -- conflict with intellij align code
     , ("C-M1-m"  , spawn "thunderbird"    )
-    -- Isn't Alt+= the align code
-    --, ("C-M1-l"  , spawn "libreoffice"    ) -- conflict with intellij align code
-    --, ("C-M1-p"  , spawn "$HOME/Code/tools/Pycharm2019/pycharm-2019.3.4/bin/pycharm.sh"        )
-    , ("C-M1-v"  , spawn "code"		  ) -- vscode
+    , ("C-M1-n"  , spawn "nautilus"       )
+
     , ("C-M1-r"  , spawn "rstudio-bin"    )
+
     , ("C-M1-t"  , spawn "xterm"          )
+
+    , ("C-M1-v"  , spawn "code"		  ) -- vscode
     , ("C-M1-w"  , spawn "nxplayer"       )
 
   ------------------------------- Scratchpads ----------------------------------------
@@ -80,23 +88,28 @@ emacsKeys = [
     , ("C-M-c", scratchpadAction exclusiveSps "cal"     ) -- [c]alendar
     , ("C-M-d", scratchpadAction exclusiveSps "stardict") -- [d]ictionary
     , ("C-M-e", scratchpadAction exclusiveSps "virt-manager"      ) -- [e]mulator
+
     , ("C-M-g", scratchpadAction exclusiveSps "nvtop"    ) -- [g]pu
     , ("C-M-h", scratchpadAction exclusiveSps "htop"    ) -- [h]top
     , ("C-M-i", scratchpadAction exclusiveSps "hardinfo"   ) -- hardinfo
     , ("C-M-j", scratchpadAction exclusiveSps "jshell"  ) -- java
     , ("C-M-k", scratchpadAction exclusiveSps "anki"    ) -- anki
+
     , ("C-M-m", scratchpadAction exclusiveSps "thunderbird") -- mail
     , ("C-M-n", scratchpadAction exclusiveSps "ao"      ) -- notes
     , ("C-M-o", scratchpadAction exclusiveSps "octave"  ) -- octave
     , ("C-M-p", scratchpadAction exclusiveSps "python"  ) -- python
+
     , ("C-M-r", scratchpadAction exclusiveSps "R"       ) -- R
     , ("C-M-s", scratchpadAction exclusiveSps "rambox"  ) -- social media
     , ("C-M-t", scratchpadAction exclusiveSps "trello"  ) -- trello
+
     , ("C-M-v", scratchpadAction exclusiveSps "pulse"   ) -- volume
-    , ("C-M-x", scratchpadAction exclusiveSps "spotify" ) -- x
     , ("C-M-w", scratchpadAction exclusiveSps "cmus"    ) -- w
+    , ("C-M-x", scratchpadAction exclusiveSps "spotify" ) -- x
+
     , ("C-M-z", scratchpadAction exclusiveSps "zotero"  ) -- zotero
-    -- , ("C-M-s", scratchpadAction exclusiveSps "scala"   )
+
 
   ------------------------------- Layouts ----------------------------------------
     , ("M-k"  , B.focusDown                      )
@@ -134,6 +147,7 @@ emacsKeys = [
     , ("<F4>"     ,     spawnXkill    )
     , ("M1-<F3>"  ,     spawnHibernate)
     , ("M1-<F4>"  ,     spawnShutdown )
+    , ("M1-<F5>"  ,     spawnReboot )
     , ("<Print>"  ,     spawnScrot    )
     , ("S-<Print>",     spawnRectScrot)
     , ("C-<Print>",     spawnRectScrotClipboard)
@@ -145,6 +159,7 @@ emacsKeys = [
     , ("<XF86AudioPrev>", spawn "xterm")
     , ("<XF86AudioNext>", spawn "xterm")
     , ("<XF86AudioPlay>", spawn "cplay")
+    , ("C-<XF86AudioPlay>", spawnToggleBluetooth)
     , ("<XF86AudioMute>", spawn "pulsemixer --toggle-mute")
     , ("<XF86AudioLowerVolume>", spawn "pulsemixer --change-volume -10")
     , ("<XF86AudioRaiseVolume>", spawn "pulsemixer --change-volume +10")
@@ -194,10 +209,10 @@ exclusiveSps = mkXScratchpads [
     , ("rambox",        "rambox",                               resource =? "rambox")
     , ("scala" ,        "xterm -name scala scala",              resource =? "scala" )
     , ("spotify",       "spotify",                              resource =? "spotify")
-    , ("stardict",      "startdict",                            resource =? "stardict")
+    , ("stardict",      "stardict",                             resource =? "stardict")
     , ("todoist",       "todoist",                              resource =? "todoist")
     , ("trello",        "trello",                               resource =? "trello")
-    , ("xterm" ,        "xterm -name scratch",			        appName	 =? "scratch")
+    , ("xterm" ,        "xterm -name scratch",			appName	 =? "scratch")
     , ("virt-manager" , "virt-manager",                         title    =? "Virtual Machine Manager") -- differentiate between the launcher and the VMs
     , ("zotero",        "zotero",                               title    =? "Zotero")
     -- RationalRect: (x_start, y_start), (width, height)
@@ -217,7 +232,7 @@ mouseKeys = [
     -- , ((0, button3), \w -> spawn "exec xdotool key ctrl+return")
     , ((0, 7), \w -> moveToIndependent Next )
     -- Middle mouse button: annotate label (0, 3) or button2
-    , ((mod4Mask, button2), (\w -> focus w >> mouseResizeWindow w >> windows W.shiftMaster))
+    , ((mod4Mask, button2), \w -> focus w >> mouseResizeWindow w >> windows W.shiftMaster)
     ]
 
 
@@ -254,20 +269,20 @@ clickables = action strWorkspaces
 physicalScreens :: X [Maybe ScreenId]
 physicalScreens = withWindowSet $ \windowSet -> do
 	let nScreens = length $ W.screens windowSet
-	mapM (\s -> getScreen def (P s)) [0..nScreens]
+	mapM (getScreen def . P) [0..nScreens]
 
 getPhysicalScreen :: ScreenId -> X (Maybe PhysicalScreen)
 getPhysicalScreen sid = do
 	pscreens <- physicalScreens
-	return $ (Just sid) `elemIndex` pscreens >>= \s -> Just (P s)
+	return $ Just sid `elemIndex` pscreens >>= \s -> Just (P s)
 
 screenID :: X Char
 screenID = withWindowSet $ \windowSet -> do
 	let sid = W.screen (W.current windowSet)
 	pscreen <- getPhysicalScreen sid
 	return $ case pscreen of
-				Just (P s) -> (head (show s))
-				otherwise  -> 'r'
+				Just (P s) -> head (show s)
+				_  -> 'r'
 
 -- XORG numbers screens like this: 0 1 2 (logical)
 -- but X.L.IndependentScreens does that: 1 0 2 (somewhat less logical)

@@ -17,6 +17,8 @@ import XMonad.Util.Run (spawnPipe)
 import XMonad.Util.SpawnOnce
 
     -- Hooks
+--import XMonad.Hooks.DynamicLog
+--import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.DynamicLog (dynamicLogWithPP)
 import XMonad.Hooks.ManageDocks (avoidStruts, docksEventHook, manageDocks)
 import XMonad.Hooks.ServerMode
@@ -24,7 +26,6 @@ import XMonad.Hooks.SetWMName
 import XMonad.Hooks.EwmhDesktops  -- for some fullscreen events, also for xcomposite in obs.
 import Data.Maybe (maybeToList)
 import Control.Monad
-import XMonad.Hooks.ManageDocks
 import XMonad.Actions.KeyRemap
 
     -- my Imports
@@ -35,7 +36,6 @@ import Modules.Layouts (myManageHook, myLayoutHook)
 import XMonad.Hooks.RefocusLast
 import qualified Data.Map.Strict as M
 
-import XMonad.Hooks.DynamicLog
 
 
 myTerminal    = "xterm"
@@ -87,7 +87,7 @@ main = do
 
         , layoutHook         = myLayoutHook -- refocusLastLayoutHook $ myLayoutHook
         , startupHook        = myStartupHook >> addEWMHFullscreen -- Adds EWMH tags to Firefox
-        , logHook = refocusLastLogHook <+> (mapM_ dynamicLogWithPP $ zipWith pp handles [0 .. nScreens])
+        , logHook = refocusLastLogHook <+> mapM_ dynamicLogWithPP (zipWith pp handles [0 .. nScreens])
         --, logHook = refocusLastLogHook <+> (mapM_ dynamicLog>it)
 
         , focusFollowsMouse  = False
@@ -109,9 +109,9 @@ main = do
 -- TODO Refactor
 xmobarCommand (S screen) = unwords ["xmobar", "-x", show screen, myConfig screen]
     where
-        myConfig 0 = "/home/yann/.config/xmobar/xmobarrc_mid.hs"
-        myConfig 1 = "/home/yann/.config/xmobar/xmobarrc_left.hs"
-        myConfig 2 = "/home/yann/.config/xmobar/xmobarrc_right.hs"
+        myConfig 0 = "$HOME/.config/xmobar/xmobarrc_mid.hs"
+        myConfig 1 = "$HOME/.config/xmobar/xmobarrc_left.hs"
+        myConfig 2 = "$HOME/.config/xmobar/xmobarrc_right.hs"
 
 addNETSupported :: Atom -> X ()
 addNETSupported x   = withDisplay $ \dpy -> do
@@ -119,7 +119,7 @@ addNETSupported x   = withDisplay $ \dpy -> do
     a_NET_SUPPORTED <- getAtom "_NET_SUPPORTED"
     a               <- getAtom "ATOM"
     liftIO $ do
-       sup <- (join . maybeToList) <$> getWindowProperty32 dpy a_NET_SUPPORTED r
+       sup <- join . maybeToList <$> getWindowProperty32 dpy a_NET_SUPPORTED r
        when (fromIntegral x `notElem` sup) $
          changeProperty32 dpy r a_NET_SUPPORTED a propModeAppend [fromIntegral x]
 
