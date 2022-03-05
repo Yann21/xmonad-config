@@ -33,13 +33,13 @@ import Modules.MyTreeSelect (treeselectAction, sshTreeselectAction)
 -- COMMANDS
 ------------------------------------------------------------------------
 timeFormat = "%y-%m-%d_%H-%M-%S"
-spawnRectScrotClipboard = spawn $ "sleep 0.2 && scrot -s ~/Documents/Media/screenshots/" ++ timeFormat ++ ".png \
+spawnRectScrotClipboard = spawn $ "sleep 0.2 && scrot -s $HOME/Documents/Media/screenshots/" ++ timeFormat ++ ".png \
     \-e 'xclip -select clipboard -target image/png -i $f'"
-spawnRectScrot = spawn $ "sleep 0.2 && scrot -s ~/Documents/Media/screenshots/" ++ timeFormat ++ ".png && notify-send chink-rec"
-spawnScrot     = spawn $ "scrot ~/Documents/Media/screenshots/" ++ timeFormat ++ ".png && notify-send chink"
+spawnRectScrot = spawn $ "sleep 0.2 && scrot -s $HOME/Documents/Media/screenshots/" ++ timeFormat ++ ".png && notify-send chink-rec"
+spawnScrot     = spawn $ "scrot $HOME/Documents/Media/screenshots/" ++ timeFormat ++ ".png && notify-send chink"
 spawnRecompile = spawn "xmonad --recompile && xmonad --restart"
 spawnXkill = spawn "xkill"
-spawnXprop = spawn "xterm -name float -e '~/system/bin/xprop_4_xmonad.sh && sh'"
+spawnXprop = spawn "xterm -name float -e '$HOME/system/scripts/xprop_4_xmonad.sh && sh'"
 spawnHibernate  = spawn "xterm -e systemctl hibernate"
 spawnShutdown  = spawn "shutdown now"
 spawnReboot  = spawn "shutdown -r now"
@@ -58,57 +58,51 @@ emacsKeys :: [(String, X())]
 emacsKeys = [
   ------------------------------- Programs ----------------------------------------
       ("C-M1-S-f", spawn "firefox-developer-edition" )
-    , ("C-M1-a"  , spawn "atom"           )
-    , ("C-M1-b"  , spawn "blueberry"      )
-    , ("C-M1-c"  , spawn "calibre"        )
-
-    , ("C-M1-e"  , spawn "emacs"          )
-    , ("C-M1-f"  , spawn "firefox"        )
-    , ("C-M1-g"  , spawn "gimp"		  )
-
-    , ("C-M1-i"  , spawn "idea-ce"	  )
-
-    , ("C-M1-k"  , spawn "anki"           )
+    , ("C-M1-a"  , spawn "atom"        )
+    , ("C-M1-b"  , spawn "blueberry"   )
+    , ("C-M1-c"  , spawn "calibre"     )
+    , ("C-M1-e"  , spawn "emacs"       )
+    , ("C-M1-f"  , spawn "firefox"     )
+    , ("C-M1-g"  , spawn "gimp"	       )
+    , ("C-M1-i"  , spawn "idea-ce"     )
+    , ("C-M1-k"  , spawn "anki"        )
 
     -- Isn't Alt+= the align code?
-    , ("C-M1-l"  , spawn "libreoffice"    ) -- conflict with intellij align code
-    , ("C-M1-m"  , spawn "thunderbird"    )
-    , ("C-M1-n"  , spawn "nautilus"       )
-
-    , ("C-M1-r"  , spawn "rstudio-bin"    )
-
-    , ("C-M1-t"  , spawn "xterm"          )
-
-    , ("C-M1-v"  , spawn "code"		  ) -- vscode
-    , ("C-M1-w"  , spawn "nxplayer"       )
+    , ("C-M1-l"  , spawn "libreoffice" ) -- conflict with intellij align code
+    , ("C-M1-m"  , spawn "thunderbird" )
+    , ("C-M1-n"  , spawn "nautilus"    )
+    , ("C-M1-r"  , spawn "rstudio-bin" )
+    , ("C-M1-t"  , spawn "xterm"       )
+    , ("C-M1-v"  , spawn "code"	       ) -- vscode
+    , ("C-M1-w"  , spawn "nxplayer"    )
 
   ------------------------------- Scratchpads ----------------------------------------
     , ("C-M-<Space>", scratchpadAction exclusiveSps "xterm" )
-    , ("C-M-b", scratchpadAction exclusiveSps "blueberry" ) -- b
-    , ("C-M-c", scratchpadAction exclusiveSps "cal"     ) -- [c]alendar
-    , ("C-M-d", scratchpadAction exclusiveSps "stardict") -- [d]ictionary
-    , ("C-M-e", scratchpadAction exclusiveSps "virt-manager"      ) -- [e]mulator
+    , ("C-M-b", scratchpadAction exclusiveSps "blueberry"   ) -- b
+    , ("C-M-c", scratchpadAction exclusiveSps "cal"	    ) -- [c]alendar
+    , ("C-M-d", scratchpadAction exclusiveSps "stardict"    ) -- [d]ictionary
+    , ("C-M-e", scratchpadAction exclusiveSps "virt-manager") -- [e]mulator
 
-    , ("C-M-g", scratchpadAction exclusiveSps "nvtop"    ) -- [g]pu
-    , ("C-M-h", scratchpadAction exclusiveSps "htop"    ) -- [h]top
-    , ("C-M-i", scratchpadAction exclusiveSps "hardinfo"   ) -- hardinfo
-    , ("C-M-j", scratchpadAction exclusiveSps "jshell"  ) -- java
-    , ("C-M-k", scratchpadAction exclusiveSps "anki"    ) -- anki
+    , ("C-M-g", scratchpadAction exclusiveSps "nvtop"	    ) -- [g]pu
+    , ("C-M-h", scratchpadAction exclusiveSps "htop"	    ) -- [h]top
+    , ("C-M-i", scratchpadAction exclusiveSps "hardinfo"    ) -- hardinfo
+    , ("C-M-j", scratchpadAction exclusiveSps "jshell"	    ) -- java
+    , ("C-M-k", scratchpadAction exclusiveSps "anki"        ) -- anki
 
-    , ("C-M-m", scratchpadAction exclusiveSps "thunderbird") -- mail
-    , ("C-M-n", scratchpadAction exclusiveSps "ao"      ) -- notes
-    , ("C-M-o", scratchpadAction exclusiveSps "octave"  ) -- octave
-    , ("C-M-p", scratchpadAction exclusiveSps "python"  ) -- python
+    , ("C-M-m", scratchpadAction exclusiveSps "thunderbird" ) -- mail
+    , ("C-M-n", scratchpadAction exclusiveSps "ao"	    ) -- notes
+    , ("C-M-o", scratchpadAction exclusiveSps "octave"      ) -- octave
+    , ("C-M-p", scratchpadAction exclusiveSps "python"      ) -- python
 
-    , ("C-M-r", scratchpadAction exclusiveSps "R"       ) -- R
-    , ("C-M-s", scratchpadAction exclusiveSps "rambox"  ) -- social media
-    , ("C-M-t", scratchpadAction exclusiveSps "trello"  ) -- trello
+    , ("C-M-r", scratchpadAction exclusiveSps "R"	    ) -- R
+    , ("C-M-s", scratchpadAction exclusiveSps "rambox"	    ) -- social media
+    , ("C-M-t", scratchpadAction exclusiveSps "trello"	    ) -- trello
 
-    , ("C-M-v", scratchpadAction exclusiveSps "pulse"   ) -- volume
-    , ("C-M-w", scratchpadAction exclusiveSps "cmus"    ) -- w
-    , ("C-M-x", scratchpadAction exclusiveSps "spotify" ) -- x
+    , ("C-M-v", scratchpadAction exclusiveSps "pulse"	    ) -- volume
+    , ("C-M-w", scratchpadAction exclusiveSps "cmus"	    ) -- w
+    , ("C-M-x", scratchpadAction exclusiveSps "spotify"	    ) -- x
 
-    , ("C-M-z", scratchpadAction exclusiveSps "zotero"  ) -- zotero
+    , ("C-M-z", scratchpadAction exclusiveSps "zotero"	    ) -- zotero
 
 
   ------------------------------- Layouts ----------------------------------------
@@ -140,19 +134,19 @@ emacsKeys = [
     , ("M-M1-j", sendMessage $ pullGroup D)
     , ("M-M1-m", withFocused $ sendMessage . MergeAll)
     , ("M-M1-u", withFocused $ sendMessage . UnMerge )
-    , ("M-M1-,", onGroup W.focusUp'  )
-    , ("M-M1-;", onGroup W.focusDown')
+    , ("M-M1-,", onGroup W.focusUp'	)
+    , ("M-M1-;", onGroup W.focusDown'	)
 
   ------------------------------- Functions ----------------------------------------
-    , ("<F4>"     ,     spawnXkill    )
-    , ("M1-<F3>"  ,     spawnHibernate)
-    , ("M1-<F4>"  ,     spawnShutdown )
-    , ("M1-<F5>"  ,     spawnReboot )
-    , ("<Print>"  ,     spawnScrot    )
-    , ("S-<Print>",     spawnRectScrot)
+    , ("<F4>"     ,     spawnXkill	)
+    , ("M1-<F3>"  ,     spawnHibernate	)
+    , ("M1-<F4>"  ,     spawnShutdown	)
+    , ("M1-<F5>"  ,     spawnReboot	)
+    , ("<Print>"  ,     spawnScrot	)
+    , ("S-<Print>",     spawnRectScrot	)
     , ("C-<Print>",     spawnRectScrotClipboard)
-    , ("M-S-r"    ,     spawnRecompile)
-    , ("<F5>"     ,     spawnXprop)
+    , ("M-S-r"    ,     spawnRecompile	)
+    , ("<F5>"     ,     spawnXprop	)
 
   ------------------------------- XFKeys ----------------------------------------
     , ("<XF86AudioStop>", spawn "xterm")
@@ -167,12 +161,12 @@ emacsKeys = [
   ------------------------------- Yeelight ----------------------------------------
   -- TODO: scripts use directory structure
     , ("S-<XF86AudioMute>",        spawn "~/system/bin/yeelight/controller.py toggle")
-    , ("S-<XF86AudioLowerVolume>", spawn "~/system/bin/yeelight/controller.py down")
-    , ("S-<XF86AudioRaiseVolume>", spawn "~/system/bin/yeelight/controller.py up")
-    , ("M1-<U>", spawn "xdotool getactivewindow windowmove --relative 0 -100")
-    , ("M1-<D>", spawn "xdotool getactivewindow windowmove --relative 0 +100")
-    , ("M1-<L>", spawn "xdotool getactivewindow windowmove --relative -- -100 0")
-    , ("M1-<R>", spawn "xdotool getactivewindow windowmove --relative +100 0")
+    , ("S-<XF86AudioLowerVolume>", spawn "~/system/bin/yeelight/controller.py down" )
+    , ("S-<XF86AudioRaiseVolume>", spawn "~/system/bin/yeelight/controller.py up"   )
+    , ("M1-<U>", spawn "xdotool getactivewindow windowmove --relative 0 -100"	    )
+    , ("M1-<D>", spawn "xdotool getactivewindow windowmove --relative 0 +100"	    )
+    , ("M1-<L>", spawn "xdotool getactivewindow windowmove --relative -- -100 0"    )
+    , ("M1-<R>", spawn "xdotool getactivewindow windowmove --relative +100 0"	    )
     --, ("S-<XF86AudioStop>", spawn "")
     --, ("S-<XF86AudioPrev>", spawn "")
     --, ("S-<XF86AudioNext>", spawn "")
