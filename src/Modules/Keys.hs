@@ -88,6 +88,7 @@ emacsKeys = [
     , ("C-M-i", scratchpadAction exclusiveSps "hardinfo"    ) -- hardinfo
     , ("C-M-j", scratchpadAction exclusiveSps "jshell"	    ) -- java
     , ("C-M-k", scratchpadAction exclusiveSps "anki"        ) -- anki
+    , ("C-M-l", scratchpadAction exclusiveSps "cutelog"        ) -- cute[l]og
 
     , ("C-M-m", scratchpadAction exclusiveSps "thunderbird" ) -- mail
     , ("C-M-n", scratchpadAction exclusiveSps "ao"	    ) -- notes
@@ -190,8 +191,8 @@ exclusiveSps = mkXScratchpads [
       ("ao",            "ao",                                   resource =? "ao")
     , ("anki" ,         "anki",                                 resource =? "anki")
     , ("cal" ,          "google-calendar-nativefier",           resource =? "googlecalendar-nativefier-e22938")
+    , ("cutelog" ,      "cutelog",				resource =? "cutelog")
     , ("cmus",          "xterm -name cmus cmus",                resource =? "cmus")
-    --, ("thunderbird" ,  "thunderbird",                          resource =? "Mail")
     , ("nvtop",         "xterm -name nvtop nvtop",		resource =? "nvtop")
     , ("htop",          "xterm -bg black -name htop htop",      resource =? "htop")
     , ("hardinfo",      "hardinfo",				resource =? "hardinfo")
