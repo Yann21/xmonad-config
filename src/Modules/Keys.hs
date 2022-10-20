@@ -317,9 +317,11 @@ shiftToScreen :: Char -> X ()
 shiftToScreen target = do
   current <- screenID
   case (current, target) of
-    ('0', '1') -> shiftPrevScreen >> switchScreen '1'
-    ('0', '2') -> shiftNextScreen >> switchScreen '2'
-    ('1', '0') -> shiftNextScreen >> switchScreen '0'
-    ('1', '2') -> shiftPrevScreen >> switchScreen '2'
-    ('2', '1') -> shiftNextScreen >> switchScreen '1'
-    ('2', '0') -> shiftPrevScreen >> switchScreen '0'
+    ('0', '1') -> shiftNextScreen >> switchScreen '1'
+    ('0', '2') -> shiftPrevScreen >> switchScreen '2'
+
+    ('1', '0') -> shiftPrevScreen >> switchScreen '0'
+    ('1', '2') -> shiftNextScreen >> switchScreen '2'
+
+    ('2', '1') -> shiftPrevScreen >> switchScreen '1'
+    ('2', '0') -> shiftNextScreen >> switchScreen '0'
