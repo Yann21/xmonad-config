@@ -110,8 +110,8 @@ main = do
 xmobarCommand (S screen) = unwords ["xmobar", "-x", show screen, myConfig screen]
     where
         myConfig 2 = "$HOME/.config/xmobar/xmobarrc_mid.hs"
-        myConfig 0 = "$HOME/.config/xmobar/xmobarrc_left.hs"
-        myConfig 1 = "$HOME/.config/xmobar/xmobarrc_right.hs"
+        myConfig 1 = "$HOME/.config/xmobar/xmobarrc_left.hs"
+        myConfig 0 = "$HOME/.config/xmobar/xmobarrc_right.hs"
 
 addNETSupported :: Atom -> X ()
 addNETSupported x   = withDisplay $ \dpy -> do

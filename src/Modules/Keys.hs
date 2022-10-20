@@ -91,7 +91,7 @@ emacsKeys = [
     , ("C-M-l", scratchpadAction exclusiveSps "cutelog"        ) -- cute[l]og
 
     , ("C-M-m", scratchpadAction exclusiveSps "thunderbird" ) -- mail
-    , ("C-M-n", scratchpadAction exclusiveSps "ao"	    ) -- notes
+    , ("C-M-n", scratchpadAction exclusiveSps "ticktick"	    ) -- notes
     , ("C-M-o", scratchpadAction exclusiveSps "octave"      ) -- octave
     , ("C-M-p", scratchpadAction exclusiveSps "python"      ) -- python
 
@@ -284,8 +284,8 @@ screenID = withWindowSet $ \windowSet -> do
 xorgToIndependentScreenOrdering :: Char -> Char
 xorgToIndependentScreenOrdering c = case c of
   '0' -> '1'
-  '1' -> '0'
-  '2' -> '2'
+  '1' -> '2'
+  '2' -> '0'
   -- ...
 
 moveToIndependent :: Direction1D -> X ()
@@ -306,12 +306,12 @@ switchScreen :: Char -> X ()
 switchScreen target = do
   current <- screenID
   case (current, target) of
-    ('0', '1') -> prevScreen >> shiftMouse "right"
-    ('0', '2') -> nextScreen >> shiftMouse "right" >> shiftMouse "right"
-    ('1', '0') -> nextScreen >> shiftMouse "left"
-    ('1', '2') -> prevScreen >> shiftMouse "right"
-    ('2', '1') -> nextScreen >> shiftMouse "left"
-    ('2', '0') -> prevScreen >> shiftMouse "left" >> shiftMouse "left"
+    ('0', '1') -> nextScreen >> shiftMouse "right"
+    ('0', '2') -> prevScreen >> shiftMouse "right" >> shiftMouse "right"
+    ('1', '0') -> prevScreen >> shiftMouse "left"
+    ('1', '2') -> nextScreen >> shiftMouse "right"
+    ('2', '1') -> prevScreen >> shiftMouse "left"
+    ('2', '0') -> nextScreen >> shiftMouse "left" >> shiftMouse "left"
 
 shiftToScreen :: Char -> X ()
 shiftToScreen target = do
