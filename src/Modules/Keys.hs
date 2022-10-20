@@ -88,10 +88,10 @@ emacsKeys = [
     , ("C-M-i", scratchpadAction exclusiveSps "hardinfo"    ) -- hardinfo
     , ("C-M-j", scratchpadAction exclusiveSps "jshell"	    ) -- java
     , ("C-M-k", scratchpadAction exclusiveSps "anki"        ) -- anki
-    , ("C-M-l", scratchpadAction exclusiveSps "cutelog"        ) -- cute[l]og
+    , ("C-M-l", scratchpadAction exclusiveSps "cutelog"     ) -- cute[l]og
 
     , ("C-M-m", scratchpadAction exclusiveSps "thunderbird" ) -- mail
-    , ("C-M-n", scratchpadAction exclusiveSps "ticktick"	    ) -- notes
+    , ("C-M-n", scratchpadAction exclusiveSps "ticktick"    ) -- notes
     , ("C-M-o", scratchpadAction exclusiveSps "octave"      ) -- octave
     , ("C-M-p", scratchpadAction exclusiveSps "python"      ) -- python
 
@@ -188,7 +188,7 @@ emacsKeys = [
 ------------------------------------------------------------------------
 exclusiveSps :: ExclusiveScratchpads
 exclusiveSps = mkXScratchpads [
-      ("ao",            "ao",                                   resource =? "ao")
+      ("ticktick",      "ticktick",                                   resource =? "ticktick")
     , ("anki" ,         "anki",                                 resource =? "anki")
     , ("cal" ,          "google-calendar-nativefier",           resource =? "googlecalendar-nativefier-e22938")
     , ("cutelog" ,      "cutelog",				resource =? "cutelog")
