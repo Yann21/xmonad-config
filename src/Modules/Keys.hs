@@ -29,14 +29,16 @@ import qualified XMonad.StackSet as W
 import Modules.Others (dtXPConfig', dtXPConfig, tsDefaultConfig, promptList)
 import Modules.MyTreeSelect (treeselectAction, sshTreeselectAction)
 
+import Data.List
+
 ------------------------------------------------------------------------
 -- COMMANDS
 ------------------------------------------------------------------------
 timeFormat = "%y-%m-%d_%H-%M-%S"
 spawnRectScrotClipboard = spawn $ "sleep 0.2 && scrot -s $HOME/Documents/Media/screenshots/" ++ timeFormat ++ ".png \
     \-e 'xclip -select clipboard -target image/png -i $f'"
-spawnRectScrot = spawn $ "sleep 0.2 && scrot -s $HOME/Documents/Media/screenshots/" ++ timeFormat ++ ".png && notify-send chink-rec"
-spawnScrot     = spawn $ "scrot $HOME/Documents/Media/screenshots/" ++ timeFormat ++ ".png && notify-send chink"
+spawnRectScrot = spawn $ "sleep 0.2 && scrot -s $HOME/Documents/Media/screenshots/" ++ timeFormat ++ ".png && play /usr/share/sounds/freedesktop/stereo/screen-capture.oga"
+spawnScrot     = spawn $ "scrot $HOME/Documents/Media/screenshots/" ++ timeFormat ++ ".png && play /usr/share/sounds/freedesktop/stereo/screen-capture.oga"
 spawnRecompile = spawn "xmonad --recompile && xmonad --restart"
 spawnXkill = spawn "xkill"
 spawnXprop = spawn "xterm -name float -e '$HOME/system/scripts/xprop_4_xmonad.sh && sh'"
@@ -44,6 +46,7 @@ spawnHibernate  = spawn "xterm -e systemctl hibernate"
 spawnShutdown  = spawn "shutdown now"
 spawnReboot  = spawn "shutdown -r now"
 spawnToggleBluetooth = spawn "bluetoothctl info | grep 'Connected: yes' -q && bluetoothctl power off || bluetoothctl power on"
+spawnMeetingsRecorder = spawn $ "simplescreenrecorder --start-hidden --start-recording --settingsfile=/home/yann/.ssr/settings_meetings.conf --no-systray & play /usr/share/sounds/freedesktop/stereo/bell.oga"
 shiftWindowCommand = "exec xdotool getactivewindow windowmove --relative"
 shiftWindow dir
     | dir == "up"    = spawn $ shiftWindowCommand ++ "+0 -75"
@@ -61,18 +64,20 @@ emacsKeys = [
     , ("C-M1-a"  , spawn "atom"        )
     , ("C-M1-b"  , spawn "blueberry"   )
     , ("C-M1-c"  , spawn "calibre"     )
+    , ("C-M1-d"  , spawn "zeal"     )
     , ("C-M1-e"  , spawn "emacs"       )
     , ("C-M1-f"  , spawn "firefox"     )
     , ("C-M1-g"  , spawn "gimp"	       )
     , ("C-M1-i"  , spawn "idea-ce"     )
-    , ("C-M1-k"  , spawn "anki"        )
+    , ("C-M1-k"  , spawn "kdenlive"        )
 
     -- Isn't Alt+= the align code?
     , ("C-M1-l"  , spawn "libreoffice" ) -- conflict with intellij align code
-    , ("C-M1-m"  , spawn "thunderbird" )
+    , ("C-M1-m"  , spawn "mailspring" )
     , ("C-M1-n"  , spawn "nautilus"    )
     , ("C-M1-r"  , spawn "rstudio-bin" )
     , ("C-M1-t"  , spawn "xterm"       )
+    , ("C-M1-S-t"  , spawn "xterm -e 'ssh work'"       )
     , ("C-M1-v"  , spawn "code"	       ) -- vscode
     , ("C-M1-w"  , spawn "nxplayer"    )
 
@@ -80,28 +85,30 @@ emacsKeys = [
     , ("C-M-<Space>", scratchpadAction exclusiveSps "xterm" )
     , ("C-M-b", scratchpadAction exclusiveSps "blueberry"   ) -- b
     , ("C-M-c", scratchpadAction exclusiveSps "cal"	    ) -- [c]alendar
-    , ("C-M-d", scratchpadAction exclusiveSps "stardict"    ) -- [d]ictionary
+    , ("C-M-d", scratchpadAction exclusiveSps "zeal"	    ) -- [d]ocumentation
     , ("C-M-e", scratchpadAction exclusiveSps "virt-manager") -- [e]mulator
 
     , ("C-M-g", scratchpadAction exclusiveSps "nvtop"	    ) -- [g]pu
     , ("C-M-h", scratchpadAction exclusiveSps "htop"	    ) -- [h]top
     , ("C-M-i", scratchpadAction exclusiveSps "hardinfo"    ) -- hardinfo
     , ("C-M-j", scratchpadAction exclusiveSps "jshell"	    ) -- java
-    , ("C-M-k", scratchpadAction exclusiveSps "anki"        ) -- anki
+    , ("C-M-a", scratchpadAction exclusiveSps "anki"        ) -- [a]nki
+    , ("C-M-k", scratchpadAction exclusiveSps "keycombiner"        ) -- [k]eycombiner
     , ("C-M-l", scratchpadAction exclusiveSps "cutelog"        ) -- cute[l]og
 
     , ("C-M-m", scratchpadAction exclusiveSps "thunderbird" ) -- mail
-    , ("C-M-n", scratchpadAction exclusiveSps "ao"	    ) -- notes
+    , ("C-M-n", scratchpadAction exclusiveSps "ticktick"	    ) -- notes
     , ("C-M-o", scratchpadAction exclusiveSps "octave"      ) -- octave
     , ("C-M-p", scratchpadAction exclusiveSps "python"      ) -- python
 
     , ("C-M-r", scratchpadAction exclusiveSps "R"	    ) -- R
     , ("C-M-s", scratchpadAction exclusiveSps "rambox"	    ) -- social media
-    , ("C-M-t", scratchpadAction exclusiveSps "trello"	    ) -- trello
+    , ("C-M-t", scratchpadAction exclusiveSps "timetrack"   ) -- time tracking
 
     , ("C-M-v", scratchpadAction exclusiveSps "pulse"	    ) -- volume
     , ("C-M-w", scratchpadAction exclusiveSps "cmus"	    ) -- w
     , ("C-M-x", scratchpadAction exclusiveSps "spotify"	    ) -- x
+    , ("C-M-y", scratchpadAction exclusiveSps "youtrack"   )
 
     , ("C-M-z", scratchpadAction exclusiveSps "zotero"	    ) -- zotero
 
@@ -155,6 +162,7 @@ emacsKeys = [
     , ("<XF86AudioNext>", spawn "xterm")
     , ("<XF86AudioPlay>", spawn "cplay")
     , ("C-<XF86AudioPlay>", spawnToggleBluetooth)
+    , ("S-<XF86AudioPlay>", spawnMeetingsRecorder)
     , ("<XF86AudioMute>", spawn "pulsemixer --toggle-mute")
     , ("<XF86AudioLowerVolume>", spawn "pulsemixer --change-volume -10")
     , ("<XF86AudioRaiseVolume>", spawn "pulsemixer --change-volume +10")
@@ -171,7 +179,6 @@ emacsKeys = [
     --, ("S-<XF86AudioStop>", spawn "")
     --, ("S-<XF86AudioPrev>", spawn "")
     --, ("S-<XF86AudioNext>", spawn "")
-    --, ("S-<XF86AudioPlay>", spawn "")
 
   ------------------------------- DEBUG ----------------------------------------
 --      ("M-r", spawn $ "notify-send " ++ show (marshall 0 $ head clickables))
@@ -188,28 +195,31 @@ emacsKeys = [
 ------------------------------------------------------------------------
 exclusiveSps :: ExclusiveScratchpads
 exclusiveSps = mkXScratchpads [
-      ("ao",            "ao",                                   resource =? "ao")
-    , ("anki" ,         "anki",                                 resource =? "anki")
+      ("ticktick",      "ticktick",                             resource =? "ticktick"	) -- previously todo
+    , ("anki" ,         "anki",                                 resource =? "anki"	)
+    , ("keycombiner" ,  "keycombiner",                          resource =? "keycombiner")
     , ("cal" ,          "google-calendar-nativefier",           resource =? "googlecalendar-nativefier-e22938")
-    , ("cutelog" ,      "cutelog",				resource =? "cutelog")
-    , ("cmus",          "xterm -name cmus cmus",                resource =? "cmus")
-    , ("nvtop",         "xterm -name nvtop nvtop",		resource =? "nvtop")
-    , ("htop",          "xterm -bg black -name htop htop",      resource =? "htop")
-    , ("hardinfo",      "hardinfo",				resource =? "hardinfo")
-    , ("jshell",        "xterm -name jshell jshell",            resource =? "jshell")
-    , ("octave" ,       "xterm -fs 16 -name octave octave",     resource =? "octave")
+    , ("cutelog" ,      "cutelog",				resource =? "cutelog"	)
+    , ("cmus",          "xterm -name cmus cmus",                resource =? "cmus"	)
+    , ("nvtop",         "xterm -name nvtop nvtop",		resource =? "nvtop"	)
+    , ("htop",          "xterm -bg black -name htop htop",      resource =? "htop"	)
+    , ("hardinfo",      "hardinfo",				resource =? "hardinfo"	)
+    , ("jshell",        "xterm -name jshell jshell",            resource =? "jshell"	)
+    , ("octave" ,       "xterm -fs 16 -name octave octave",     resource =? "octave"	)
     , ("pulse" ,        "xterm -name pulsemixer pulsemixer",    resource =? "pulsemixer")
-    , ("python",        "xterm -fs 16 -name python ptpython",   resource =? "python")
-    , ("R",             "xterm -fs 16 -name R R",               resource =? "R")
-    , ("rambox",        "rambox",                               resource =? "rambox")
-    , ("scala" ,        "xterm -name scala scala",              resource =? "scala" )
-    , ("spotify",       "spotify",                              resource =? "spotify")
-    , ("stardict",      "stardict",                             resource =? "stardict")
-    , ("todoist",       "todoist",                              resource =? "todoist")
-    , ("trello",        "trello",                               resource =? "trello")
-    , ("xterm" ,        "xterm -name scratch",			appName	 =? "scratch")
+    , ("python",        "xterm -fs 16 -name python ptpython",   resource =? "python"	)
+    , ("R",             "xterm -fs 16 -name R R",               resource =? "R"		)
+    , ("rambox",        "rambox",                               resource =? "rambox"	)
+    , ("scala" ,        "xterm -name scala scala",              resource =? "scala"	)
+    , ("spotify",       "spotify",                              resource =? "spotify"	)
+    , ("stardict",      "stardict",                             resource =? "stardict"	)
+    , ("todoist",       "todoist",                              resource =? "todoist"	)
+    , ("timetrack",     "timetrack",                            resource =? "Timetrack"	)
+    , ("xterm" ,        "xterm -name scratch",			appName	 =? "scratch"	)
     , ("virt-manager" , "virt-manager",                         title    =? "Virtual Machine Manager") -- differentiate between the launcher and the VMs
-    , ("zotero",        "zotero",                               title    =? "Zotero")
+    , ("youtrack" ,     "youtrack",                             resource    =? "youtrack")
+    , ("zotero",        "zotero",                               title    =? "Zotero"	)
+    --, ("zeal",        "zeal",                               title    =? "zeal"	)
     -- RationalRect: (x_start, y_start), (width, height)
     ] $ customFloating $ W.RationalRect 0.1 0.1 0.8 0.8
 
@@ -252,8 +262,8 @@ fKeys      = [xK_F1 .. xK_F9]
 
 strWorkspaces, strFKeys, clickables :: [String]
 strFKeys      = ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9"]
-strWorkspaces = ["1:idea", "2:*", "3:*", "4:**", "5:work",
-                 "6:project", "7:hw", "8:candy", "9:dump"]
+strWorkspaces = ["1:idea", "2:*", "3:*", "4:*", "5:*",
+                 "6:*", "7:*", "8:*", "9:dump"]
 
 clickables = action strWorkspaces
     where action l = [ "<action=xdotool key super+" ++ n ++ ">" ++ ws ++ "</action>" |
