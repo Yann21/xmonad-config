@@ -71,10 +71,10 @@ horizontal = renamed [Replace "horizontal"]
 -- The layout hook
 myLayoutHook = B.boringWindows      -- exclusiveSps
              $ minimize             -- exclusiveSps
---             $ avoidStruts          -- don't cover status bar
+             $ avoidStruts          -- don't cover status bar
              $ smartBorders         -- TODO: doesn't work
-             $ subTabbed
-             $ windowNavigation
+--             $ subTabbed
+--             $ windowNavigation
 --             $ T.toggleLayouts floats
              $ mkToggle (NBFULL ?? NOBORDERS ?? EOT)
                myDefaultLayout

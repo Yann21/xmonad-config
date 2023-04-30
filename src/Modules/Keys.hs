@@ -81,6 +81,8 @@ emacsKeys = [
     , ("C-M1-v"  , spawn "code"	       ) -- vscode
     , ("C-M1-w"  , spawn "nxplayer"    )
 
+    , ("M-m", spawn "ulauncher-toggle")
+
   ------------------------------- Scratchpads ----------------------------------------
     , ("C-M-<Space>", scratchpadAction exclusiveSps "xterm" )
     , ("C-M-b", scratchpadAction exclusiveSps "blueberry"   ) -- b
