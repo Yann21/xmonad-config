@@ -30,7 +30,7 @@ import XMonad.Actions.KeyRemap
 
     -- my Imports
 --import Modules.MyTreeSelect (treeselectAction, sshTreeselectAction, myTreeNavigation)
-import Modules.Keys (emacsKeys, mouseKeys, clickables, confKeys, exclusiveSps)
+import Modules.Keys (emacsKeys, mouseKeys, clickables, confKeys, exclusiveSps, strWorkspaces)
 import Modules.Others (dtXPConfig, dtXPConfig', tsDefaultConfig, pp, m)
 import Modules.Layouts (myManageHook, myLayoutHook)
 import XMonad.Hooks.RefocusLast
@@ -47,32 +47,12 @@ myBorderWidth = 3
 ------------------------------------------------------------------------
 -- MAIN
 ------------------------------------------------------------------------
---main :: IO ()
---main = xmonad def
---    { handleEventHook = refocusLastWhen myPred <+> handleEventHook def
---    , logHook         = refocusLastLogHook     <+> logHook         def
-----  , layoutHook      = refocusLastLayoutHook   $  layoutHook      def
---    , keys            = refocusLastKeys        <+> keys            def
---    } where
---        myPred = refocusingIsActive <||> isFloat
---        refocusLastKeys cnf
---          = M.fromList
---          $ ((modMask cnf              , xK_a), toggleFocus)
---          : ((modMask cnf .|. shiftMask, xK_a), swapWithLast)
---          : ((modMask cnf              , xK_b), toggleRefocusing)
---          : [ ( (modMask cnf .|. shiftMask, n)
---              , windows =<< shiftRLWhen myPred wksp
---              )
---            | (n, wksp) <- zip [xK_1..xK_9] (workspaces cnf)
---            ]
-
 main :: IO ()
 --main = xmonad =<< xmobar def { modMask = mod4Mask }
-
+--
 main = do
     nScreens <- countScreens
-    -- let nScreens = 2
-    handles  <- mapM (spawnPipe . xmobarCommand) [0..nScreens-1]
+    handles <- mapM (\(x, y) -> spawnPipe (xmobarCommand x y)) [(s, nScreens) | s <- [0..nScreens-1]]
 
     xmonad $ ewmh def {
           manageHook = myManageHook  -- how windows are opened
@@ -92,7 +72,7 @@ main = do
 
         , focusFollowsMouse  = False
         , clickJustFocuses   = False
-        , workspaces         = withScreens nScreens clickables
+        , workspaces         = withScreens nScreens strWorkspaces
         , modMask            = mod4Mask
         , keys               = confKeys -- Workspaces
 
@@ -107,17 +87,23 @@ main = do
       where myPred = refocusingIsActive <||> isFloat
 
 -- TODO Refactor
-xmobarCommand (S screen) = unwords ["xmobar", "-x", show screen, myConfig screen]
+xmobarCommand (S screen) nScreens = unwords ["xmobar", "-x", show screen, myConfig screen nScreens]
     where
-        myConfig 2 = "$HOME/.config/xmobar/xmobarrc_mid.hs"
-        myConfig 0 = "$HOME/.config/xmobar/xmobarrc_left.hs"
-        myConfig 1 = "$HOME/.config/xmobar/xmobarrc_right.hs"
+        myConfig screen nScreens
+            | nScreens == 1 = "$HOME/.config/xmobar/laptop/mono.hs"
+            | nScreens == 2 && screen == 1 = "$HOME/.config/xmobar/laptop/docked_right.hs"
+            | nScreens == 2 && screen == 0 = "$HOME/.config/xmobar/laptop/docked_laptop.hs"
+            | nScreens == 3 && screen == 1 = "$HOME/.config/xmobar/laptop/left.hs"
+            | nScreens == 3 && screen == 1 = "$HOME/.config/xmobar/desktop/center.hs"
+            | nScreens == 3 && screen == 2 = "$HOME/.config/xmobar/desktop/right.hs"
+            | otherwise = "$HOME/.config/xmobar/xmobarrc_laptop.hs"
+            ++ " --additional-logger=StdinReader"
 
 addNETSupported :: Atom -> X ()
 addNETSupported x   = withDisplay $ \dpy -> do
     r               <- asks theRoot
     a_NET_SUPPORTED <- getAtom "_NET_SUPPORTED"
-    a               <- getAtom "ATOM"
+    a               <- getAtom "ATOMOSINT"
     liftIO $ do
        sup <- join . maybeToList <$> getWindowProperty32 dpy a_NET_SUPPORTED r
        when (fromIntegral x `notElem` sup) $
@@ -135,4 +121,4 @@ myStartupHook :: X ()
 myStartupHook = do
     spawnOnce "$HOME/system/etc/autostart.sh"
     setWMName "xmonad"
---    setWMName "LG3D" --for the JVM
+    setWMName "LG3D" --for the JVM

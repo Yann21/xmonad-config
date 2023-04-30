@@ -17,6 +17,8 @@ Caveat emptor as always.
 
 XMonad uses the build script at "$HOME/.xmonad/build" when recompiling
 (`xmonad --recompile`)
+Moving it to $HOME/.xmonad/xmonad86_64..
+For more information https://sitr.us/2018/05/13/build-xmonad-with-stack.html
 
 
 ## How to install

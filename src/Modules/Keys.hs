@@ -67,7 +67,7 @@ emacsKeys = [
     , ("C-M1-d"  , spawn "zeal"     )
     , ("C-M1-e"  , spawn "emacs"       )
     , ("C-M1-f"  , spawn "firefox"     )
-    , ("C-M1-g"  , spawn "gimp"	       )
+    , ("C-M1-g"  , spawn "pinta"	       )
     , ("C-M1-i"  , spawn "idea-ce"     )
     , ("C-M1-k"  , spawn "kdenlive"        )
 
@@ -101,7 +101,7 @@ emacsKeys = [
     , ("C-M-o", scratchpadAction exclusiveSps "octave"      ) -- octave
     , ("C-M-p", scratchpadAction exclusiveSps "python"      ) -- python
 
-    , ("C-M-r", scratchpadAction exclusiveSps "R"	    ) -- R
+    , ("C-M-r", scratchpadAction exclusiveSps "radioswissjazz.AppImage"	    ) -- R
     , ("C-M-s", scratchpadAction exclusiveSps "rambox"	    ) -- social media
     , ("C-M-t", scratchpadAction exclusiveSps "timetrack"   ) -- time tracking
 
@@ -262,8 +262,8 @@ fKeys      = [xK_F1 .. xK_F9]
 
 strWorkspaces, strFKeys, clickables :: [String]
 strFKeys      = ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9"]
-strWorkspaces = ["1:idea", "2:*", "3:*", "4:*", "5:*",
-                 "6:*", "7:*", "8:*", "9:dump"]
+strWorkspaces = ["1", "2", "3", "4", "5",
+                 "6", "7", "8", "9"]
 
 clickables = action strWorkspaces
     where action l = [ "<action=xdotool key super+" ++ n ++ ">" ++ ws ++ "</action>" |
