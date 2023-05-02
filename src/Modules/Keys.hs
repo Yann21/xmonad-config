@@ -82,6 +82,7 @@ emacsKeys = [
     , ("C-M1-w"  , spawn "nxplayer"    )
 
     , ("M-m", spawn "ulauncher-toggle")
+    , ("M-S-p", spawn "xterm -e 'disper -c'")
 
   ------------------------------- Scratchpads ----------------------------------------
     , ("C-M-<Space>", scratchpadAction exclusiveSps "xterm" )
@@ -136,8 +137,9 @@ emacsKeys = [
     , ("M-t t", treeselectAction tsDefaultConfig )
     , ("M-s s", sshTreeselectAction tsDefaultConfig)
     , ("M-<Space>", goToSelected defaultGSConfig )
+    , ("M-S-l", spawn "xscreensaver-command -lock")
 
-  ------------------------------- Tabify ----------------------------------------
+  ------------------------------- Tabefy ----------------------------------------
     , ("M-M1-h", sendMessage $ pullGroup L)
     , ("M-M1-l", sendMessage $ pullGroup R)
     , ("M-M1-k", sendMessage $ pullGroup U)
