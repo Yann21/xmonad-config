@@ -17,8 +17,6 @@ import XMonad.Util.Run (spawnPipe)
 import XMonad.Util.SpawnOnce
 
     -- Hooks
---import XMonad.Hooks.DynamicLog
---import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.DynamicLog (dynamicLogWithPP)
 import XMonad.Hooks.ManageDocks (avoidStruts, docksEventHook, manageDocks)
 import XMonad.Hooks.ServerMode
@@ -48,8 +46,6 @@ myBorderWidth = 3
 -- MAIN
 ------------------------------------------------------------------------
 main :: IO ()
---main = xmonad =<< xmobar def { modMask = mod4Mask }
---
 main = do
     nScreens <- countScreens
     handles <- mapM (\(x, y) -> spawnPipe (xmobarCommand x y)) [(s, nScreens) | s <- [0..nScreens-1]]
@@ -68,7 +64,6 @@ main = do
         , layoutHook         = myLayoutHook -- refocusLastLayoutHook $ myLayoutHook
         , startupHook        = myStartupHook >> addEWMHFullscreen -- Adds EWMH tags to Firefox
         , logHook = refocusLastLogHook <+> mapM_ dynamicLogWithPP (zipWith pp handles [0 .. nScreens])
-        --, logHook = refocusLastLogHook <+> (mapM_ dynamicLog>it)
 
         , focusFollowsMouse  = False
         , clickJustFocuses   = False

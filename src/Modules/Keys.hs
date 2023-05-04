@@ -180,14 +180,9 @@ emacsKeys = [
     , ("M1-<D>", spawn "xdotool getactivewindow windowmove --relative 0 +100"	    )
     , ("M1-<L>", spawn "xdotool getactivewindow windowmove --relative -- -100 0"    )
     , ("M1-<R>", spawn "xdotool getactivewindow windowmove --relative +100 0"	    )
-    --, ("S-<XF86AudioStop>", spawn "")
-    --, ("S-<XF86AudioPrev>", spawn "")
-    --, ("S-<XF86AudioNext>", spawn "")
 
   ------------------------------- DEBUG ----------------------------------------
---      ("M-r", spawn $ "notify-send " ++ show (marshall 0 $ head clickables))
-	, ("M-r", spawn "notify-end DEBUG")
---  , ("M-r", spawn $ "notify-send var")
+    , ("M-r", spawn "notify-end DEBUG")
     ]
 
   ------------------------------- Prompts ----------------------------------------
