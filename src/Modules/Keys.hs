@@ -61,15 +61,16 @@ emacsKeys :: [(String, X())]
 emacsKeys = [
   ------------------------------- Programs ----------------------------------------
       ("C-M1-S-f", spawn "firefox-developer-edition" )
-    , ("C-M1-a"  , spawn "atom"        )
+    , ("C-M1-a"  , spawn "android-studio")
     , ("C-M1-b"  , spawn "blueberry"   )
     , ("C-M1-c"  , spawn "calibre"     )
-    , ("C-M1-d"  , spawn "zeal"     )
+    , ("C-M1-d"  , spawn "zeal"	       )
     , ("C-M1-e"  , spawn "emacs"       )
     , ("C-M1-f"  , spawn "firefox"     )
     , ("C-M1-g"  , spawn "pinta"	       )
+    , ("C-M1-h"  , spawn "homebank"    )
     , ("C-M1-i"  , spawn "idea-ce"     )
-    , ("C-M1-k"  , spawn "kdenlive"        )
+    , ("C-M1-k"  , spawn "kdenlive"    )
 
     -- Isn't Alt+= the align code?
     , ("C-M1-l"  , spawn "libreoffice" ) -- conflict with intellij align code
@@ -77,9 +78,10 @@ emacsKeys = [
     , ("C-M1-n"  , spawn "nautilus"    )
     , ("C-M1-r"  , spawn "rstudio-bin" )
     , ("C-M1-t"  , spawn "xterm"       )
+    , ("C-M1-s"  , spawn "simple-scan")
     , ("C-M1-S-t"  , spawn "xterm -e 'ssh work'"       )
-    , ("C-M1-v"  , spawn "code"	       ) -- vscode
-    , ("C-M1-w"  , spawn "nxplayer"    )
+    , ("C-M1-v"  , spawn "code --disable-workspace-trust"	       ) -- vscode
+    , ("C-M1-w"  , spawn "wireshark"    )
 
     , ("M-m", spawn "ulauncher-toggle")
     , ("M-S-p", spawn "xterm -e 'disper -c'")
@@ -99,10 +101,12 @@ emacsKeys = [
     , ("C-M-k", scratchpadAction exclusiveSps "keycombiner"        ) -- [k]eycombiner
     , ("C-M-l", scratchpadAction exclusiveSps "cutelog"        ) -- cute[l]og
 
-    , ("C-M-m", scratchpadAction exclusiveSps "thunderbird" ) -- mail
+    , ("C-M-m", scratchpadAction exclusiveSps "gtk-launch /usr/share/applications/google-maps-desktop.desktop"	    ) -- music
     , ("C-M-n", scratchpadAction exclusiveSps "ticktick"	    ) -- notes
     , ("C-M-o", scratchpadAction exclusiveSps "octave"      ) -- octave
     , ("C-M-p", scratchpadAction exclusiveSps "python"      ) -- python
+    , ("C-M-q", scratchpadAction exclusiveSps "copyq"      ) -- python
+
 
     , ("C-M-r", scratchpadAction exclusiveSps "radioswissjazz.AppImage"	    ) -- R
     , ("C-M-s", scratchpadAction exclusiveSps "rambox"	    ) -- social media
@@ -214,9 +218,9 @@ exclusiveSps = mkXScratchpads [
     , ("stardict",      "stardict",                             resource =? "stardict"	)
     , ("todoist",       "todoist",                              resource =? "todoist"	)
     , ("timetrack",     "timetrack",                            resource =? "Timetrack"	)
-    , ("xterm" ,        "xterm -name scratch",			appName	 =? "scratch"	)
+    , ("xterm" ,    "xterm -name scratch",			appName	 =? "scratch"	)
     , ("virt-manager" , "virt-manager",                         title    =? "Virtual Machine Manager") -- differentiate between the launcher and the VMs
-    , ("youtrack" ,     "youtrack",                             resource    =? "youtrack")
+    , ("youtrack" ,     "youtrack",                             resource =? "youtrack")
     , ("zotero",        "zotero",                               title    =? "Zotero"	)
     --, ("zeal",        "zeal",                               title    =? "zeal"	)
     -- RationalRect: (x_start, y_start), (width, height)
@@ -326,9 +330,9 @@ shiftToScreen :: Char -> X ()
 shiftToScreen target = do
   current <- screenID
   case (current, target) of
-    ('0', '1') -> shiftPrevScreen >> switchScreen '1'
-    ('0', '2') -> shiftNextScreen >> switchScreen '2'
-    ('1', '0') -> shiftNextScreen >> switchScreen '0'
-    ('1', '2') -> shiftPrevScreen >> switchScreen '2'
-    ('2', '1') -> shiftNextScreen >> switchScreen '1'
-    ('2', '0') -> shiftPrevScreen >> switchScreen '0'
+    ('0', '1') -> shiftPrevScreen >> switchScreen target
+    ('0', '2') -> shiftNextScreen >> switchScreen target
+    ('1', '0') -> shiftNextScreen >> switchScreen target
+    ('1', '2') -> shiftPrevScreen >> switchScreen target
+    ('2', '1') -> shiftNextScreen >> switchScreen target
+    ('2', '0') -> shiftPrevScreen >> switchScreen target
