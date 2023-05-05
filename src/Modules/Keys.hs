@@ -299,12 +299,17 @@ xorgToIndependentScreenOrdering c = case c of
   '0' -> '1'
   '1' -> '0'
   '2' -> '2'
-  -- ...
 
 moveToIndependent :: Direction1D -> X ()
 moveToIndependent dir = do
-	id <- screenID
-	moveTo dir $ WSTagGroup $ xorgToIndependentScreenOrdering id
+    id <- screenID
+    withWindowSet $ \ws -> do
+        let numScreens = length $ W.screens ws
+        if numScreens > 1
+            then moveTo dir $ WSTagGroup $ xorgToIndependentScreenOrdering id
+            else if dir == Next
+                then nextWS
+                else prevWS
 
 -- toggleScreen is for dual monitor setups
 --toggleScreen :: X ()
