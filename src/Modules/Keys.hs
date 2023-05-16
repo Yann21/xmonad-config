@@ -292,30 +292,25 @@ screenID = withWindowSet $ \windowSet -> do
 				Just (P s) -> head (show s)
 				_  -> 'r'
 
+
+moveToIndependent :: Direction1D -> X ()
+moveToIndependent dir = do
+    id <- screenID
+    withWindowSet $ \ws -> do
+        let numScreens = length $ W.screens ws
+        if numScreens > 1
+            then moveTo dir $ WSTagGroup $ xorgToIndependentScreenOrdering id
+            else if dir == Next
+                then nextWS
+                else prevWS
+
 -- XORG numbers screens like this: 0 1 2 (logical)
 -- but X.L.IndependentScreens does that: 1 0 2 (somewhat less logical)
 xorgToIndependentScreenOrdering :: Char -> Char
 xorgToIndependentScreenOrdering c = case c of
-  '0' -> '1'
+  '0' -> '2'
   '1' -> '0'
-  '2' -> '2'
-
-moveToIndependent :: Direction1D -> X ()
-moveToIndependent dir = do
-	id <- screenID
-	moveTo dir $ WSTagGroup $ xorgToIndependentScreenOrdering id
-
-
---moveToIndependent :: Direction1D -> X ()
---moveToIndependent dir = do
---    id <- screenID
---    withWindowSet $ \ws -> do
---        let numScreens = length $ W.screens ws
---        if numScreens > 1
---            then moveTo dir $ WSTagGroup $ xorgToIndependentScreenOrdering id
---            else if dir == Next
---                then nextWS
---                else prevWS
+  '2' -> '1'
 
 -- End spaghetti
 
