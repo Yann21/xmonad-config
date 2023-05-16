@@ -67,7 +67,7 @@ emacsKeys = [
     , ("C-M1-d"  , spawn "zeal"	       )
     , ("C-M1-e"  , spawn "emacs"       )
     , ("C-M1-f"  , spawn "firefox"     )
-    , ("C-M1-g"  , spawn "pinta"	       )
+    , ("C-M1-g"  , spawn "pinta"	     )
     , ("C-M1-h"  , spawn "homebank"    )
     , ("C-M1-i"  , spawn "idea-ce"     )
     , ("C-M1-k"  , spawn "kdenlive"    )
