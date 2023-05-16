@@ -302,22 +302,21 @@ xorgToIndependentScreenOrdering c = case c of
 
 moveToIndependent :: Direction1D -> X ()
 moveToIndependent dir = do
-    id <- screenID
-    withWindowSet $ \ws -> do
-        let numScreens = length $ W.screens ws
-        if numScreens > 1
-            then moveTo dir $ WSTagGroup $ xorgToIndependentScreenOrdering id
-            else if dir == Next
-                then nextWS
-                else prevWS
+	id <- screenID
+	moveTo dir $ WSTagGroup $ xorgToIndependentScreenOrdering id
 
--- toggleScreen is for dual monitor setups
---toggleScreen :: X ()
---toggleScreen = do
---	id <- screenID
---	case id of
---	  '0' -> nextScreen >> shiftMouse "right"
---	  '1' -> prevScreen >> shiftMouse "left"
+
+--moveToIndependent :: Direction1D -> X ()
+--moveToIndependent dir = do
+--    id <- screenID
+--    withWindowSet $ \ws -> do
+--        let numScreens = length $ W.screens ws
+--        if numScreens > 1
+--            then moveTo dir $ WSTagGroup $ xorgToIndependentScreenOrdering id
+--            else if dir == Next
+--                then nextWS
+--                else prevWS
+
 -- End spaghetti
 
 switchScreen :: Char -> X ()
