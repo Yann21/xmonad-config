@@ -308,9 +308,9 @@ moveToIndependent dir = do
 -- but X.L.IndependentScreens does that: 1 0 2 (somewhat less logical)
 xorgToIndependentScreenOrdering :: Char -> Char
 xorgToIndependentScreenOrdering c = case c of
-  '0' -> '2'
-  '1' -> '0'
-  '2' -> '1'
+  '0' -> '0'
+  '1' -> '1'
+  '2' -> '2'
 
 -- End spaghetti
 
@@ -318,12 +318,12 @@ switchScreen :: Char -> X ()
 switchScreen target = do
   current <- screenID
   case (current, target) of
-    ('0', '1') -> prevScreen >> shiftMouse "right"
-    ('0', '2') -> nextScreen >> shiftMouse "right" >> shiftMouse "right"
-    ('1', '0') -> nextScreen >> shiftMouse "left"
-    ('1', '2') -> prevScreen >> shiftMouse "right"
-    ('2', '1') -> nextScreen >> shiftMouse "left"
-    ('2', '0') -> prevScreen >> shiftMouse "left" >> shiftMouse "left"
+    ('0', '1') -> nextScreen >> shiftMouse "right"
+    ('0', '2') -> prevScreen >> shiftMouse "right" >> shiftMouse "right"
+    ('1', '0') -> prevScreen >> shiftMouse "left"
+    ('1', '2') -> nextScreen >> shiftMouse "right"
+    ('2', '1') -> prevScreen >> shiftMouse "left"
+    ('2', '0') -> nextScreen >> shiftMouse "left" >> shiftMouse "left"
 
 shiftToScreen :: Char -> X ()
 shiftToScreen target = do
