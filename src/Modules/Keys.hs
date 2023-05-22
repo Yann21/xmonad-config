@@ -66,8 +66,9 @@ emacsKeys = [
     , ("C-M1-c"  , spawn "calibre"     )
     , ("C-M1-d"  , spawn "zeal"	       )
     , ("C-M1-e"  , spawn "emacs"       )
-    , ("C-M1-f"  , spawn "firefox"     )
+    , ("C-M1-f"  , spawn "chromium"     )
     , ("C-M1-g"  , spawn "pinta"	     )
+    , ("C-S-M1-g"  , spawn "gimp"	     )
     , ("C-M1-h"  , spawn "homebank"    )
     , ("C-M1-i"  , spawn "idea-ce"     )
     , ("C-M1-k"  , spawn "kdenlive"    )
@@ -75,7 +76,7 @@ emacsKeys = [
     -- Isn't Alt+= the align code?
     , ("C-M1-l"  , spawn "libreoffice" ) -- conflict with intellij align code
     , ("C-M1-m"  , spawn "mailspring" )
-    , ("C-M1-n"  , spawn "nautilus"    )
+    , ("C-M1-n"  , spawn "pcmanfm"    )
     , ("C-M1-r"  , spawn "rstudio-bin" )
     , ("C-M1-t"  , spawn "xterm"       )
     , ("C-M1-s"  , spawn "simple-scan")
