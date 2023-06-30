@@ -66,7 +66,7 @@ emacsKeys = [
     , ("C-M1-c"  , spawn "calibre"     )
     , ("C-M1-d"  , spawn "zeal"	       )
     , ("C-M1-e"  , spawn "emacs"       )
-    , ("C-M1-f"  , spawn "chromium"     )
+    , ("C-M1-f"  , spawn "firefox"     )
     , ("C-M1-g"  , spawn "pinta"	     )
     , ("C-S-M1-g"  , spawn "gimp"	     )
     , ("C-M1-h"  , spawn "homebank"    )
@@ -76,7 +76,7 @@ emacsKeys = [
     -- Isn't Alt+= the align code?
     , ("C-M1-l"  , spawn "libreoffice" ) -- conflict with intellij align code
     , ("C-M1-m"  , spawn "mailspring" )
-    , ("C-M1-n"  , spawn "pcmanfm"    )
+    , ("C-M1-n"  , spawn "nautilus"    )
     , ("C-M1-r"  , spawn "rstudio-bin" )
     , ("C-M1-t"  , spawn "xterm"       )
     , ("C-M1-s"  , spawn "simple-scan")
@@ -219,7 +219,7 @@ exclusiveSps = mkXScratchpads [
     , ("stardict",      "stardict",                             resource =? "stardict")
     , ("todoist",       "todoist",                              resource =? "todoist"	)
     , ("timetrack",     "timetrack",                            resource =? "Timetrack"	)
-    , ("xterm" ,        "xterm -name scratch -e 'tmux'",			  appName	 =? "scratch"	)
+    , ("xterm" ,        "xterm -name scratch",			  appName	 =? "scratch"	)
     , ("virt-manager" , "virt-manager",                         title    =? "Virtual Machine Manager") -- differentiate between the launcher and the VMs
     , ("youtrack" ,     "youtrack",                             resource =? "youtrack")
     , ("zotero",        "zotero",                               title    =? "Zotero"	)
