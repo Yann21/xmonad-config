@@ -85,8 +85,8 @@ xmobarCommand (S screen) nScreens = unwords ["xmobar", "-x", show screen, myConf
     where
           myConfig screen nScreens
               | nScreens == 1 = "$HOME/.config/xmobar/laptop/mono.hs"
-              | nScreens == 2 && screen == 0 = "$HOME/.config/xmobar/laptop/docked_right.hs"
-              | nScreens == 2 && screen == 1 = "$HOME/.config/xmobar/laptop/docked_laptop.hs"
+              | nScreens == 2 && screen == 1 = "$HOME/.config/xmobar/laptop/center.hs"
+              | nScreens == 2 && screen == 0 = "$HOME/.config/xmobar/laptop/left.hs"
               | nScreens == 3 && screen == 0 = "$HOME/.config/xmobar/desktop/left.hs"
               | nScreens == 3 && screen == 1 = "$HOME/.config/xmobar/desktop/center.hs"
               | nScreens == 3 && screen == 2 = "$HOME/.config/xmobar/desktop/right.hs"

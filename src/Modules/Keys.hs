@@ -64,7 +64,7 @@ emacsKeys = [
     , ("C-M1-a"  , spawn "android-studio")
     , ("C-M1-b"  , spawn "blueberry"   )
     , ("C-M1-c"  , spawn "calibre"     )
-    , ("C-M1-d"  , spawn "zeal"	       )
+    , ("C-M1-d"  , spawn "dbeaver"	       )
     , ("C-M1-e"  , spawn "emacs"       )
     , ("C-M1-f"  , spawn "firefox"     )
     , ("C-M1-g"  , spawn "pinta"	     )
@@ -91,7 +91,7 @@ emacsKeys = [
     , ("C-M-<Space>", scratchpadAction exclusiveSps "xterm" )
     , ("C-M-b", scratchpadAction exclusiveSps "blueberry"   ) -- b
     , ("C-M-c", scratchpadAction exclusiveSps "cal"	    ) -- [c]alendar
-    , ("C-M-d", scratchpadAction exclusiveSps "zeal"	    ) -- [d]ocumentation
+    , ("C-M-d", scratchpadAction exclusiveSps "dbeaver"	    ) -- [d]ocumentation
     , ("C-M-e", scratchpadAction exclusiveSps "virt-manager") -- [e]mulator
 
     , ("C-M-g", scratchpadAction exclusiveSps "nvtop"	    ) -- [g]pu
@@ -128,8 +128,8 @@ emacsKeys = [
     , ("M-l"  , sendMessage Expand               )
     , ("M-<Tab>"  , sendMessage NextLayout       )
     , ("M-S-<Tab>", sendMessage FirstLayout      )
-    , ("M-q"  , moveToIndependent Prev           )
-    , ("M-d"  , moveToIndependent Next           )
+    , ("M-q"  , moveToIndependent Prev False           )
+    , ("M-d"  , moveToIndependent Next False           )
     , ("M-a", switchScreen '0'                   )
     , ("M-z", switchScreen '1'                   )
     , ("M-e", switchScreen '2'                   )
@@ -223,7 +223,6 @@ exclusiveSps = mkXScratchpads [
     , ("virt-manager" , "virt-manager",                         title    =? "Virtual Machine Manager") -- differentiate between the launcher and the VMs
     , ("youtrack" ,     "youtrack",                             resource =? "youtrack")
     , ("zotero",        "zotero",                               title    =? "Zotero"	)
-    --, ("zeal",        "zeal",                               title    =? "zeal"	)
     -- RationalRect: (x_start, y_start), (width, height)
     ] $ customFloating $ W.RationalRect 0.1 0.1 0.8 0.8
 
@@ -237,9 +236,9 @@ shiftMouse direction
 mouseKeys :: [((ButtonMask, Button), Window -> X ())]
 mouseKeys = [
 -- button4 = scroll up, button3 = right click, button 5 = scroll down
-     ((0, 6), \w -> moveToIndependent Prev )
+     ((0, 6), \w -> moveToIndependent Prev True )
     -- , ((0, button3), \w -> spawn "exec xdotool key ctrl+return")
-    , ((0, 7), \w -> moveToIndependent Next )
+    , ((0, 7), \w -> moveToIndependent Next True )
     -- Middle mouse button: annotate label (0, 3) or button2
     , ((mod4Mask, button2), \w -> focus w >> mouseResizeWindow w >> windows W.shiftMaster)
     ]
@@ -294,16 +293,18 @@ screenID = withWindowSet $ \windowSet -> do
 				_  -> 'r'
 
 
-moveToIndependent :: Direction1D -> X ()
-moveToIndependent dir = do
+moveToIndependent :: Direction1D -> Bool -> X ()
+moveToIndependent dir pad = do
     id <- screenID
     withWindowSet $ \ws -> do
         let numScreens = length $ W.screens ws
         if numScreens > 1
             then moveTo dir $ WSTagGroup $ xorgToIndependentScreenOrdering id
-            else if dir == Next
-                then nextWS
-                else prevWS
+            else if pad
+                then pure()
+                else if dir == Next
+                    then nextWS
+                    else prevWS
 
 -- XORG numbers screens like this: 0 1 2 (logical)
 -- but X.L.IndependentScreens does that: 1 0 2 (somewhat less logical)
