@@ -41,7 +41,7 @@ spawnRectScrot = spawn $ "sleep 0.2 && scrot -s $HOME/Documents/Media/screenshot
 spawnScrot     = spawn $ "scrot $HOME/Documents/Media/screenshots/" ++ timeFormat ++ ".png && play /usr/share/sounds/freedesktop/stereo/screen-capture.oga"
 spawnRecompile = spawn "xmonad --recompile && xmonad --restart"
 spawnXkill = spawn "xkill"
-spawnXprop = spawn "xterm -name float -e '$HOME/system/scripts/xprop_4_xmonad.sh && sh'"
+spawnXprop = spawn "xterm -name float -e '$HOME/system/bin/xprop_4_xmonad.sh && sh'"
 spawnHibernate  = spawn "xterm -e systemctl hibernate"
 spawnShutdown  = spawn "shutdown now"
 spawnReboot  = spawn "shutdown -r now"
@@ -110,7 +110,7 @@ emacsKeys = [
 
 
     , ("C-M-r", scratchpadAction exclusiveSps "radioswissjazz.AppImage"	    ) -- R
-    , ("C-M-s", scratchpadAction exclusiveSps "rambox"	    ) -- social media
+    --, ("C-M-s", scratchpadAction exclusiveSps "rambox"	    ) -- social media
     , ("C-M-t", scratchpadAction exclusiveSps "timetrack"   ) -- time tracking
 
     , ("C-M-v", scratchpadAction exclusiveSps "pulse"	    ) -- volume
@@ -241,6 +241,11 @@ mouseKeys = [
     , ((0, 7), \w -> moveToIndependent Next True )
     -- Middle mouse button: annotate label (0, 3) or button2
     , ((mod4Mask, button2), \w -> focus w >> mouseResizeWindow w >> windows W.shiftMaster)
+
+    -- Remap Alt left click to a function spawn
+    , ((mod1Mask, button1), \w -> focus w >> spawn "~/.pyenv/versions/data-collection-tools/bin/python ~/Projects/Entreprise/DataCollectionTools/bin/clipboard_append.py append-copy")
+    -- Remap alt rigth click to a function
+    , ((mod1Mask, button3), \w -> focus w >> spawn "~/.pyenv/versions/data-collection-tools/bin/python ~/Projects/Entreprise/DataCollectionTools/bin/clipboard_append.py append-paste")
     ]
 
 
@@ -305,6 +310,9 @@ moveToIndependent dir pad = do
                 else if dir == Next
                     then nextWS
                     else prevWS
+
+
+
 
 -- XORG numbers screens like this: 0 1 2 (logical)
 -- but X.L.IndependentScreens does that: 1 0 2 (somewhat less logical)

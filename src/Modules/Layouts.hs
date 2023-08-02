@@ -75,7 +75,7 @@ myLayoutHook = B.boringWindows      -- exclusiveSps
              $ smartBorders         -- TODO: doesn't work
 --             $ subTabbed
 --             $ windowNavigation
---             $ T.toggleLayouts floats
+             -- $ T.toggleLayouts floats
              $ mkToggle (NBFULL ?? NOBORDERS ?? EOT)
                myDefaultLayout
              where myDefaultLayout = tall
