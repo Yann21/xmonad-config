@@ -75,7 +75,7 @@ emacsKeys = [
 
     -- Isn't Alt+= the align code?
     , ("C-M1-l"  , spawn "libreoffice" ) -- conflict with intellij align code
-    , ("C-M1-m"  , spawn "mailspring" )
+    , ("C-M1-m"  , spawn "thunderbird" )
     , ("C-M1-n"  , spawn "nautilus"    )
     , ("C-M1-r"  , spawn "rstudio-bin" )
     , ("C-M1-t"  , spawn "xterm"       )
@@ -142,7 +142,7 @@ emacsKeys = [
     , ("M-t t", treeselectAction tsDefaultConfig )
     , ("M-s s", sshTreeselectAction tsDefaultConfig)
     , ("M-<Space>", goToSelected defaultGSConfig )
-    , ("M-S-l", spawn "xscreensaver-command -lock")
+    , ("M-S-l", spawn "loginctl lock-session"    )
 
   ------------------------------- Tabefy ----------------------------------------
     , ("M-M1-h", sendMessage $ pullGroup L)
@@ -173,8 +173,10 @@ emacsKeys = [
     , ("C-<XF86AudioPlay>", spawnToggleBluetooth)
     , ("S-<XF86AudioPlay>", spawnMeetingsRecorder)
     , ("<XF86AudioMute>", spawn "pulsemixer --toggle-mute")
-    , ("<XF86AudioLowerVolume>", spawn "pulsemixer --change-volume -10")
-    , ("<XF86AudioRaiseVolume>", spawn "pulsemixer --change-volume +10")
+    , ("<XF86AudioLowerVolume>", spawn "/home/yann/system/scripts/changevolume down")
+    , ("<XF86AudioRaiseVolume>", spawn "/home/yann/system/scripts/changevolume up")
+    , ("<XF86MonBrightnessUp>", spawn "/home/yann/system/scripts/changebrightness up")
+    , ("<XF86MonBrightnessDown>", spawn "/home/yann/system/scripts/changebrightness down")
 
   ------------------------------- Yeelight ----------------------------------------
   -- TODO: scripts use directory structure
