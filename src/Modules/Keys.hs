@@ -104,13 +104,12 @@ emacsKeys = [
 
     , ("C-M-m", scratchpadAction exclusiveSps "gtk-launch /usr/share/applications/google-maps-desktop.desktop"	    ) -- music
     , ("C-M-n", scratchpadAction exclusiveSps "ticktick"	    ) -- notes
-    , ("C-M-o", scratchpadAction exclusiveSps "octave"      ) -- octave
     , ("C-M-p", scratchpadAction exclusiveSps "python"      ) -- python
     , ("C-M-q", scratchpadAction exclusiveSps "copyq"      ) -- python
 
 
     , ("C-M-r", scratchpadAction exclusiveSps "radioswissjazz.AppImage"	    ) -- R
-    --, ("C-M-s", scratchpadAction exclusiveSps "rambox"	    ) -- social media
+    , ("C-M-s", scratchpadAction exclusiveSps "rambox"	    ) -- social media
     , ("C-M-t", scratchpadAction exclusiveSps "timetrack"   ) -- time tracking
 
     , ("C-M-v", scratchpadAction exclusiveSps "pulse"	    ) -- volume
@@ -211,7 +210,6 @@ exclusiveSps = mkXScratchpads [
     , ("htop",          "xterm -bg black -name htop htop",      resource =? "htop"	)
     , ("hardinfo",      "hardinfo",				resource =? "hardinfo"	)
     , ("jshell",        "xterm -name jshell jshell",            resource =? "jshell"	)
-    , ("octave" ,       "xterm -fs 16 -name octave octave",     resource =? "octave"	)
     , ("pulse" ,        "xterm -name pulsemixer pulsemixer",    resource =? "pulsemixer")
     , ("python",        "xterm -fs 16 -name python ptpython",   resource =? "python"	)
     , ("R",             "xterm -fs 16 -name R R",               resource =? "R"		)
